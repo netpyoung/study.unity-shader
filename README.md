@@ -8,6 +8,7 @@
 - [메뉴얼](https://rust-lang.github.io/mdBook/)
 - 기타
   - [badboy/mdbook-toc](https://github.com/badboy/mdbook-toc)
+  - [highlightjs-hlsl](https://github.com/highlightjs/highlightjs-hlsl)
 
 ``` zsh
 $ mdbook serve

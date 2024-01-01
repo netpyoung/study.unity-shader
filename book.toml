@@ -12,3 +12,5 @@ site-url = "/study.unity-shader/"
 git-repository-url = "https://github.com/netpyoung/study.unity-shader"
 git-repository-icon = "fa-github"
 edit-url-template = "https://github.com/netpyoung/study.unity-shader/edit/main/{path}"
+additional-js = ["theme/hlsl.min.js", "theme/juxtapose.min.js"]
+additional-css = ["theme/juxtapose.css"]
