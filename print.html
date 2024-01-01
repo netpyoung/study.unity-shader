@@ -1,0 +1,1600 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>넷평의 Unity Shader 노트</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html">둘러보기</a></li><li class="chapter-item expanded affix "><li class="part-title">Basic</li><li class="chapter-item expanded "><a href="Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="Basic/Depth.html">Depth</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="둘러보기"><a class="header" href="#둘러보기">둘러보기</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="vector"><a class="header" href="#vector">Vector</a></h1>
+<h2 id="swizzling"><a class="header" href="#swizzling"><a href="https://en.wikipedia.org/wiki/Swizzling_(computer_graphics)">Swizzling</a></a></h2>
+<p>벡터의 요소들을 이용 임의의 순서로 구성가능</p>
+<pre><code class="language-hlsl">float4 A = float4(1, 2, 3, 4);
+
+A.x     == 1
+A.xy    == float2(1, 2)
+A.wwxy  == float4(4, 4, 1, 2)
+A.rgba  == float4(1, 2, 3, 4)
+</code></pre>
+<h2 id="내적-외적"><a class="header" href="#내적-외적">내적 외적</a></h2>
+<ul>
+<li>내적과 외적 공식.</li>
+<li>내적과 외적을 시각적으로 생각할 수 있어야 함.</li>
+<li>이거 이름 햇갈리기 쉬움.</li>
+</ul>
+<h3 id="-내적--dot-product----inner-product-"><a class="header" href="#-내적--dot-product----inner-product-">| 내적 | Dot Product   | Inner Product |</a></h3>
+<ul>
+<li>닷은 점이니까 모이는건 내적</li>
+<li>점이니까 두개 모아서 하나가 됨.</li>
+<li>하나로 모이니 두 벡터 사이의 각도를 구할 수 있음.</li>
+<li>각도니까 cos연산 들어감.</li>
+<li><a href="https://rfriend.tistory.com/145">https://rfriend.tistory.com/145</a></li>
+<li>교환법칙이 성립</li>
+</ul>
+<pre><code class="language-ref">| 각도 | 값  |
+| ---- | --- |
+|    0 |  1  |
+|   90 |  0  |
+|  180 | -1  |
+| -270 |  0  |
+
+        1
+        |
+        |
+0-------+------ 0
+        |
+        |
+       -1
+</code></pre>
+<h3 id="-외적--cross-product--outer-product-"><a class="header" href="#-외적--cross-product--outer-product-">| 외적 | Cross Product | Outer Product |</a></h3>
+<ul>
+<li>크로스는 삐죽하니까 외적으로 외울껏.</li>
+<li>X 니까 삐저나옴.</li>
+<li>X가 직각이니 수직 구할때 씀.</li>
+<li><a href="https://rfriend.tistory.com/146">https://rfriend.tistory.com/146</a></li>
+<li>교환법칙 성립안함</li>
+</ul>
+<h2 id="matrix"><a class="header" href="#matrix">Matrix</a></h2>
+<p>If w == 1, then the vector (x,y,z,1) is a position in space.
+If w == 0, then the vector (x,y,z,0) is a direction</p>
+<pre><code class="language-hlsl">// 순서주의
+TransformedVector = TranslationMatrix * RotationMatrix * ScaleMatrix * OriginalVector;
+</code></pre>
+<pre><code class="language-txt">// ref: https://www.3dgep.com/3d-math-primer-for-game-programmers-matrices/#Rotation_about_an_arbitrary_axis
+
+이동행렬
+|  1  0  0  x  |
+|  0  1  0  y  |
+|  0  0  1  z  |
+|  0  0  0  1  |
+
+스케일
+|  x  0  0  0  |
+|  0  y  0  0  |
+|  0  0  z  0  |
+|  0  0  0  1  |
+
+
+X축 회전
+|    1    0    0    0 |
+|    0  cos -sin    0 |
+|    0  sin  cos    0 |
+|    0    0    0    1 |
+
+Y축 회전
+|  cos    0  sin    0 |
+|    0    1    0    0 |
+| -sin    0  cos    0 |
+|    0    0    0    1 |
+
+Z축 회전
+|  cos -sin    0    0 |
+|  sin  cos    0    0 |
+|    0    0    1    0 |
+|    0    0    0    1 |
+
+
+임의의 N축 회전
+s : sin
+c : cos
+ic: 1 - cos
+
+| ic * NxNx + c      | ic * NxNy - s * Nz | ic * NzNx + s * Ny | 0 |
+| ic * NxNy + s * Nz | ic * NyNy + c      | ic * NyNz - s * Nx | 0 |
+| ic * NzNx - s * Ny | ic * NyNz + s * Nx | ic * NzNz + c      | 0 |
+|                  0 |                  0 |                  0 | 1 |
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mesh"><a class="header" href="#mesh">Mesh</a></h1>
+<ul>
+<li><a href="https://docs.unity3d.com/ScriptReference/Mesh.html">https://docs.unity3d.com/ScriptReference/Mesh.html</a></li>
+</ul>
+<pre><code class="language-cs">// (0,1) +----+ (1,1)
+//       |    |
+// (0,0) +----+ (1,0)
+//
+//     2 +----+ 3
+//       |    |
+//     0 +----+ 1
+
+
+Mesh mesh = new Mesh();
+Vector3[] vertices = new Vector3[4] {
+    new Vector3(0, 0, 0),
+    new Vector3(1, 0, 0),
+    new Vector3(0, 1, 0),
+    new Vector3(1, 1, 0)
+};
+
+int[] tris = new int[6] {
+    // lower left triangle
+    0, 2, 1,
+
+    // upper right triangle
+    2, 3, 1
+};
+
+Vector2[] uv = new Vector2[4] {
+    new Vector2(0, 0),
+    new Vector2(1, 0),
+    new Vector2(0, 1),
+    new Vector2(1, 1)
+};
+
+Vector3[] normals = new Vector3[4] {
+    -Vector3.forward,
+    -Vector3.forward,
+    -Vector3.forward,
+    -Vector3.forward
+};
+
+mesh.vertices = vertices;
+mesh.triangles = tris;
+mesh.uv = uv;
+mesh.normals = normals;
+</code></pre>
+<h2 id="topology"><a class="header" href="#topology">Topology</a></h2>
+<ul>
+<li><a href="https://docs.unity3d.com/ScriptReference/MeshTopology.html">https://docs.unity3d.com/ScriptReference/MeshTopology.html</a></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>MeshTopology</th></tr></thead><tbody>
+<tr><td>Points</td></tr>
+<tr><td>Lines</td></tr>
+<tr><td>LineStrip</td></tr>
+<tr><td>Triangles</td></tr>
+<tr><td>Quads</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-cs">MehsFilter mf = GetComponent&lt;MeshFilter&gt;();
+mf.mesh.SetIndice(mf.mesh.GetIndices(0), MeshTopology.Points, 0);
+</code></pre>
+<pre><code class="language-cs">public void SetIndices(int[] indices, MeshTopology topology, int submesh, bool calculateBounds = true, int baseVertex = 0);
+</code></pre>
+<p>메쉬토폴로지를 변경시켜 좀 더 그럴듯한 효과를 얻을 수 있다.</p>
+<h2 id="ref"><a class="header" href="#ref">Ref</a></h2>
+<ul>
+<li><a href="https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html">https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="coordinate"><a class="header" href="#coordinate">Coordinate</a></h1>
+<ul>
+<li>좌표공간</li>
+</ul>
+<p><img src="Basic/../res/coordinate.png" alt="res/coordinate.png" /></p>
+<h2 id="유니티-정의-positions"><a class="header" href="#유니티-정의-positions">유니티 정의 positions</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>position</th><th>Space</th><th>AKA</th><th>타입</th><th>설명</th></tr></thead><tbody>
+<tr><td>positionOS</td><td>Object</td><td>Local / Model</td><td>float3</td><td></td></tr>
+<tr><td>positionWS</td><td>World</td><td>Global</td><td>float3</td><td></td></tr>
+<tr><td>positionVS</td><td>View</td><td>Camera / Eye</td><td>float3</td><td>카메라에서 바라볼때</td></tr>
+<tr><td>positionCS</td><td>Homogeneous Clip</td><td></td><td>float4</td><td>카메라 시야에서 안보인 것은 제외, Orthogonal 적용</td></tr>
+<tr><td>positionNDC</td><td>Homogeneous Normalized Device Coordinate</td><td></td><td>float4</td><td>[ 0, w] : (x, y, z, w)</td></tr>
+</tbody></table>
+</div>
+<h2 id="내가-임의로-정한것"><a class="header" href="#내가-임의로-정한것">내가 임의로 정한것</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>이름 붙여봄 position</th><th>Space</th><th>타입</th><th>설명</th></tr></thead><tbody>
+<tr><td>ndc</td><td>Nonhomogeneous Normalized Device Coordinate</td><td>float3</td><td>[-1, 1] : PerspectiveDivision * 2 - 1</td></tr>
+<tr><td>uv_Screen</td><td>Screen</td><td>float2</td><td>[ 0, 1] : PerspectiveDivision</td></tr>
+<tr><td>positionScreen</td><td>ViewPort</td><td>float2</td><td>[화면 넓이, 화면 높이]</td></tr>
+</tbody></table>
+</div>
+<h2 id="공간-변환-그림-예"><a class="header" href="#공간-변환-그림-예">공간 변환 그림 예</a></h2>
+<p>예1)</p>
+<p><img src="Basic/../res/opengl_renderpipeline.png" alt="res/opengl_renderpipeline.png" /></p>
+<p>예2)</p>
+<p><img src="Basic/../res/newtranspipe.png" alt="res/newtranspipe.png" /></p>
+<h2 id="unity_matrix"><a class="header" href="#unity_matrix">UNITY_MATRIX</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Matrix</th><th>설명</th></tr></thead><tbody>
+<tr><td>UNITY_MATRIX_M</td><td>renderer.localToWorldMatrix</td></tr>
+<tr><td>UNITY_MATRIX_V</td><td>camera.worldToCameraMatrix</td></tr>
+<tr><td>UNITY_MATRIX_P</td><td>GL.GetGPUProjectionMatrix(camera.projectionMatrix, false);</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>localToWorldMatrix
+<ul>
+<li>유니티 4까지는 GPU에 넘겨주기전에 스케일을 가공하여</li>
+<li>renderer.localToWorldMatrix, transform.localToWorldMatrix가 달랐으나 지금은 같음.</li>
+</ul>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>카메라 관련</th><th>렌더링(UNITY_MATRIX_)의 뷰 전방은 <code>-z</code>. 카메라 행렬은 에디터와 동일하게 <code>+z</code>를 앞으로 사용</th></tr></thead><tbody>
+<tr><td>UNITY_MATRIX_V</td><td>cam.worldToCameraMatrix</td></tr>
+<tr><td>unity_WorldToCamera</td><td>Matrix4x4(cam.transform.position, cam.transform.rotation, Vector3.one)</td></tr>
+<tr><td>UNITY_MATRIX_I_V</td><td>cam.cameraToWorldMatrix</td></tr>
+<tr><td>unity_CameraToWorld</td><td>Matrix4x4(cam.transform.position, cam.transform.rotation, Vector3.one).inverse</td></tr>
+<tr><td>UNITY_MATRIX_P</td><td>GL.GetGPUProjectionMatrix(camera.projectionMatrix, false)</td></tr>
+<tr><td>unity_CameraProjection</td><td>cam.projectionMatrix</td></tr>
+<tr><td>UNITY_MATRIX_I_P</td><td>GL.GetGPUProjectionMatrix(camera.projectionMatrix, false).inverse</td></tr>
+<tr><td>unity_CameraInvProjection</td><td>cam.projectionMatrix.inverse</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-txt">OS  ----------------------- Object Space
+ | UNITY_MATRIX_M * OS
+WS  ----------------------- World Space
+ | UNITY_MATRIX_V * WS
+VS  ----------------------- View Space
+ | UNITY_MATRIX_P * VS
+CS  ----------------------- Homogeneous Clip Space
+ | NDC    = CS * 0.5
+ | NDC.x  =  NDC.x + NDC.w
+ | NDC.y  =  NDC.y + NDC.w // DirectX
+ | NDC.y  = -NDC.y + NDC.w // OpenGL
+ | NDC.zw = CS.zw
+NDC ---------------------- Homogeneous Normalized Device Coordinate [0..w]
+ | pd = (NDC.xyz / NDC.w); // [0, 1] : perspective divide
+ | ndc = pd * 2.0 - 1.0;   // [-1, 1]
+ndc ---------------------- Nonhomogeneous Normalized Device Coordinate [-1..1]
+</code></pre>
+<pre><code class="language-hlsl">// com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl
+struct VertexPositionInputs
+{
+    float3 positionWS; // World space position
+    float3 positionVS; // View space position
+    float4 positionCS; // Homogeneous clip space position
+    float4 positionNDC;// Homogeneous normalized device coordinates
+};
+
+// com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl
+VertexPositionInputs GetVertexPositionInputs(float3 positionOS)
+{
+    VertexPositionInputs input;
+    input.positionWS = TransformObjectToWorld(positionOS);      // UNITY_MATRIX_M
+    input.positionVS = TransformWorldToView(input.positionWS);  // UNITY_MATRIX_V
+    input.positionCS = TransformWorldToHClip(input.positionWS); // UNITY_MATRIX_VP
+
+    float4 ndc = input.positionCS * 0.5f;
+    input.positionNDC.xy = float2(ndc.x, ndc.y * _ProjectionParams.x) + ndc.w;
+    input.positionNDC.zw = input.positionCS.zw;
+
+    return input;
+}
+
+// com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl
+TransformObjectToWorld - UNITY_MATRIX_M
+TransformWorldToView   - UNITY_MATRIX_V
+TransformWViewToHClip  - UNITY_MATRIX_P
+TransformWorldToHClip  - UNITY_MATRIX_VP
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th><a href="https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html">_ProjectionParams</a></th><th>x</th><th>y</th><th>z</th><th>w</th></tr></thead><tbody>
+<tr><td>DirectX</td><td>1</td><td>near plane</td><td>far plane</td><td>1 / farplane</td></tr>
+<tr><td>OpenGL</td><td>-1</td><td>near plane</td><td>far plane</td><td>1 / farplane</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th></th><th>UNITY_REVERSED_Z</th><th>UNITY_NEAR_CLIP_VALUE</th><th>UNITY_RAW_FAR_CLIP_VALUE</th></tr></thead><tbody>
+<tr><td>DirectX</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>Vulkan</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>OpenGL</td><td>0</td><td>-1</td><td>1</td></tr>
+</tbody></table>
+</div>
+<h2 id="ndc"><a class="header" href="#ndc">NDC</a></h2>
+<pre><code class="language-hlsl">// [0, w] // Homogeneous Normalized Device Coordinate
+float4 positionNDC = GetVertexPositionInputs(positionOS).positionNDC;
+
+// [0, 1] // Perspective Division
+float3 pd = positionNDC.xyz / positionNDC.w;
+
+// [-1, 1] // Nonhomogeneous Normalized Device Coordinate
+float3 ndc = pd * 2.0 - 1.0;
+
+// [0, 1]
+float2 uv_Screen = positionNDC.xy / positionNDC.w;
+
+// [0, screenWidth] / [0, screenHeight]
+float2 positionScreen = uv_Screen * _ScreenParams.xy;
+</code></pre>
+<pre><code class="language-hlsl">// float4 ndc = input.positionCS * 0.5f;
+// input.positionNDC.xy = float2(ndc.x, ndc.y * _ProjectionParams.x) + ndc.w;
+// input.positionNDC.zw = input.positionCS.zw;
+NDC = float4(
+    (0.5 * CS.x                       ) + 0.5 * CS.w,
+    (0.5 * CS.y *  _ProjectionParams.x) + 0.5 * CS.w,
+    CS.z,
+    CS.w
+);
+
+// pd = NDC.xyz / NDC.w
+pd = float3(
+    (0.5 * CS.x                        / CS.w) + 0.5,
+    (0.5 * CS.y *  _ProjectionParams.x / CS.w) + 0.5,
+    CS.z / CS.w
+);
+
+// ndc = pd * 2 - 1
+ndc = float3(
+    (CS.x                       / CS.w),
+    (CS.y * _ProjectionParams.x / CS.w),
+    (CS.z                       / CS.w) * 2  - 1,
+);
+
+// uv_Screen = NDC.xy / NDC.w
+uv_Screen = float2(
+    (CS.x                       / CS.w),
+    (CS.y * _ProjectionParams.x / CS.w)
+);
+
+// positionScreen = uv_Screen * _ScreenParams.xy
+positionScreen = float2(
+    (CS.x                       / CS.w) * _ScreenParams.x,
+    (CS.y * _ProjectionParams.x / CS.w) * _ScreenParams.y
+);
+</code></pre>
+<h2 id="normal"><a class="header" href="#normal">Normal</a></h2>
+<ul>
+<li><a href="Basic/./NormalMap.html">./NormalMap.md</a></li>
+</ul>
+<h2 id="pserspective-camera"><a class="header" href="#pserspective-camera">Pserspective Camera</a></h2>
+<ul>
+<li><a href="https://chengkehan.github.io/ReconstructPositionFromDepth.html">https://chengkehan.github.io/ReconstructPositionFromDepth.html</a></li>
+</ul>
+<p><img src="Basic/../res/projectionMatrix.jpg" alt="./res/projectionMatrix.jpg" /></p>
+<pre><code class="language-cs">// Find our current location in the camera's projection space.
+Vector3 pt = Camera.main.projectionMatrix.MultiplyPoint(transform.position);
+
+// Matrix4x4.MultiplyPoint
+public Vector3 MultiplyPoint(Matrix4x4 mat, Vector3 v)
+{
+    Vector3 result;
+    result.x = mat.m00 * v.x + mat.m01 * v.y + mat.m02 * v.z + mat.m03;
+    result.y = mat.m10 * v.x + mat.m11 * v.y + mat.m12 * v.z + mat.m13;
+    result.z = mat.m20 * v.x + mat.m21 * v.y + mat.m22 * v.z + mat.m23;
+    float num = mat.m30 * v.x + mat.m31 * v.y + mat.m32 * v.z + mat.m33;
+    num = 1 / num;
+    result.x *= num;
+    result.y *= num;
+    result.z *= num;
+    return result;
+}
+
+// z값 구하지 않으면
+public Vector3 MultiplyPoint(Matrix4x4 mat, Vector3 v)
+{
+    Vector3 result;
+    result.x = mat.m00 * v.x + mat.m01 * v.y + mat.m02 * v.z + mat.m03;
+    result.y = mat.m10 * v.x + mat.m11 * v.y + mat.m12 * v.z + mat.m13;
+    float num = mat.m30 * v.x + mat.m31 * v.y + mat.m32 * v.z + mat.m33;
+    num = 1 / num;
+    result.x *= num;
+    result.y *= num;
+    return result;
+}
+
+// 값을 대입하면
+public Vector3 MultiplyPoint(Matrix4x4 mat, Vector3 v)
+{
+    Vector3 result;
+    result.x = mat.m00 * v.x + 0 * v.y + 0 * v.z + 0;
+    result.y = 0 * v.x + mat.m11 * v.y + 0 * v.z + 0;
+    float num = 0 * v.x + 0 * v.y + -1 * v.z + 0;
+    num = 1 / num;
+    result.x *= num;
+    result.y *= num;
+    return result;
+}
+
+// 최종적으로
+public Vector3 MultiplyPoint(Matrix4x4 mat, Vector3 v)
+{
+    Vector3 result;
+    result.x = mat.m00 * v.x;
+    result.y = mat.m11 * v.y;
+    float num = -1 * v.z;
+    num = 1 / num;
+    result.x *= num;
+    result.y *= num;
+    return result;
+}
+
+(X, Y, linearEyeDepth)
+positionNDC // [-1, 1]
+X = positionNDC.x * linearEyeDepth / mat.m00
+Y = positionNDC.x * linearEyeDepth / mat.m11
+
+
+The zero-based row-column position:
+|  _m00, _m01, _m02, _m03 |
+|  _m10, _m11, _m12, _m13 |
+|  _m20, _m21, _m22, _m23 |
+|  _m30, _m31, _m32, _m33 |
+
+The one-based row-column position:
+|   _11,  _12,  _13,  _14 |
+|   _21,  _22,  _23,  _24 |
+|   _31,  _32,  _33,  _34 |
+|   _41,  _42,  _43,  _44 |
+
+</code></pre>
+<h2 id="uv"><a class="header" href="#uv">UV</a></h2>
+<p>texel(TExture + piXEL) coordinate</p>
+<pre><code class="language-txt">Direct X
+(0,0)            (1,0)
+  +-------+-------+
+  |       |       |
+  |       |       |
+  +-------+-------+
+  |       |       |
+  |       |       |
+  +-------+-------+
+(0,1)            (1,1)
+
+
+OpenGL / UnityEngine
+(0,1)            (1,1)
+  +-------+-------+
+  |       |       |
+  |       |       |
+  +-------+-------+
+  |       |       |
+  |       |       |
+  +-------+-------+
+(0,0)            (1,0)
+</code></pre>
+<ul>
+<li>수학적으로 바라보면 모든 2D좌표계를 OpenGL방식으로하면 좌표계를 헷갈릴 걱정이 없다. 하지만, 프로그래밍 하는 입장에서는 DirectX방식이 좀 더 와닿을 것이다.</li>
+</ul>
+<h2 id="ref-1"><a class="header" href="#ref-1">Ref</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=u_qKLcszwXA">Computergrafik - Vorlesung 6 - Coordinate Systems</a></li>
+<li><a href="https://www.sysnet.pe.kr/2/0/11633">Unity - shader의 World matrix(unity_ObjectToWorld)를 수작업으로 구성</a></li>
+<li><a href="https://www.sysnet.pe.kr/2/0/11692">Unity - shader의 Camera matrix(UNITY_MATRIX_V)를 수작업으로 구성</a></li>
+<li><a href="https://www.sysnet.pe.kr/2/0/11697">Unity - unity_CameraWorldClipPlanes 내장 변수 의미</a></li>
+<li><a href="https://www.sysnet.pe.kr/2/0/11695">Unity - shader의 원근 투영(Perspective projection) 행렬(UNITY_MATRIX_P)을 수작업으로 구성</a></li>
+<li><a href="http://rapapa.net/?p=3531">렌더링 파이프라인의 좌표 공간들</a></li>
+<li><a href="https://shahriyarshahrabi.medium.com/look-at-transformation-matrix-in-vertex-shader-81dab5f4fc4">Look At Transformation Matrix in Vertex Shader</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html">transform.localToWorldMatrix</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Renderer-localToWorldMatrix.html">Renderer.localToWorldMatrix</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Camera-worldToCameraMatrix.html">Camera.worldToCameraMatrix</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Camera-projectionMatrix.html">Camera.projectionMatrix</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/GL.GetGPUProjectionMatrix.html">GL.GetGPUProjectionMatrix</a></li>
+<li><a href="http://blog.hvidtfeldts.net/index.php/2014/01/combining-ray-tracing-and-polygons/">http://blog.hvidtfeldts.net/index.php/2014/01/combining-ray-tracing-and-polygons/</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="alpha"><a class="header" href="#alpha">Alpha</a></h1>
+<ul>
+<li>알파쓰면 Testing(discard)이나 Blend가 할 것 없이 성능 잡아먹는다.
+<ul>
+<li>구형 모바일 디바이스에선 Blend쪽이 성능이 잘 나오는 경향이 있었다.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-hlsl">SubShader
+{
+    Tags // SubShader의 Tags는 Pass의 Tags와 다름.
+    {
+        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
+
+        // &quot;IgnoreProjector&quot; &lt;&lt;&lt; 요놈은 URP에서 안씀
+
+        // for cutout
+        &quot;Queue&quot; = &quot;AlphaTest&quot;              // 렌더순서
+        &quot;RenderType&quot; = &quot;TransparentCutout&quot; // 그룹핑(전체 노말맵같이 한꺼번에 바꾸어 그릴때 이용)
+
+        // for blend
+        &quot;Queue&quot; = &quot;Transparent&quot;
+        &quot;RenderType&quot; = &quot;Transparent&quot;
+    }
+
+    Pass
+    {
+        Tags
+        {
+            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+        }
+
+        // https://docs.unity3d.com/Manual/SL-Blend.html
+        Blend A B
+
+        // http://docs.unity3d.com/Manual/SL-CullAndDepth.html
+        ZWrite &lt;On | Off&gt; // default: On 
+        ZTest &lt;(Less | Greater | LEqual | GEqual | Equal | NotEqual | Always)&gt; // default: LEqual 
+    }
+}
+</code></pre>
+<ul>
+<li>Blend
+<ul>
+<li>색 혼합 방법</li>
+</ul>
+</li>
+<li>ZWrite
+<ul>
+<li>Z 값을 기록할지 안할지 결정.</li>
+</ul>
+</li>
+<li>ZTest
+<ul>
+<li>Z 값이 씌여져 있는 상태를 읽어서(ZRead), 그려져도 되는지를 결정.</li>
+</ul>
+</li>
+</ul>
+<p><img src="Basic/../res/unity_blend.png" alt="unity_blend" /></p>
+<h2 id="alpha-cutout--alpha-testing"><a class="header" href="#alpha-cutout--alpha-testing">Alpha Cutout / Alpha Testing</a></h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-clip">clip</a>(<a href="https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/texkill---ps">texkill</a>)을 이용</li>
+<li>간편. sorting걱정 안해도 됨.</li>
+<li>구형 모바일에서는 AlphaBlend 보다 성능이 안나오는 경향이 있음.
+<ul>
+<li>요즘은 AlphaTesting이 더 낳을지도</li>
+<li>모바일(A11(ios), PowerVR 등)은 메모리와 대역폭을 줄이기위해 타일별 렌더링을 하는 TBDR(tile-based deferred rendering)을 이용함.</li>
+<li>알파테스팅을 이용할시, 실제 보여지는지 여부를 알파테스팅이 끝날때까지 알 수 없으므로 Deffered 최적화를 방해함.</li>
+</ul>
+</li>
+<li>풀, 나무, 머리카락, 털 등...</li>
+<li>clip하여 너무 각지는게 보기 싫어질 정도면 blend를 잘 쓰자</li>
+<li>// if ZWrite is Off, clip() is fast enough on mobile, because it won't write the DepthBuffer, so no GPU pipeline stall(confirmed by ARM staff).</li>
+</ul>
+<p><img src="Basic/../res/TBDR.jpg" alt="TBDR.jpg" /></p>
+<pre><code class="language-hlsl">SubShader
+{
+    Tags // SubShader의 Tags는 Pass의 Tags와 다름.
+    {
+        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
+        &quot;Queue&quot; = &quot;AlphaTest&quot;
+        &quot;RenderType&quot; = &quot;TransparentCutout&quot;
+    }
+
+    Pass
+    {
+        Tags
+        {
+            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+        }
+
+        HLSLPROGRAM
+        ...
+        half4 frag(VStoFS IN) : SV_Target
+        {
+            half alpha = ...;
+            clip(alpha - _Cutoff);
+
+            return half4(1, 0, 0, 1);
+        }
+        half4 
+        ENDHLSL
+    }
+}
+</code></pre>
+<pre><code class="language-hlsl">// URP에선 `_ALPHATEST_ON` 여부로 할지 말지 결정하는 함수가 있다.
+// https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl
+void AlphaDiscard(real alpha, real cutoff, real offset = real(0.0))
+{
+    #ifdef _ALPHATEST_ON
+        clip(alpha - cutoff + offset);
+    #endif
+}
+</code></pre>
+<h2 id="alpha-blend"><a class="header" href="#alpha-blend">Alpha Blend</a></h2>
+<ul>
+<li>이펙트에서 주로 쓰임</li>
+<li>Alpha Testing보다 디테일 살릴때...</li>
+<li>불투명 유리</li>
+</ul>
+<pre><code class="language-hlsl">SubShader
+{
+    Tags // SubShader의 Tags는 Pass의 Tags와 다름.
+    {
+        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
+        &quot;Queue&quot; = &quot;Transparent&quot;
+        &quot;RenderType&quot; = &quot;Transparent&quot;
+    }
+
+    Pass
+    {
+        ZWrite Off // 픽셀 중복으로 출력됨.
+        Blend SrcAlpha OneMinusSrcAlpha
+
+        Tags
+        {
+            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+        }
+    }
+}
+</code></pre>
+<ul>
+<li><code>ZWrite Off</code> - 뒷면까지 렌더링하는게 문제가됨
+<ul>
+<li>2Pass로 보이는면 랜더링</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-hlsl">SubShader
+{
+    Tags // SubShader의 Tags는 Pass의 Tags와 다름.
+    {
+        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
+        &quot;Queue&quot; = &quot;Transparent&quot;
+        &quot;RenderType&quot; = &quot;Transparent&quot;
+    }
+
+    Pass
+    {
+        Tags
+        {
+            &quot;LightMode&quot; = &quot;SRPDefaultUnlit&quot;
+        }
+        ZWrite On
+        ColorMask 0 // 색 렌더링 안함
+        Cull Front
+
+        HLSLPROGRAM
+        ...
+        ENDHLSL
+    }
+
+    Pass
+    {
+        Tags
+        {
+            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+        }
+
+        ZWrite Off
+        Cull Back
+        Blend SrcAlpha OneMinusSrcAlpha
+
+        HLSLPROGRAM
+        ...
+        ENDHLSL
+    }
+}
+
+</code></pre>
+<h2 id="ref-2"><a class="header" href="#ref-2">Ref</a></h2>
+<ul>
+<li><a href="https://www.slideshare.net/crjl5/2-205467251">Jihoo Oh - 이펙트 쉐이더 2강 - 알파 / 블랜딩</a></li>
+<li><a href="https://www.gamedev.net/forums/topic/656826-why-the-alphablend-is-a-better-choice-than-alphatest-to-implement-transparent-on-mobile-device/5154785/">https://www.gamedev.net/forums/topic/656826-why-the-alphablend-is-a-better-choice-than-alphatest-to-implement-transparent-on-mobile-device/5154785/</a></li>
+<li><a href="https://ozlael.tistory.com/24">모바일 기기의 Tile Based Rendering(타일 기반 렌더링)과 유니티에서의 주의 사항 #2 : TBR 대응 리소스 제작시 주의점</a></li>
+<li><a href="https://blog.naver.com/dasoong15/221356325748">https://blog.naver.com/dasoong15/221356325748</a></li>
+<li><a href="http://powervr-graphics.github.io/WebGL_SDK/WebGL_SDK/Documentation/Architecture%20Guides/PowerVR%20Performance%20Recommendations.The%20Golden%20Rules.pdf">PowerVR Performance Recommendations The Golden Rules</a></li>
+<li>Z 버퍼의 Read / Write 개념 by 김윤정
+<ul>
+<li><a href="http://chulin28ho.egloos.com/5267860">1부. Z 값과 Z 버퍼</a></li>
+<li><a href="http://chulin28ho.egloos.com/5268685">2부. 개악마 알파 블렌딩1편</a></li>
+<li><a href="http://chulin28ho.egloos.com/5269434">3부. 개악마 알파 블렌딩2편</a></li>
+<li><a href="http://chulin28ho.egloos.com/5270691">4부. 개악마 알파 블렌딩3편</a></li>
+<li><a href="http://chulin28ho.egloos.com/5271687">5부, 알파 테스팅</a></li>
+<li><a href="http://chulin28ho.egloos.com/5272883">6부, Z Read/Write</a></li>
+<li><a href="http://chulin28ho.egloos.com/5284164">7부, Z Read On / Write Off</a></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="normalmap"><a class="header" href="#normalmap">NormalMap</a></h1>
+<pre><code class="language-hlsl">inline void ExtractTBN(in half3 normalOS, in float4 tangent, inout half3 T, inout half3  B, inout half3 N)
+{
+    N = TransformObjectToWorldNormal(normalOS);
+    T = TransformObjectToWorldDir(tangent.xyz);
+    B = cross(N, T) * tangent.w * unity_WorldTransformParams.w;
+}
+
+inline half3 CombineTBN(in half3 tangentNormal, in half3 T, in half3  B, in half3 N)
+{
+    return mul(tangentNormal, float3x3(normalize(T), normalize(B), normalize(N)));
+}
+
+Varyings vert(Attributes IN)
+{
+    ExtractTBN(IN.normalOS, IN.tangent, OUT.T, OUT.B, OUT.N);
+}
+
+half4 frag(Varyings IN) : SV_Target
+{
+    half3 normalTex = UnpackNormal(SAMPLE_TEXTURE2D(_NormalTex, sampler_NormalTex, IN.uv));
+    half3 N = CombineTBN(normalTex, IN.T, IN.B, IN.N);
+}
+</code></pre>
+<ul>
+<li>NormalMap(법선맵)을 쓰는 이유?</li>
+<li>TBN이란?</li>
+<li>world-Normal 구하는 법?</li>
+<li>노말맵 혹은 법선맵(tangent space)에서 g채널을 뒤집는 이유?</li>
+</ul>
+<h2 id="법선맵을-쓰는-이유"><a class="header" href="#법선맵을-쓰는-이유">법선맵을 쓰는 이유</a></h2>
+<ul>
+<li>정점(vertex)을 많이 밖아서 디테일을 표시하면, 실시간으로 정점을 처리하는데 부하가 걸린다(주로 CPU).</li>
+<li>셰이더 계산시 법선맵에서 가상의 정점을 생성해 빛을 계산하면 디테일을 살릴 수 있다.</li>
+</ul>
+<h2 id="object-space-vs-tangent-space"><a class="header" href="#object-space-vs-tangent-space">Object Space vs Tangent Space</a></h2>
+<ul>
+<li>리깅을 사용하는 모델의 경우 정점이 몰핑되면서 노말 벡터의 방향이 바뀌게 되는데 이때는 고정된 오브젝트 의 공간좌표계는 의미가 없어짐.</li>
+</ul>
+<h2 id="tbn"><a class="header" href="#tbn">TBN</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>TBN</th><th>Source</th><th>xyz</th><th>UV</th></tr></thead><tbody>
+<tr><td><code>T</code>angent</td><td>TANGENT</td><td>x</td><td>u</td></tr>
+<tr><td><code>B</code>inormal</td><td>cross(T, N)</td><td>y</td><td>v</td></tr>
+<tr><td><code>N</code>ormal</td><td>NORMAL</td><td>z</td><td></td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-shader">N = mul(mat_I_M, normalOS);
+T = mul(tangentOS, mat_M);
+B = mul(binormalOS, mat_M);
+// unity같이 binormalOS를 못어올 경우 N, T를 이용하여 B를 만들 수 있다.
+// B = cross(N, T) * tangentOS.w
+
+======== 월드공간 T / B / N 을 구하고 TBN매트릭스(tangent -&gt; world)를 만든다
+float3x3 TBN_Tangent2World = float3x3(normalize(Input.T), normalize(Input.B), normalize(Input.N));
+| Tx Ty Tz |
+| Bx By Bn |
+| Nx Ny Nz |
+
+mul(tangentNormal, TBN_Tangent2World);   // 왠지 이케 해버리면 앞서 말한 NormalScaleProblem에 걸릴것 같음
+
+
+======== TBN은 직교행렬, 직교행렬의 역행렬은 전치행렬.
+TBN_World2Tangent = transpose(TBN_Tangent2World);
+| Tx Bx Nx |
+| Ty By Ny |
+| Yz Bz Nz |
+
+mul(TBN_World2Tangent, tangentNormal);   // 이케하면 되겠지?
+
+======== 뇌피셜
+// 위에꺼도 맞긴 맞는데...
+// TBN은 직교행렬, 직교행렬의 역행렬은 전치행렬.
+// traspose(inverse(M)) == M
+mul(tangentNormal, TBN_Tangent2World);  // 따라서 이케해도 문제될꺼 없음? 확인해봐야함
+</code></pre>
+<h2 id="normal-flatten"><a class="header" href="#normal-flatten">normal flatten</a></h2>
+<pre><code class="language-hlsl">
+//                               T, B, N
+const float3 vec_TBN_UP = float3(0, 0, 1);
+
+normalTS = lerp(normalTS, vec_TBN_UP, _Flatteness);
+</code></pre>
+<h2 id="block-compression"><a class="header" href="#block-compression">Block Compression</a></h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-block-compression#bc3">https://docs.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-block-compression#bc3</a></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td>DXT5</td><td>BC3 format</td><td>(x, y, 0, 1)</td></tr>
+<tr><td>DXT5nm</td><td>DXT5의 R채널값이 A채널로 이동된것</td><td>(1, y, 0, x)</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>BC3</th><th>channel</th><th>bit</th></tr></thead><tbody>
+<tr><td>x</td><td>a0, a1</td><td>16</td></tr>
+<tr><td></td><td>alpha indices</td><td>48</td></tr>
+<tr><td>y</td><td>color0,1</td><td>32</td></tr>
+<tr><td></td><td>color indices</td><td>32</td></tr>
+</tbody></table>
+</div>
+<p><img src="Basic/../res/d3d10-compression-bc3.png" alt="d3d10-compression-bc3.png" /></p>
+<div class="table-wrapper"><table><thead><tr><th>BC5</th><th>channel</th><th>bit</th></tr></thead><tbody>
+<tr><td>x</td><td>r0, r1</td><td>16</td></tr>
+<tr><td></td><td>red indices</td><td>48</td></tr>
+<tr><td>y</td><td>g0, g1</td><td>32</td></tr>
+<tr><td></td><td>green indices</td><td>32</td></tr>
+</tbody></table>
+</div>
+<p><img src="Basic/../res/d3d10-compression-bc5.png" alt="d3d10-compression-bc5.png" /></p>
+<h3 id="unity_no_dxt5nm"><a class="header" href="#unity_no_dxt5nm">UNITY_NO_DXT5nm</a></h3>
+<p>DXT5nm이 아닌 경우(UNITY_NO_DXT5nm) 는 다음과 같은 공식을 썼으나,</p>
+<pre><code class="language-shader">real3 UnpackNormalRGBNoScale(real4 packedNormal)
+{
+    return packedNormal.rgb * 2.0 - 1.0;
+}
+</code></pre>
+<p>아닌경우 UnpackNormalmapRGorAG을 사용 DXT5, DXT5nm을 처리할 수 있게한다.</p>
+<pre><code class="language-hlsl">real3 UnpackNormal(real4 packedNormal)
+{
+#if defined(UNITY_ASTC_NORMALMAP_ENCODING)
+    return UnpackNormalAG(packedNormal, 1.0);
+#elif defined(UNITY_NO_DXT5nm)
+    return UnpackNormalRGBNoScale(packedNormal);
+#else
+    // Compiler will optimize the scale away
+    return UnpackNormalmapRGorAG(packedNormal, 1.0);
+#endif
+}
+
+// Unpack normal as DXT5nm (1, y, 0, x) or BC5 (x, y, 0, 1)
+real3 UnpackNormalmapRGorAG(real4 packedNormal, real scale = 1.0)
+{
+    // Convert to (?, y, 0, x)
+    packedNormal.a *= packedNormal.r;
+    return UnpackNormalAG(packedNormal, scale);
+}
+
+real3 UnpackNormalAG(real4 packedNormal, real scale = 1.0)
+{
+    real3 normal;
+    normal.xy = packedNormal.ag * 2.0 - 1.0;
+    normal.z = max(1.0e-16, sqrt(1.0 - saturate(dot(normal.xy, normal.xy))));
+
+    // must scale after reconstruction of normal.z which also
+    // mirrors UnpackNormalRGB(). This does imply normal is not returned
+    // as a unit length vector but doesn't need it since it will get normalized after TBN transformation.
+    // If we ever need to blend contributions with built-in shaders for URP
+    // then we should consider using UnpackDerivativeNormalAG() instead like
+    // HDRP does since derivatives do not use renormalization and unlike tangent space
+    // normals allow you to blend, accumulate and scale contributions correctly.
+    normal.xy *= scale;
+    return normal;
+}
+</code></pre>
+<ul>
+<li>xyzw, wy =&gt; _g_r =&gt; rg =&gt; xyn // r이 뒤로 있으므로, 한바퀴 돌려줘야함.</li>
+<li><code>normal.xy = packednormal.wy * 2 - 1;</code> (0 ~ 1 =&gt; -1 ~ 1)</li>
+<li><code>Z</code>는 쉐이더에서 계산. 단위 벡터의 크기는 1인것을 이용.(sqrt(x^2 + y^2 + z^2) = 1) <code>sqrt(1 - saturate(dot(normal.xy, normal.xy)))</code></li>
+</ul>
+<h2 id="normal-scale-problem"><a class="header" href="#normal-scale-problem">Normal Scale Problem</a></h2>
+<ul>
+<li><a href="https://paroj.github.io/gltut/Illumination/Tut09%20Normal%20Transformation.html">Normal Transformation</a></li>
+</ul>
+<p>오브젝트를 스케일시킬때 Normal의 변화의 문제</p>
+<p>A라는 도형을 x에 대해서 2만큼 스케일 업하고 싶다고 가정하면,</p>
+<div class="table-wrapper"><table><thead><tr><th></th><th>정점</th><th>x 스케일</th><th>노말</th></tr></thead><tbody>
+<tr><td>A</td><td>(1, 1)</td><td>1</td><td>(1, 1)</td></tr>
+<tr><td>B</td><td>(2, 1)</td><td>2</td><td>(2, 1)</td></tr>
+<tr><td>C</td><td>(2, 1)</td><td>2</td><td>(0.5, 1)</td></tr>
+</tbody></table>
+</div>
+<p><img src="Basic/../res/scaleproblem.png" alt="res" /></p>
+<p>C처럼 x의 스케일 2배 됐다고, 노멀의 x값에 <code>곱하기</code> 2를 해서는 안된다. 역인 <code>나누기</code> 2 를 해야한다.</p>
+<p>위치(position)에 대해서는 <code>world-Position = mul(obj-Position, M )</code>이 정상적으로 성립되었다.</p>
+<p>하지만, <code>world-Normal = mul( obj-Normal, M )</code> 처럼 적용했을시 앞+선 <code>B</code>와 같은 문제가 발생한다.</p>
+<p>월드행렬(M)식으로 나타내면</p>
+<p><img src="Basic/../res/normal-1.png" alt="normal-1" /></p>
+<p>우리가 구하고 싶은 행렬을 M-want라 했을시 <code>world-Normal = mul(M-want, obj-Normal)</code></p>
+<p><img src="Basic/../res/normal-2.png" alt="normal-2" /></p>
+<p><img src="Basic/../res/DeriveInvTrans_1.svg" alt="1" />
+<img src="Basic/../res/FactorOutTranspose_2.svg" alt="2" />
+<img src="Basic/../res/FactorOutInverse_3.svg" alt="3" /></p>
+<p>즉 <code>M-want     = traspose(inverse(M))</code>.</p>
+<p>DirectX기준 <code>row-major</code>에서의 메트릭스와 벡터의 인자 순서: <code>mul(벡터, 메트릭스) =  mul( transpose(메트릭스), 벡터 )</code></p>
+<p>아레 예는 <code>row-major</code> 기준으로 작성.</p>
+<pre><code class="language-formula">M          = ObjectToWorld
+inverse(M) = WorldToObject
+M-want     = traspose(inverse(M))
+
+world-Normal
+= mul(obj-Normal   , M-want              )
+= mul(obj-Normal   , traspose(inverse(M)))
+= mul(inverse(M)   , obj-Normal          )
+= mul(WorldToObject, obj-Normal          )
+</code></pre>
+<h2 id="노말맵-혹은-법선맵tangent-space에서-g채널을-뒤집는-이유"><a class="header" href="#노말맵-혹은-법선맵tangent-space에서-g채널을-뒤집는-이유">노말맵 혹은 법선맵(tangent space)에서 g채널을 뒤집는 이유</a></h2>
+<ul>
+<li>
+<p><a href="https://www.youtube.com/watch?v=Y3rn-4Nup-E">pope - 노말맵은 왜 파란가?</a></p>
+</li>
+<li>
+<p><a href="https://victorkarp.wordpress.com/2020/06/26/inverting-a-normal-map-in-blender/">https://victorkarp.wordpress.com/2020/06/26/inverting-a-normal-map-in-blender/</a></p>
+</li>
+<li>
+<p>단위벡터의 크기가 1이지만, (-1, 0, 0)과 같은게 있으므로, 정규화된 법선벡터의 범위는 <code>-1...1</code>이다.</p>
+</li>
+<li>
+<p>바이너리로 저장하기위해 범위를 <code>0...1</code>로 줄이려면 0.5를 곱하고 다시 0.5를 더해주면 된다.</p>
+</li>
+<li>
+<p>셰이더에서 저장된 범위 <code>0...1</code>을 <code>-1...1</code>로 확장시키려면 2를 곱하고 1을 빼주면 <code>-1...1</code>의 범위로 확장된다.</p>
+</li>
+</ul>
+<p>노말맵에서 z값이 강한 경우가 있는데 그럼 이미지가 퍼렇게 보이면서 돌출이 아닌 움푹 패인듯한 느낌이 든다.</p>
+<ul>
+<li>표면 안쪽으로 향하는(z의 값이 음수인) 경우가 없다.
+<ul>
+<li>범위는 <code>0 ~ 1</code></li>
+<li>바이너리 저장시 범위가 <code>0.5 ~ 1</code>로 변경되면서 0.5부터 값이 시작된다.</li>
+</ul>
+</li>
+<li>따라서 맵이 퍼렇게 보이면서, 돌출되는 부분이 이미지상 움푹들어간 모습처럼 보인다.</li>
+</ul>
+<p>그러므로, g채널을 뒤집어주면 돌출된 부분을 아티스트가 쉽게 인지할 수 있다.</p>
+<h2 id="opengly--directx-y-"><a class="header" href="#opengly--directx-y-">OpenGL<code>Y+</code> / DirectX <code>Y-</code></a></h2>
+<ul>
+<li><a href="https://blender.stackexchange.com/questions/100017/directx-vs-opengl-normal-maps">https://blender.stackexchange.com/questions/100017/directx-vs-opengl-normal-maps</a></li>
+</ul>
+<p><img src="Basic/../res/directx_opengl_normalmap.png" alt="../res/directx_opengl_normalmap.png" /></p>
+<ul>
+<li>유니티는 OpenGL(Y+) 를 써서 보기 비교적 편하다.</li>
+<li>DirectX와 같은 엔진에서는 작업자를 위해 Y+텍스쳐 제작 쉐이더에서 y에 <code>-1</code>을 곱해 뒤집어 주는 코드를 넣어주면 작업자들이 편해진다.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cubemap"><a class="header" href="#cubemap">Cubemap</a></h1>
+<ul>
+<li>텍스쳐를 받을 수 있는 Cubemap생성하기 : <code>Create &gt; Legacy &gt; Cubemap</code></li>
+</ul>
+<pre><code class="language-hlsl">TEXTURECUBE(_CubeMap);  SAMPLER(sampler_CubeMap);
+
+half3 reflectVN = reflect(-V, N);
+half4 cubeReflect = SAMPLE_TEXTURECUBE_LOD(_CubeMap, sampler_CubeMap, reflectVN, 0);
+
+half3 refractVN = refract(-V, N, 1 / _RefractiveIndex);
+half4 cubeRefract = SAMPLE_TEXTURECUBE_LOD(_CubeMap, sampler_CubeMap, refractVN, 0);
+</code></pre>
+<h2 id="cubemapgen"><a class="header" href="#cubemapgen">CubemapGen</a></h2>
+<ul>
+<li><a href="https://gpuopen.com/archived/cubemapgen/">https://gpuopen.com/archived/cubemapgen/</a></li>
+<li><a href="https://seblagarde.wordpress.com/2012/06/10/amd-cubemapgen-for-physically-based-rendering/">https://seblagarde.wordpress.com/2012/06/10/amd-cubemapgen-for-physically-based-rendering/</a></li>
+<li><a href="https://github.com/gscept/CubeMapGen">https://github.com/gscept/CubeMapGen</a></li>
+</ul>
+<pre><code class="language-cs">// | AMD CubeMapGen | Unity |
+// | -------------- | ----- |
+// | X+             | -X    |
+// | X-             | +X    |
+// | Y+             | +Y    |
+// | Y-             | -Y    |
+// | Z+             | +Z    |
+// | Z-             | -Z    |
+
+using System.IO;
+using UnityEditor;
+using UnityEngine;
+
+public class BakeStaticCubemap : ScriptableWizard
+{
+    static string imageDirectory = &quot;Assets/CubemapImages&quot;;
+    static string[] cubemapImage = new string[6] {
+        &quot;top+Y&quot;, &quot;bottom-Y&quot;,
+        &quot;left-X&quot;, &quot;right+X&quot;,
+        &quot;front+Z&quot;,&quot;back-Z&quot;,
+    };
+    static Vector3[] eulerAngles = new Vector3[6] {
+        new Vector3(-90.0f, 0.0f, 0.0f), new Vector3(90.0f, 0.0f, 0.0f),
+        new Vector3(0.0f, 90.0f, 0.0f), new Vector3(0.0f, -90.0f, 0.0f), 
+        new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 180.0f, 0.0f),
+    };
+
+
+    public Transform renderPosition;
+    public Cubemap cubemap;
+    // Camera settings.
+    public int cameraDepth = 24;
+    public LayerMask cameraLayerMask = -1;
+    public Color cameraBackgroundColor;
+    public float cameraNearPlane = 0.1f;
+    public float cameraFarPlane = 2500.0f;
+    public bool cameraUseOcclusion = true;
+    // Cubemap settings.
+    public FilterMode cubemapFilterMode = FilterMode.Trilinear;
+    // Quality settings.
+    public int antiAliasing = 4;
+
+    public bool IsCreateIndividualImages = false;
+
+    [MenuItem(&quot;GameObject/Bake Cubemap&quot;)]
+    static void RenderCubemap()
+    {
+        DisplayWizard(&quot;Bake CubeMap&quot;, typeof(BakeStaticCubemap), &quot;Bake!&quot;);
+    }
+
+    void OnWizardUpdate()
+    {
+        helpString = &quot;Set the position to render from and the cubemap to bake.&quot;;
+        if (renderPosition != null &amp;&amp; cubemap != null)
+        {
+            isValid = true;
+        }
+        else
+        {
+            isValid = false;
+        }
+    }
+
+    void OnWizardCreate()
+    {
+        QualitySettings.antiAliasing = antiAliasing;
+        cubemap.filterMode = cubemapFilterMode;
+
+        GameObject go = new GameObject(&quot;CubemapCam&quot;, typeof(Camera));
+        go.transform.position = renderPosition.position;
+        go.transform.rotation = Quaternion.identity;
+
+        Camera camera = go.GetComponent&lt;Camera&gt;();
+        camera.depth = cameraDepth;
+        camera.backgroundColor = cameraBackgroundColor;
+        camera.cullingMask = cameraLayerMask;
+        camera.nearClipPlane = cameraNearPlane;
+        camera.farClipPlane = cameraFarPlane;
+        camera.useOcclusionCulling = cameraUseOcclusion;
+
+        camera.RenderToCubemap(cubemap);
+        if (IsCreateIndividualImages)
+        {
+            if (!Directory.Exists(imageDirectory))
+            {
+                Directory.CreateDirectory(imageDirectory);
+            }
+            RenderIndividualCubemapImages(camera);
+        }
+        DestroyImmediate(go);
+    }
+
+    void RenderIndividualCubemapImages(Camera camera)
+    {
+        camera.backgroundColor = Color.black;
+        camera.clearFlags = CameraClearFlags.Skybox;
+        camera.fieldOfView = 90;
+        camera.aspect = 1.0f;
+        camera.transform.rotation = Quaternion.identity;
+
+        for (int camOrientation = 0; camOrientation &lt; eulerAngles.Length; camOrientation++)
+        {
+            string imageName = Path.Combine(imageDirectory, cubemap.name + &quot;_&quot; + cubemapImage[camOrientation] + &quot;.png&quot;);
+            camera.transform.eulerAngles = eulerAngles[camOrientation];
+            RenderTexture renderTex = new RenderTexture(cubemap.height, cubemap.height, cameraDepth);
+            camera.targetTexture = renderTex;
+            camera.Render();
+            RenderTexture.active = renderTex;
+            Texture2D img = new Texture2D(cubemap.height, cubemap.height, TextureFormat.RGB24, false);
+            img.ReadPixels(new Rect(0, 0, cubemap.height, cubemap.height), 0, 0);
+            RenderTexture.active = null;
+            DestroyImmediate(renderTex);
+            byte[] imgBytes = img.EncodeToPNG();
+            File.WriteAllBytes(imageName, imgBytes);
+            AssetDatabase.ImportAsset(imageName, ImportAssetOptions.ForceUpdate);
+        }
+        AssetDatabase.Refresh();
+    }
+}
+</code></pre>
+<h2 id="ref-3"><a class="header" href="#ref-3">Ref</a></h2>
+<ul>
+<li><a href="https://developer.arm.com/documentation/102179/0100/Implement-reflections-with-a-local-cubemap">https://developer.arm.com/documentation/102179/0100/Implement-reflections-with-a-local-cubemap</a></li>
+<li><a href="https://www.slideshare.net/honestee/choi-jihyun-ndc2011">NDC2011 - PRT(Precomputed Radiance Transfer) 및 SH(Spherical Harmonics) 개괄</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="stencil"><a class="header" href="#stencil">Stencil</a></h1>
+<ul>
+<li>vert &gt; Depth Test  &gt; Stencil Test &gt; Render</li>
+<li>frag &gt; AlphaTest &gt; Blending</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td>ZTest</td><td>깊이 버퍼 비교 후 색상 입히기</td><td>기본값 LEqual이기에 카메라 가까운걸 나중에 그림</td></tr>
+<tr><td>ZWrite</td><td>깊이 버퍼에 쓰기 시도</td><td>ZTest 성공해야 깊이 버퍼에 쓸 수 있음</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th></th><th>ZWrite On</th><th>ZWrite Off</th></tr></thead><tbody>
+<tr><td>ZTest 성공</td><td>깊이 O / 색상 O</td><td>깊이 X / 색상 O</td></tr>
+<tr><td>ZTest 실패</td><td>깊이 X / 색상 X</td><td>깊이 X / 색상 X</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>ZTest 예</th><th></th></tr></thead><tbody>
+<tr><td>ZTest LEqual</td><td>물체가 앞에 있다</td></tr>
+<tr><td>ZTest Greater</td><td>물체가 가려져 있다</td></tr>
+</tbody></table>
+</div>
+<h2 id="템플릿"><a class="header" href="#템플릿">템플릿</a></h2>
+<pre><code class="language-hlsl">// 기본값
+Pass
+{
+    Stencil
+    { 
+        Ref         0      // [0 ... 255]
+        ReadMask    255    // [0 ... 255]
+        WriteMask   255    // [0 ... 255]
+        Comp        Always
+        Pass        Keep
+        Fail        Keep
+        ZFail       Keep
+    }
+    ZWrite On              // On | Off
+    ZTest LEqual           // Less | Greater | LEqual | GEqual | Equal | NotEqual | Always
+}
+</code></pre>
+<pre><code class="language-hlsl">Properties
+{
+    [IntRange]
+    _StencilRef(&quot;Stencil ID [0-255]&quot;,      Range(0, 255)) = 0
+    
+    [IntRange]
+    _StencilReadMask(&quot;ReadMask [0-255]&quot;,   Range(0, 255)) = 255
+    
+    [IntRange]
+    _StencilWriteMask(&quot;WriteMask [0-255]&quot;, Range(0, 255)) = 255
+
+    [Enum(UnityEngine.Rendering.CompareFunction)]
+    _StencilComp(&quot;Stencil Comparison&quot;,     Float) = 8 // Always
+
+    [Enum(UnityEngine.Rendering.StencilOp)]
+    _StencilPass(&quot;Stencil Pass&quot;,           Float) = 0 // Keep
+
+    [Enum(UnityEngine.Rendering.StencilOp)]
+    _StencilFail(&quot;Stencil Fail&quot;,           Float) = 0 // Keep
+
+    [Enum(UnityEngine.Rendering.StencilOp)]
+    _StencilZFail(&quot;Stencil ZFail&quot;,         Float) = 0 // Keep
+}
+
+Pass
+{
+    Stencil
+    { 
+        Ref         [_StencilRef]
+        ReadMask    [_StencilReadMask]
+        WriteMask   [_StencilWriteMask]
+        Comp        [_StencilComp]
+        Pass        [_StencilPass]
+        Fail        [_StencilFail]
+        ZFail       [_StencilZFail]
+    }
+}
+</code></pre>
+<h2 id="table"><a class="header" href="#table">table</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>구분</th><th>기본값</th><th></th></tr></thead><tbody>
+<tr><td>Ref</td><td>-</td><td>버퍼에 기록</td></tr>
+<tr><td>ReadMask</td><td>255</td><td></td></tr>
+<tr><td>WriteMask</td><td>255</td><td></td></tr>
+<tr><td>Comp</td><td>Always</td><td></td></tr>
+<tr><td>Pass</td><td>Keep</td><td>스텐실 테스트 성공시</td></tr>
+<tr><td>Fail</td><td>Keep</td><td>스텐실 테스트 실패시</td></tr>
+<tr><td>ZFail</td><td>Keep</td><td>스텐실 테스트 성공시 &amp;&amp; ZTest 실패시</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>Comp</th><th></th><th>값</th></tr></thead><tbody>
+<tr><td>Never</td><td>false</td><td>1</td></tr>
+<tr><td>Less</td><td>버퍼 &gt;  참조</td><td>2</td></tr>
+<tr><td>Equal</td><td>버퍼 == 참조</td><td>3</td></tr>
+<tr><td>LEqual</td><td>버퍼 &gt;= 참조</td><td>4</td></tr>
+<tr><td>Greater</td><td>버퍼 &lt;  참조</td><td>5</td></tr>
+<tr><td>NotEqual</td><td>버퍼 != 참조</td><td>6</td></tr>
+<tr><td>GEqual</td><td>버퍼 &lt;= 참조</td><td>7</td></tr>
+<tr><td>Always</td><td>true</td><td>8</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>스텐실</th><th></th><th>값</th></tr></thead><tbody>
+<tr><td>Keep</td><td>변화 없음</td><td>0</td></tr>
+<tr><td>Zero</td><td>0</td><td>1</td></tr>
+<tr><td>Replace</td><td>참조 값</td><td>2</td></tr>
+<tr><td>IncrSat</td><td>증가. 최대 255</td><td>3</td></tr>
+<tr><td>DecrSat</td><td>감소. 최소 0</td><td>4</td></tr>
+<tr><td>Invert</td><td>반전</td><td>5</td></tr>
+<tr><td>IncrWarp</td><td>증가. 255면 0으로</td><td>6</td></tr>
+<tr><td>DecrWarp</td><td>감소. 0이면 255로</td><td>7</td></tr>
+</tbody></table>
+</div>
+<h2 id="ex"><a class="header" href="#ex">Ex</a></h2>
+<h3 id="마스킹"><a class="header" href="#마스킹">마스킹</a></h3>
+<ul>
+<li>ZTest 실패: 깊이 X / 색상 X</li>
+</ul>
+<pre><code class="language-hlsl">// 마스크.
+// 일부러 비교(Comp)하지 않아서 실패상태로 만들고(Fail) Ref값을 덮어씌운다(Replace).
+// 마스킹 작업이 오브젝트 보다 먼저 렌더링 되어야 함으로, 렌더큐 확인.
+Stencil
+{
+    Ref     1
+    Comp    Never
+    Fail    Replace
+}
+</code></pre>
+<pre><code class="language-hlsl">// 오브젝트.
+// 앞서 마스크가 1로 덮어씌운 부분과 같은지 비교(Equal).
+// 마스킹 작업이 오브젝트 보다 먼저 렌더링 되어야 함으로, 렌더큐 확인.
+Stencil
+{ 
+    Ref     1
+    Comp    Equal
+}
+</code></pre>
+<h3 id="실루엣"><a class="header" href="#실루엣">실루엣</a></h3>
+<ul>
+<li>가려져 있는 물체 그리기
+<ul>
+<li>
+<ol>
+<li>일반</li>
+</ol>
+<ul>
+<li>스텐실 버퍼 Write</li>
+</ul>
+</li>
+<li>
+<ol start="2">
+<li>가려지면</li>
+</ol>
+<ul>
+<li>가려져있는가 : ZTest Greater</li>
+<li>스텐실 버퍼 비교</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-hlsl">Pass
+{
+    Tags
+    {
+        &quot;LightMode&quot; = &quot;SRPDefaultUnlit&quot;
+    }
+    
+    ZTest Greater
+    ZWrite Off
+
+    Stencil
+    {
+        Ref 2
+        Comp NotEqual
+    }
+}
+
+Pass
+{
+    Tags
+    {
+        &quot;LightMode&quot; = &quot;UniversalForward&quot;
+    }
+
+    Stencil
+    {
+        Ref 2
+        Pass Replace
+    }
+}
+</code></pre>
+<h2 id="ref-4"><a class="header" href="#ref-4">Ref</a></h2>
+<ul>
+<li><a href="https://docs.unity3d.com/Manual/SL-CullAndDepth.html">https://docs.unity3d.com/Manual/SL-CullAndDepth.html</a></li>
+<li><a href="https://docs.unity3d.com/Manual/SL-Stencil.html">https://docs.unity3d.com/Manual/SL-Stencil.html</a></li>
+<li><a href="https://www.ronja-tutorials.com/post/022-stencil-buffers/">https://www.ronja-tutorials.com/post/022-stencil-buffers/</a></li>
+<li><a href="https://rito15.github.io/posts/unity-transparent-stencil/#%EC%8A%A4%ED%85%90%EC%8B%A4">https://rito15.github.io/posts/unity-transparent-stencil/#스텐실</a></li>
+<li><a href="https://chulin28ho.tistory.com/567">유니티 URP 멀티 렌더 오브젝트 기법으로 겹쳐진면 투명화하기</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="depth"><a class="header" href="#depth">Depth</a></h1>
+<ul>
+<li>LinearEyeDepth : distance from the eye in world units</li>
+<li>Linear01Depth : distance from the eye in [0;1]</li>
+</ul>
+<pre><code class="language-hlsl">#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl&quot;
+half3 pd            = IN.positionNDC.xyz / IN.positionNDC.w; // perspectiveDivide
+half2 uv_Screen     = pd.xy;
+
+half  sceneRawDepth = SampleSceneDepth(uv_Screen);
+half  sceneEyeDepth = LinearEyeDepth(sceneRawDepth, _ZBufferParams);
+half  scene01Depth  = Linear01Depth (sceneRawDepth, _ZBufferParams);
+</code></pre>
+<ul>
+<li><a href="https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl">SampleSceneDepth</a></li>
+<li><a href="https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl">Linear01Depth / LinearEyeDepth</a></li>
+</ul>
+<pre><code class="language-hlsl">// mirror: com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl
+float SampleSceneDepth(float2 uv)
+{
+    return SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv)).r;
+}
+
+// mirror: com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl
+// Z buffer to linear 0..1 depth (0 at camera position, 1 at far plane).
+// Does NOT work with orthographic projections.
+// Does NOT correctly handle oblique view frustums.
+// zBufferParam = { (f-n)/n, 1, (f-n)/n*f, 1/f }
+float Linear01Depth(float depth, float4 zBufferParam)
+{
+    return 1.0 / (zBufferParam.x * depth + zBufferParam.y);
+}
+
+// Z buffer to linear depth.
+// Does NOT correctly handle oblique view frustums.
+// Does NOT work with orthographic projection.
+// zBufferParam = { (f-n)/n, 1, (f-n)/n*f, 1/f }
+float LinearEyeDepth(float depth, float4 zBufferParam)
+{
+    return 1.0 / (zBufferParam.z * depth + zBufferParam.w);
+}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th><a href="https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html">_ZBufferParams</a></th><th>x</th><th>y</th><th>z</th><th>w</th></tr></thead><tbody>
+<tr><td>DirectX</td><td>-1 + far/near</td><td>1</td><td>x/far</td><td>1/far</td></tr>
+<tr><td>OpenGL</td><td>1 - far/near</td><td>far/near</td><td>x/far</td><td>y/far</td></tr>
+</tbody></table>
+</div>
+<p><img src="Basic/../res/EyeDepth.png" alt="./res/EyeDepth.png" /></p>
+<h2 id="depth-buffer-value-non-linear-in-view-space"><a class="header" href="#depth-buffer-value-non-linear-in-view-space">depth buffer value non-linear (in view space)</a></h2>
+<p><img src="Basic/../res/DepthComparison.png" alt="./res/DepthComparison.png" /></p>
+<h2 id="sample"><a class="header" href="#sample">Sample</a></h2>
+<pre><code class="language-hlsl">// vert
+float currEyeDepth = -positionVS.z;
+float curr01Depth = -positionVS.z * _ProjectionParams.w;
+float4 positionNDC = GetVertexPositionInputs(positionOS).positionNDC;
+
+// frag
+half2 uv_Screen = IN.positionNDC.xy / IN.positionNDC.w;
+half sceneRawDepth = SampleSceneDepth(uv_Screen);
+
+// --------------------------------------------
+half scene01Depth = Linear01Depth(sceneRawDepth, _ZBufferParams);   //  [near/far, 1]
+
+// -----------------------------------------------
+// scene01Depth을 _ProjectionParams.z(far plane)으로 늘리면 sceneEyeDepth
+half sceneEyeDepth = scene01Depth * _ProjectionParams.z;            //  [near, far]
+half sceneEyeDepth = LinearEyeDepth(sceneRawDepth, _ZBufferParams); //  [near, far]
+
+// -----------------------------------------------
+// 물체와의 거리를 빼면, 얼마나 앞에 나와있는지 알 수 있다.
+half diffEyeDepth = sceneEyeDepth - IN.currEyeDepth;
+half intersectGradient = 1 - min(diffEyeDepth, 1.0f);
+</code></pre>
+<h2 id="reversed-z"><a class="header" href="#reversed-z">Reversed-z</a></h2>
+<p>TODO</p>
+<ul>
+<li><a href="https://developer.nvidia.com/content/depth-precision-visualized">https://developer.nvidia.com/content/depth-precision-visualized</a></li>
+</ul>
+<h2 id="reconstructpositionws"><a class="header" href="#reconstructpositionws">ReconstructPositionWS</a></h2>
+<p>TODO 둘 중 하나 문제있음</p>
+<pre><code class="language-hlsl">// https://www.cyanilux.com/tutorials/depth
+
+OUT.toViewVectorWS = _WorldSpaceCameraPos - vertexInputs.positionWS;
+
+float2 screenUV = (IN.positionNDC.xy / IN.positionNDC.w);
+
+float sceneRawDepth = SampleSceneDepth(screenUV);
+float sceneEyeDepth = LinearEyeDepth(sceneRawDepth, _ZBufferParams);
+
+float fragmentEyeDepth = -IN.positionVS.z;
+float3 scenePositionWS = _WorldSpaceCameraPos + (-IN.toViewVectorWS / fragmentEyeDepth) * sceneEyeDepth;
+</code></pre>
+<pre><code class="language-hlsl">// https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@12.0/manual/writing-shaders-urp-reconstruct-world-position.html
+float2 screenUV = IN.positionCS.xy / _ScaledScreenParams.xy;
+
+// Sample the depth from the Camera depth texture.
+#if UNITY_REVERSED_Z
+    real sceneRawDepth = SampleSceneDepth(screenUV);
+#else
+    // Adjust Z to match NDC for OpenGL ([-1, 1])
+    real sceneRawDepth = lerp(UNITY_NEAR_CLIP_VALUE, 1, SampleSceneDepth(screenUV));
+#endif
+
+// Reconstruct the world space positions.
+float3 scenePositionWS = ComputeWorldSpacePosition(screenUV, sceneRawDepth, UNITY_MATRIX_I_VP);
+
+
+// https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl
+float3 ComputeWorldSpacePosition(float2 positionNDC, float deviceDepth, float4x4 invViewProjMatrix)
+{
+    float4 positionCS  = ComputeClipSpacePosition(positionNDC, deviceDepth);
+    float4 hpositionWS = mul(invViewProjMatrix, positionCS);
+    return hpositionWS.xyz / hpositionWS.w;
+}
+
+float4 ComputeClipSpacePosition(float3 position, float4x4 clipSpaceTransform = k_identity4x4)
+{
+    return mul(clipSpaceTransform, float4(position, 1.0));
+}
+</code></pre>
+<h2 id="reconstructnormalvs"><a class="header" href="#reconstructnormalvs">ReconstructNormalVS</a></h2>
+<ul>
+<li><a href="https://wickedengine.net/2019/09/22/improved-normal-reconstruction-from-depth/">https://wickedengine.net/2019/09/22/improved-normal-reconstruction-from-depth/</a></li>
+<li><a href="https://gist.github.com/bgolus/a07ed65602c009d5e2f753826e8078a0">https://gist.github.com/bgolus/a07ed65602c009d5e2f753826e8078a0</a></li>
+</ul>
+<pre><code class="language-hlsl">// 3 tap
+const float2 offset_u = float2(0, _CameraDepthTexture_TexelSize.y); // up
+const float2 offset_r = float2(_CameraDepthTexture_TexelSize.x, 0); // right
+
+float depth_c = LinearEyeDepth(SampleSceneDepth(IN.uv           ), _ZBufferParams);  // center
+float depth_u = LinearEyeDepth(SampleSceneDepth(IN.uv + offset_u), _ZBufferParams);  // up
+float depth_r = LinearEyeDepth(SampleSceneDepth(IN.uv + offset_r), _ZBufferParams);  // right
+
+float3 diff_h = float3(offset_u, depth_u - depth_c);  // horizontal
+float3 diff_v = float3(offset_r, depth_r - depth_c);  // vertical
+
+float3 normalVS = normalize(cross(diff_h, diff_v));
+</code></pre>
+<h2 id="ref-5"><a class="header" href="#ref-5">Ref</a></h2>
+<ul>
+<li><a href="https://www.cyanilux.com/tutorials/depth/">https://www.cyanilux.com/tutorials/depth/</a></li>
+<li><a href="https://beta.unity3d.com/talks/Siggraph2011_SpecialEffectsWithDepth_WithNotes.pdf">https://beta.unity3d.com/talks/Siggraph2011_SpecialEffectsWithDepth_WithNotes.pdf</a></li>
+<li><a href="https://www.reedbeta.com/blog/depth-precision-visualized/">https://www.reedbeta.com/blog/depth-precision-visualized/</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

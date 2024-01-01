@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>NormalMap - 넷평의 Unity Shader 노트</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html">둘러보기</a></li><li class="chapter-item expanded affix "><li class="part-title">Basic</li><li class="chapter-item expanded "><a href="../Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="../Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="../Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="../Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="../Basic/NormalMap.html" class="active">NormalMap</a></li><li class="chapter-item expanded "><a href="../Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="../Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="../Basic/Depth.html">Depth</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/Basic/NormalMap.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="normalmap"><a class="header" href="#normalmap">NormalMap</a></h1>
+<pre><code class="language-hlsl">inline void ExtractTBN(in half3 normalOS, in float4 tangent, inout half3 T, inout half3  B, inout half3 N)
+{
+    N = TransformObjectToWorldNormal(normalOS);
+    T = TransformObjectToWorldDir(tangent.xyz);
+    B = cross(N, T) * tangent.w * unity_WorldTransformParams.w;
+}
+
+inline half3 CombineTBN(in half3 tangentNormal, in half3 T, in half3  B, in half3 N)
+{
+    return mul(tangentNormal, float3x3(normalize(T), normalize(B), normalize(N)));
+}
+
+Varyings vert(Attributes IN)
+{
+    ExtractTBN(IN.normalOS, IN.tangent, OUT.T, OUT.B, OUT.N);
+}
+
+half4 frag(Varyings IN) : SV_Target
+{
+    half3 normalTex = UnpackNormal(SAMPLE_TEXTURE2D(_NormalTex, sampler_NormalTex, IN.uv));
+    half3 N = CombineTBN(normalTex, IN.T, IN.B, IN.N);
+}
+</code></pre>
+<ul>
+<li>NormalMap(법선맵)을 쓰는 이유?</li>
+<li>TBN이란?</li>
+<li>world-Normal 구하는 법?</li>
+<li>노말맵 혹은 법선맵(tangent space)에서 g채널을 뒤집는 이유?</li>
+</ul>
+<h2 id="법선맵을-쓰는-이유"><a class="header" href="#법선맵을-쓰는-이유">법선맵을 쓰는 이유</a></h2>
+<ul>
+<li>정점(vertex)을 많이 밖아서 디테일을 표시하면, 실시간으로 정점을 처리하는데 부하가 걸린다(주로 CPU).</li>
+<li>셰이더 계산시 법선맵에서 가상의 정점을 생성해 빛을 계산하면 디테일을 살릴 수 있다.</li>
+</ul>
+<h2 id="object-space-vs-tangent-space"><a class="header" href="#object-space-vs-tangent-space">Object Space vs Tangent Space</a></h2>
+<ul>
+<li>리깅을 사용하는 모델의 경우 정점이 몰핑되면서 노말 벡터의 방향이 바뀌게 되는데 이때는 고정된 오브젝트 의 공간좌표계는 의미가 없어짐.</li>
+</ul>
+<h2 id="tbn"><a class="header" href="#tbn">TBN</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>TBN</th><th>Source</th><th>xyz</th><th>UV</th></tr></thead><tbody>
+<tr><td><code>T</code>angent</td><td>TANGENT</td><td>x</td><td>u</td></tr>
+<tr><td><code>B</code>inormal</td><td>cross(T, N)</td><td>y</td><td>v</td></tr>
+<tr><td><code>N</code>ormal</td><td>NORMAL</td><td>z</td><td></td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-shader">N = mul(mat_I_M, normalOS);
+T = mul(tangentOS, mat_M);
+B = mul(binormalOS, mat_M);
+// unity같이 binormalOS를 못어올 경우 N, T를 이용하여 B를 만들 수 있다.
+// B = cross(N, T) * tangentOS.w
+
+======== 월드공간 T / B / N 을 구하고 TBN매트릭스(tangent -&gt; world)를 만든다
+float3x3 TBN_Tangent2World = float3x3(normalize(Input.T), normalize(Input.B), normalize(Input.N));
+| Tx Ty Tz |
+| Bx By Bn |
+| Nx Ny Nz |
+
+mul(tangentNormal, TBN_Tangent2World);   // 왠지 이케 해버리면 앞서 말한 NormalScaleProblem에 걸릴것 같음
+
+
+======== TBN은 직교행렬, 직교행렬의 역행렬은 전치행렬.
+TBN_World2Tangent = transpose(TBN_Tangent2World);
+| Tx Bx Nx |
+| Ty By Ny |
+| Yz Bz Nz |
+
+mul(TBN_World2Tangent, tangentNormal);   // 이케하면 되겠지?
+
+======== 뇌피셜
+// 위에꺼도 맞긴 맞는데...
+// TBN은 직교행렬, 직교행렬의 역행렬은 전치행렬.
+// traspose(inverse(M)) == M
+mul(tangentNormal, TBN_Tangent2World);  // 따라서 이케해도 문제될꺼 없음? 확인해봐야함
+</code></pre>
+<h2 id="normal-flatten"><a class="header" href="#normal-flatten">normal flatten</a></h2>
+<pre><code class="language-hlsl">
+//                               T, B, N
+const float3 vec_TBN_UP = float3(0, 0, 1);
+
+normalTS = lerp(normalTS, vec_TBN_UP, _Flatteness);
+</code></pre>
+<h2 id="block-compression"><a class="header" href="#block-compression">Block Compression</a></h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-block-compression#bc3">https://docs.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-block-compression#bc3</a></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td>DXT5</td><td>BC3 format</td><td>(x, y, 0, 1)</td></tr>
+<tr><td>DXT5nm</td><td>DXT5의 R채널값이 A채널로 이동된것</td><td>(1, y, 0, x)</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>BC3</th><th>channel</th><th>bit</th></tr></thead><tbody>
+<tr><td>x</td><td>a0, a1</td><td>16</td></tr>
+<tr><td></td><td>alpha indices</td><td>48</td></tr>
+<tr><td>y</td><td>color0,1</td><td>32</td></tr>
+<tr><td></td><td>color indices</td><td>32</td></tr>
+</tbody></table>
+</div>
+<p><img src="../res/d3d10-compression-bc3.png" alt="d3d10-compression-bc3.png" /></p>
+<div class="table-wrapper"><table><thead><tr><th>BC5</th><th>channel</th><th>bit</th></tr></thead><tbody>
+<tr><td>x</td><td>r0, r1</td><td>16</td></tr>
+<tr><td></td><td>red indices</td><td>48</td></tr>
+<tr><td>y</td><td>g0, g1</td><td>32</td></tr>
+<tr><td></td><td>green indices</td><td>32</td></tr>
+</tbody></table>
+</div>
+<p><img src="../res/d3d10-compression-bc5.png" alt="d3d10-compression-bc5.png" /></p>
+<h3 id="unity_no_dxt5nm"><a class="header" href="#unity_no_dxt5nm">UNITY_NO_DXT5nm</a></h3>
+<p>DXT5nm이 아닌 경우(UNITY_NO_DXT5nm) 는 다음과 같은 공식을 썼으나,</p>
+<pre><code class="language-shader">real3 UnpackNormalRGBNoScale(real4 packedNormal)
+{
+    return packedNormal.rgb * 2.0 - 1.0;
+}
+</code></pre>
+<p>아닌경우 UnpackNormalmapRGorAG을 사용 DXT5, DXT5nm을 처리할 수 있게한다.</p>
+<pre><code class="language-hlsl">real3 UnpackNormal(real4 packedNormal)
+{
+#if defined(UNITY_ASTC_NORMALMAP_ENCODING)
+    return UnpackNormalAG(packedNormal, 1.0);
+#elif defined(UNITY_NO_DXT5nm)
+    return UnpackNormalRGBNoScale(packedNormal);
+#else
+    // Compiler will optimize the scale away
+    return UnpackNormalmapRGorAG(packedNormal, 1.0);
+#endif
+}
+
+// Unpack normal as DXT5nm (1, y, 0, x) or BC5 (x, y, 0, 1)
+real3 UnpackNormalmapRGorAG(real4 packedNormal, real scale = 1.0)
+{
+    // Convert to (?, y, 0, x)
+    packedNormal.a *= packedNormal.r;
+    return UnpackNormalAG(packedNormal, scale);
+}
+
+real3 UnpackNormalAG(real4 packedNormal, real scale = 1.0)
+{
+    real3 normal;
+    normal.xy = packedNormal.ag * 2.0 - 1.0;
+    normal.z = max(1.0e-16, sqrt(1.0 - saturate(dot(normal.xy, normal.xy))));
+
+    // must scale after reconstruction of normal.z which also
+    // mirrors UnpackNormalRGB(). This does imply normal is not returned
+    // as a unit length vector but doesn't need it since it will get normalized after TBN transformation.
+    // If we ever need to blend contributions with built-in shaders for URP
+    // then we should consider using UnpackDerivativeNormalAG() instead like
+    // HDRP does since derivatives do not use renormalization and unlike tangent space
+    // normals allow you to blend, accumulate and scale contributions correctly.
+    normal.xy *= scale;
+    return normal;
+}
+</code></pre>
+<ul>
+<li>xyzw, wy =&gt; _g_r =&gt; rg =&gt; xyn // r이 뒤로 있으므로, 한바퀴 돌려줘야함.</li>
+<li><code>normal.xy = packednormal.wy * 2 - 1;</code> (0 ~ 1 =&gt; -1 ~ 1)</li>
+<li><code>Z</code>는 쉐이더에서 계산. 단위 벡터의 크기는 1인것을 이용.(sqrt(x^2 + y^2 + z^2) = 1) <code>sqrt(1 - saturate(dot(normal.xy, normal.xy)))</code></li>
+</ul>
+<h2 id="normal-scale-problem"><a class="header" href="#normal-scale-problem">Normal Scale Problem</a></h2>
+<ul>
+<li><a href="https://paroj.github.io/gltut/Illumination/Tut09%20Normal%20Transformation.html">Normal Transformation</a></li>
+</ul>
+<p>오브젝트를 스케일시킬때 Normal의 변화의 문제</p>
+<p>A라는 도형을 x에 대해서 2만큼 스케일 업하고 싶다고 가정하면,</p>
+<div class="table-wrapper"><table><thead><tr><th></th><th>정점</th><th>x 스케일</th><th>노말</th></tr></thead><tbody>
+<tr><td>A</td><td>(1, 1)</td><td>1</td><td>(1, 1)</td></tr>
+<tr><td>B</td><td>(2, 1)</td><td>2</td><td>(2, 1)</td></tr>
+<tr><td>C</td><td>(2, 1)</td><td>2</td><td>(0.5, 1)</td></tr>
+</tbody></table>
+</div>
+<p><img src="../res/scaleproblem.png" alt="res" /></p>
+<p>C처럼 x의 스케일 2배 됐다고, 노멀의 x값에 <code>곱하기</code> 2를 해서는 안된다. 역인 <code>나누기</code> 2 를 해야한다.</p>
+<p>위치(position)에 대해서는 <code>world-Position = mul(obj-Position, M )</code>이 정상적으로 성립되었다.</p>
+<p>하지만, <code>world-Normal = mul( obj-Normal, M )</code> 처럼 적용했을시 앞+선 <code>B</code>와 같은 문제가 발생한다.</p>
+<p>월드행렬(M)식으로 나타내면</p>
+<p><img src="../res/normal-1.png" alt="normal-1" /></p>
+<p>우리가 구하고 싶은 행렬을 M-want라 했을시 <code>world-Normal = mul(M-want, obj-Normal)</code></p>
+<p><img src="../res/normal-2.png" alt="normal-2" /></p>
+<p><img src="../res/DeriveInvTrans_1.svg" alt="1" />
+<img src="../res/FactorOutTranspose_2.svg" alt="2" />
+<img src="../res/FactorOutInverse_3.svg" alt="3" /></p>
+<p>즉 <code>M-want     = traspose(inverse(M))</code>.</p>
+<p>DirectX기준 <code>row-major</code>에서의 메트릭스와 벡터의 인자 순서: <code>mul(벡터, 메트릭스) =  mul( transpose(메트릭스), 벡터 )</code></p>
+<p>아레 예는 <code>row-major</code> 기준으로 작성.</p>
+<pre><code class="language-formula">M          = ObjectToWorld
+inverse(M) = WorldToObject
+M-want     = traspose(inverse(M))
+
+world-Normal
+= mul(obj-Normal   , M-want              )
+= mul(obj-Normal   , traspose(inverse(M)))
+= mul(inverse(M)   , obj-Normal          )
+= mul(WorldToObject, obj-Normal          )
+</code></pre>
+<h2 id="노말맵-혹은-법선맵tangent-space에서-g채널을-뒤집는-이유"><a class="header" href="#노말맵-혹은-법선맵tangent-space에서-g채널을-뒤집는-이유">노말맵 혹은 법선맵(tangent space)에서 g채널을 뒤집는 이유</a></h2>
+<ul>
+<li>
+<p><a href="https://www.youtube.com/watch?v=Y3rn-4Nup-E">pope - 노말맵은 왜 파란가?</a></p>
+</li>
+<li>
+<p><a href="https://victorkarp.wordpress.com/2020/06/26/inverting-a-normal-map-in-blender/">https://victorkarp.wordpress.com/2020/06/26/inverting-a-normal-map-in-blender/</a></p>
+</li>
+<li>
+<p>단위벡터의 크기가 1이지만, (-1, 0, 0)과 같은게 있으므로, 정규화된 법선벡터의 범위는 <code>-1...1</code>이다.</p>
+</li>
+<li>
+<p>바이너리로 저장하기위해 범위를 <code>0...1</code>로 줄이려면 0.5를 곱하고 다시 0.5를 더해주면 된다.</p>
+</li>
+<li>
+<p>셰이더에서 저장된 범위 <code>0...1</code>을 <code>-1...1</code>로 확장시키려면 2를 곱하고 1을 빼주면 <code>-1...1</code>의 범위로 확장된다.</p>
+</li>
+</ul>
+<p>노말맵에서 z값이 강한 경우가 있는데 그럼 이미지가 퍼렇게 보이면서 돌출이 아닌 움푹 패인듯한 느낌이 든다.</p>
+<ul>
+<li>표면 안쪽으로 향하는(z의 값이 음수인) 경우가 없다.
+<ul>
+<li>범위는 <code>0 ~ 1</code></li>
+<li>바이너리 저장시 범위가 <code>0.5 ~ 1</code>로 변경되면서 0.5부터 값이 시작된다.</li>
+</ul>
+</li>
+<li>따라서 맵이 퍼렇게 보이면서, 돌출되는 부분이 이미지상 움푹들어간 모습처럼 보인다.</li>
+</ul>
+<p>그러므로, g채널을 뒤집어주면 돌출된 부분을 아티스트가 쉽게 인지할 수 있다.</p>
+<h2 id="opengly--directx-y-"><a class="header" href="#opengly--directx-y-">OpenGL<code>Y+</code> / DirectX <code>Y-</code></a></h2>
+<ul>
+<li><a href="https://blender.stackexchange.com/questions/100017/directx-vs-opengl-normal-maps">https://blender.stackexchange.com/questions/100017/directx-vs-opengl-normal-maps</a></li>
+</ul>
+<p><img src="../res/directx_opengl_normalmap.png" alt="../res/directx_opengl_normalmap.png" /></p>
+<ul>
+<li>유니티는 OpenGL(Y+) 를 써서 보기 비교적 편하다.</li>
+<li>DirectX와 같은 엔진에서는 작업자를 위해 Y+텍스쳐 제작 쉐이더에서 y에 <code>-1</code>을 곱해 뒤집어 주는 코드를 넣어주면 작업자들이 편해진다.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Basic/Alpha.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../Basic/Cubemap.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Basic/Alpha.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../Basic/Cubemap.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

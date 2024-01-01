@@ -1,0 +1,522 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Coordinate - 넷평의 Unity Shader 노트</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html">둘러보기</a></li><li class="chapter-item expanded affix "><li class="part-title">Basic</li><li class="chapter-item expanded "><a href="../Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="../Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="../Basic/Coordinate.html" class="active">Coordinate</a></li><li class="chapter-item expanded "><a href="../Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="../Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="../Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="../Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="../Basic/Depth.html">Depth</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/Basic/Coordinate.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="coordinate"><a class="header" href="#coordinate">Coordinate</a></h1>
+<ul>
+<li>좌표공간</li>
+</ul>
+<p><img src="../res/coordinate.png" alt="res/coordinate.png" /></p>
+<h2 id="유니티-정의-positions"><a class="header" href="#유니티-정의-positions">유니티 정의 positions</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>position</th><th>Space</th><th>AKA</th><th>타입</th><th>설명</th></tr></thead><tbody>
+<tr><td>positionOS</td><td>Object</td><td>Local / Model</td><td>float3</td><td></td></tr>
+<tr><td>positionWS</td><td>World</td><td>Global</td><td>float3</td><td></td></tr>
+<tr><td>positionVS</td><td>View</td><td>Camera / Eye</td><td>float3</td><td>카메라에서 바라볼때</td></tr>
+<tr><td>positionCS</td><td>Homogeneous Clip</td><td></td><td>float4</td><td>카메라 시야에서 안보인 것은 제외, Orthogonal 적용</td></tr>
+<tr><td>positionNDC</td><td>Homogeneous Normalized Device Coordinate</td><td></td><td>float4</td><td>[ 0, w] : (x, y, z, w)</td></tr>
+</tbody></table>
+</div>
+<h2 id="내가-임의로-정한것"><a class="header" href="#내가-임의로-정한것">내가 임의로 정한것</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>이름 붙여봄 position</th><th>Space</th><th>타입</th><th>설명</th></tr></thead><tbody>
+<tr><td>ndc</td><td>Nonhomogeneous Normalized Device Coordinate</td><td>float3</td><td>[-1, 1] : PerspectiveDivision * 2 - 1</td></tr>
+<tr><td>uv_Screen</td><td>Screen</td><td>float2</td><td>[ 0, 1] : PerspectiveDivision</td></tr>
+<tr><td>positionScreen</td><td>ViewPort</td><td>float2</td><td>[화면 넓이, 화면 높이]</td></tr>
+</tbody></table>
+</div>
+<h2 id="공간-변환-그림-예"><a class="header" href="#공간-변환-그림-예">공간 변환 그림 예</a></h2>
+<p>예1)</p>
+<p><img src="../res/opengl_renderpipeline.png" alt="res/opengl_renderpipeline.png" /></p>
+<p>예2)</p>
+<p><img src="../res/newtranspipe.png" alt="res/newtranspipe.png" /></p>
+<h2 id="unity_matrix"><a class="header" href="#unity_matrix">UNITY_MATRIX</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Matrix</th><th>설명</th></tr></thead><tbody>
+<tr><td>UNITY_MATRIX_M</td><td>renderer.localToWorldMatrix</td></tr>
+<tr><td>UNITY_MATRIX_V</td><td>camera.worldToCameraMatrix</td></tr>
+<tr><td>UNITY_MATRIX_P</td><td>GL.GetGPUProjectionMatrix(camera.projectionMatrix, false);</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>localToWorldMatrix
+<ul>
+<li>유니티 4까지는 GPU에 넘겨주기전에 스케일을 가공하여</li>
+<li>renderer.localToWorldMatrix, transform.localToWorldMatrix가 달랐으나 지금은 같음.</li>
+</ul>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>카메라 관련</th><th>렌더링(UNITY_MATRIX_)의 뷰 전방은 <code>-z</code>. 카메라 행렬은 에디터와 동일하게 <code>+z</code>를 앞으로 사용</th></tr></thead><tbody>
+<tr><td>UNITY_MATRIX_V</td><td>cam.worldToCameraMatrix</td></tr>
+<tr><td>unity_WorldToCamera</td><td>Matrix4x4(cam.transform.position, cam.transform.rotation, Vector3.one)</td></tr>
+<tr><td>UNITY_MATRIX_I_V</td><td>cam.cameraToWorldMatrix</td></tr>
+<tr><td>unity_CameraToWorld</td><td>Matrix4x4(cam.transform.position, cam.transform.rotation, Vector3.one).inverse</td></tr>
+<tr><td>UNITY_MATRIX_P</td><td>GL.GetGPUProjectionMatrix(camera.projectionMatrix, false)</td></tr>
+<tr><td>unity_CameraProjection</td><td>cam.projectionMatrix</td></tr>
+<tr><td>UNITY_MATRIX_I_P</td><td>GL.GetGPUProjectionMatrix(camera.projectionMatrix, false).inverse</td></tr>
+<tr><td>unity_CameraInvProjection</td><td>cam.projectionMatrix.inverse</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-txt">OS  ----------------------- Object Space
+ | UNITY_MATRIX_M * OS
+WS  ----------------------- World Space
+ | UNITY_MATRIX_V * WS
+VS  ----------------------- View Space
+ | UNITY_MATRIX_P * VS
+CS  ----------------------- Homogeneous Clip Space
+ | NDC    = CS * 0.5
+ | NDC.x  =  NDC.x + NDC.w
+ | NDC.y  =  NDC.y + NDC.w // DirectX
+ | NDC.y  = -NDC.y + NDC.w // OpenGL
+ | NDC.zw = CS.zw
+NDC ---------------------- Homogeneous Normalized Device Coordinate [0..w]
+ | pd = (NDC.xyz / NDC.w); // [0, 1] : perspective divide
+ | ndc = pd * 2.0 - 1.0;   // [-1, 1]
+ndc ---------------------- Nonhomogeneous Normalized Device Coordinate [-1..1]
+</code></pre>
+<pre><code class="language-hlsl">// com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl
+struct VertexPositionInputs
+{
+    float3 positionWS; // World space position
+    float3 positionVS; // View space position
+    float4 positionCS; // Homogeneous clip space position
+    float4 positionNDC;// Homogeneous normalized device coordinates
+};
+
+// com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl
+VertexPositionInputs GetVertexPositionInputs(float3 positionOS)
+{
+    VertexPositionInputs input;
+    input.positionWS = TransformObjectToWorld(positionOS);      // UNITY_MATRIX_M
+    input.positionVS = TransformWorldToView(input.positionWS);  // UNITY_MATRIX_V
+    input.positionCS = TransformWorldToHClip(input.positionWS); // UNITY_MATRIX_VP
+
+    float4 ndc = input.positionCS * 0.5f;
+    input.positionNDC.xy = float2(ndc.x, ndc.y * _ProjectionParams.x) + ndc.w;
+    input.positionNDC.zw = input.positionCS.zw;
+
+    return input;
+}
+
+// com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl
+TransformObjectToWorld - UNITY_MATRIX_M
+TransformWorldToView   - UNITY_MATRIX_V
+TransformWViewToHClip  - UNITY_MATRIX_P
+TransformWorldToHClip  - UNITY_MATRIX_VP
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th><a href="https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html">_ProjectionParams</a></th><th>x</th><th>y</th><th>z</th><th>w</th></tr></thead><tbody>
+<tr><td>DirectX</td><td>1</td><td>near plane</td><td>far plane</td><td>1 / farplane</td></tr>
+<tr><td>OpenGL</td><td>-1</td><td>near plane</td><td>far plane</td><td>1 / farplane</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th></th><th>UNITY_REVERSED_Z</th><th>UNITY_NEAR_CLIP_VALUE</th><th>UNITY_RAW_FAR_CLIP_VALUE</th></tr></thead><tbody>
+<tr><td>DirectX</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>Vulkan</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>OpenGL</td><td>0</td><td>-1</td><td>1</td></tr>
+</tbody></table>
+</div>
+<h2 id="ndc"><a class="header" href="#ndc">NDC</a></h2>
+<pre><code class="language-hlsl">// [0, w] // Homogeneous Normalized Device Coordinate
+float4 positionNDC = GetVertexPositionInputs(positionOS).positionNDC;
+
+// [0, 1] // Perspective Division
+float3 pd = positionNDC.xyz / positionNDC.w;
+
+// [-1, 1] // Nonhomogeneous Normalized Device Coordinate
+float3 ndc = pd * 2.0 - 1.0;
+
+// [0, 1]
+float2 uv_Screen = positionNDC.xy / positionNDC.w;
+
+// [0, screenWidth] / [0, screenHeight]
+float2 positionScreen = uv_Screen * _ScreenParams.xy;
+</code></pre>
+<pre><code class="language-hlsl">// float4 ndc = input.positionCS * 0.5f;
+// input.positionNDC.xy = float2(ndc.x, ndc.y * _ProjectionParams.x) + ndc.w;
+// input.positionNDC.zw = input.positionCS.zw;
+NDC = float4(
+    (0.5 * CS.x                       ) + 0.5 * CS.w,
+    (0.5 * CS.y *  _ProjectionParams.x) + 0.5 * CS.w,
+    CS.z,
+    CS.w
+);
+
+// pd = NDC.xyz / NDC.w
+pd = float3(
+    (0.5 * CS.x                        / CS.w) + 0.5,
+    (0.5 * CS.y *  _ProjectionParams.x / CS.w) + 0.5,
+    CS.z / CS.w
+);
+
+// ndc = pd * 2 - 1
+ndc = float3(
+    (CS.x                       / CS.w),
+    (CS.y * _ProjectionParams.x / CS.w),
+    (CS.z                       / CS.w) * 2  - 1,
+);
+
+// uv_Screen = NDC.xy / NDC.w
+uv_Screen = float2(
+    (CS.x                       / CS.w),
+    (CS.y * _ProjectionParams.x / CS.w)
+);
+
+// positionScreen = uv_Screen * _ScreenParams.xy
+positionScreen = float2(
+    (CS.x                       / CS.w) * _ScreenParams.x,
+    (CS.y * _ProjectionParams.x / CS.w) * _ScreenParams.y
+);
+</code></pre>
+<h2 id="normal"><a class="header" href="#normal">Normal</a></h2>
+<ul>
+<li><a href="./NormalMap.html">./NormalMap.md</a></li>
+</ul>
+<h2 id="pserspective-camera"><a class="header" href="#pserspective-camera">Pserspective Camera</a></h2>
+<ul>
+<li><a href="https://chengkehan.github.io/ReconstructPositionFromDepth.html">https://chengkehan.github.io/ReconstructPositionFromDepth.html</a></li>
+</ul>
+<p><img src="../res/projectionMatrix.jpg" alt="./res/projectionMatrix.jpg" /></p>
+<pre><code class="language-cs">// Find our current location in the camera's projection space.
+Vector3 pt = Camera.main.projectionMatrix.MultiplyPoint(transform.position);
+
+// Matrix4x4.MultiplyPoint
+public Vector3 MultiplyPoint(Matrix4x4 mat, Vector3 v)
+{
+    Vector3 result;
+    result.x = mat.m00 * v.x + mat.m01 * v.y + mat.m02 * v.z + mat.m03;
+    result.y = mat.m10 * v.x + mat.m11 * v.y + mat.m12 * v.z + mat.m13;
+    result.z = mat.m20 * v.x + mat.m21 * v.y + mat.m22 * v.z + mat.m23;
+    float num = mat.m30 * v.x + mat.m31 * v.y + mat.m32 * v.z + mat.m33;
+    num = 1 / num;
+    result.x *= num;
+    result.y *= num;
+    result.z *= num;
+    return result;
+}
+
+// z값 구하지 않으면
+public Vector3 MultiplyPoint(Matrix4x4 mat, Vector3 v)
+{
+    Vector3 result;
+    result.x = mat.m00 * v.x + mat.m01 * v.y + mat.m02 * v.z + mat.m03;
+    result.y = mat.m10 * v.x + mat.m11 * v.y + mat.m12 * v.z + mat.m13;
+    float num = mat.m30 * v.x + mat.m31 * v.y + mat.m32 * v.z + mat.m33;
+    num = 1 / num;
+    result.x *= num;
+    result.y *= num;
+    return result;
+}
+
+// 값을 대입하면
+public Vector3 MultiplyPoint(Matrix4x4 mat, Vector3 v)
+{
+    Vector3 result;
+    result.x = mat.m00 * v.x + 0 * v.y + 0 * v.z + 0;
+    result.y = 0 * v.x + mat.m11 * v.y + 0 * v.z + 0;
+    float num = 0 * v.x + 0 * v.y + -1 * v.z + 0;
+    num = 1 / num;
+    result.x *= num;
+    result.y *= num;
+    return result;
+}
+
+// 최종적으로
+public Vector3 MultiplyPoint(Matrix4x4 mat, Vector3 v)
+{
+    Vector3 result;
+    result.x = mat.m00 * v.x;
+    result.y = mat.m11 * v.y;
+    float num = -1 * v.z;
+    num = 1 / num;
+    result.x *= num;
+    result.y *= num;
+    return result;
+}
+
+(X, Y, linearEyeDepth)
+positionNDC // [-1, 1]
+X = positionNDC.x * linearEyeDepth / mat.m00
+Y = positionNDC.x * linearEyeDepth / mat.m11
+
+
+The zero-based row-column position:
+|  _m00, _m01, _m02, _m03 |
+|  _m10, _m11, _m12, _m13 |
+|  _m20, _m21, _m22, _m23 |
+|  _m30, _m31, _m32, _m33 |
+
+The one-based row-column position:
+|   _11,  _12,  _13,  _14 |
+|   _21,  _22,  _23,  _24 |
+|   _31,  _32,  _33,  _34 |
+|   _41,  _42,  _43,  _44 |
+
+</code></pre>
+<h2 id="uv"><a class="header" href="#uv">UV</a></h2>
+<p>texel(TExture + piXEL) coordinate</p>
+<pre><code class="language-txt">Direct X
+(0,0)            (1,0)
+  +-------+-------+
+  |       |       |
+  |       |       |
+  +-------+-------+
+  |       |       |
+  |       |       |
+  +-------+-------+
+(0,1)            (1,1)
+
+
+OpenGL / UnityEngine
+(0,1)            (1,1)
+  +-------+-------+
+  |       |       |
+  |       |       |
+  +-------+-------+
+  |       |       |
+  |       |       |
+  +-------+-------+
+(0,0)            (1,0)
+</code></pre>
+<ul>
+<li>수학적으로 바라보면 모든 2D좌표계를 OpenGL방식으로하면 좌표계를 헷갈릴 걱정이 없다. 하지만, 프로그래밍 하는 입장에서는 DirectX방식이 좀 더 와닿을 것이다.</li>
+</ul>
+<h2 id="ref"><a class="header" href="#ref">Ref</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=u_qKLcszwXA">Computergrafik - Vorlesung 6 - Coordinate Systems</a></li>
+<li><a href="https://www.sysnet.pe.kr/2/0/11633">Unity - shader의 World matrix(unity_ObjectToWorld)를 수작업으로 구성</a></li>
+<li><a href="https://www.sysnet.pe.kr/2/0/11692">Unity - shader의 Camera matrix(UNITY_MATRIX_V)를 수작업으로 구성</a></li>
+<li><a href="https://www.sysnet.pe.kr/2/0/11697">Unity - unity_CameraWorldClipPlanes 내장 변수 의미</a></li>
+<li><a href="https://www.sysnet.pe.kr/2/0/11695">Unity - shader의 원근 투영(Perspective projection) 행렬(UNITY_MATRIX_P)을 수작업으로 구성</a></li>
+<li><a href="http://rapapa.net/?p=3531">렌더링 파이프라인의 좌표 공간들</a></li>
+<li><a href="https://shahriyarshahrabi.medium.com/look-at-transformation-matrix-in-vertex-shader-81dab5f4fc4">Look At Transformation Matrix in Vertex Shader</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html">transform.localToWorldMatrix</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Renderer-localToWorldMatrix.html">Renderer.localToWorldMatrix</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Camera-worldToCameraMatrix.html">Camera.worldToCameraMatrix</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/Camera-projectionMatrix.html">Camera.projectionMatrix</a></li>
+<li><a href="https://docs.unity3d.com/ScriptReference/GL.GetGPUProjectionMatrix.html">GL.GetGPUProjectionMatrix</a></li>
+<li><a href="http://blog.hvidtfeldts.net/index.php/2014/01/combining-ray-tracing-and-polygons/">http://blog.hvidtfeldts.net/index.php/2014/01/combining-ray-tracing-and-polygons/</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Basic/Mesh.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../Basic/Alpha.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Basic/Mesh.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../Basic/Alpha.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
