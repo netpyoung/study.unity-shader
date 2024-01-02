@@ -1,0 +1,520 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>URP - 넷평의 Unity Shader 노트</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/juxtapose.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html">둘러보기</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">기본</li><li class="chapter-item expanded "><a href="../Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="../Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="../Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="../Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="../Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="../Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="../Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="../Basic/Depth.html">Depth</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">라이팅</li><li class="chapter-item expanded "><a href="../Lighting/LightingModel.html">LightingModel</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/LightingModel-NPR.html">LightingModel-NPR</a></li><li class="chapter-item expanded "><a href="../Lighting/LightingModel-PBR.html">LightingModel-PBR</a></li></ol></li><li class="chapter-item expanded "><a href="../Lighting/HemisphereLight.html">HemisphereLight</a></li><li class="chapter-item expanded "><a href="../Lighting/HairAnisotropic.html">HairAnisotropic</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/WIP_BRDF.html">WIP_BRDF</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_PBR.html">WIP_PBR</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_FlatShader.html">WIP_FlatShader</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">심화</li><li class="chapter-item expanded "><a href="../Advanced/LOD.html">LOD</a></li><li class="chapter-item expanded "><a href="../Advanced/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Advanced/_Dithering.html">wip_Dithering</a></li><li class="chapter-item expanded "><a href="../Advanced/_Geometry.html">wip_Geometry</a></li><li class="chapter-item expanded "><a href="../Advanced/_Lightmap.html">wip_Lightmap</a></li><li class="chapter-item expanded "><a href="../Advanced/_LPV.html">wip_LPV</a></li><li class="chapter-item expanded "><a href="../Advanced/_Noise.html">wip_Noise</a></li><li class="chapter-item expanded "><a href="../Advanced/_Ray.html">wip_Ray</a></li><li class="chapter-item expanded "><a href="../Advanced/_SDF.html">wip_SDF</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">SRP</li><li class="chapter-item expanded "><a href="../SRP/SRP_Overview.html">SRP_Overview</a></li><li class="chapter-item expanded "><a href="../SRP/linear_and_gamma.html">Linear And Gamma</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/shader_model_and_platform.html">셰이더 모델과 플렛폼</a></li></ol></li><li class="chapter-item expanded "><a href="../SRP/SRP.html">SRP</a></li><li class="chapter-item expanded "><a href="../SRP/ShaderLab.html">ShaderLab</a></li><li class="chapter-item expanded "><a href="../SRP/URP.html" class="active">URP</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/CheatSheet_URP.html">CheatSheet_URP</a></li><li class="chapter-item expanded "><a href="../SRP/urp_and_builtin.html">URP 랑 Built-in</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">포스트프로세스</li><li class="chapter-item expanded "><a href="../Postprocess/PostProcess.html">PostProcess</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/Filter.html">Filter</a></li><li class="chapter-item expanded "><a href="../Postprocess/Bloom.html">Bloom</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorGradingLUT.html">ColorGradingLUT</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorSpace.html">ColorSpace</a></li><li class="chapter-item expanded "><a href="../Postprocess/EyeAdaptation.html">EyeAdaptation</a></li><li class="chapter-item expanded "><a href="../Postprocess/FXAA.html">FXAA</a></li><li class="chapter-item expanded "><a href="../Postprocess/LightStreak.html">LightStreak</a></li><li class="chapter-item expanded "><a href="../Postprocess/SSAO.html">SSAO</a></li><li class="chapter-item expanded "><a href="../Postprocess/ToneMapping.html">ToneMapping</a></li></ol></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/_ChromaticAberration.html">wip_ChromaticAberration</a></li><li class="chapter-item expanded "><a href="../Postprocess/_DOF.html">wip_DOF</a></li><li class="chapter-item expanded "><a href="../Postprocess/_HDR.html">wip_HDR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LensFlare.html">wip_LensFlare</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LightShaft_postprocess.html">wip_LightShaft_postprocess</a></li><li class="chapter-item expanded "><a href="../Postprocess/_MotionBlur.html">wip_MotionBlur</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSGI.html">wip_SSGI</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSR.html">wip_SSR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_TAA.html">wip_TAA</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">환경</li><li class="chapter-item expanded "><a href="../Environment/CrossFadeShader.html">CrossFadeShader</a></li><li class="chapter-item expanded "><a href="../Environment/CrackedIce.html">CrackedIce</a></li><li class="chapter-item expanded "><a href="../Environment/FakeThicknessWindow.html">FakeThicknessWindow</a></li><li class="chapter-item expanded "><a href="../Environment/ScreenSpaceDecal.html">ScreenSpaceDecal.md</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Environment/_Rain.html">_Rain</a></li><li class="chapter-item expanded "><a href="../Environment/_Sky.html">_Sky</a></li><li class="chapter-item expanded "><a href="../Environment/_Grass.html">_Grass</a></li><li class="chapter-item expanded "><a href="../Environment/_Water.html">_Water</a></li><li class="chapter-item expanded "><a href="../Environment/_Ice.html">_Ice</a></li><li class="chapter-item expanded "><a href="../Environment/_InteriorMapping.html">_InteriorMapping</a></li><li class="chapter-item expanded "><a href="../Environment/_Vegetation.html">_Vegetation</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">Fx</li><li class="chapter-item expanded "><a href="../Fx/Billboard.html">Billboard</a></li><li class="chapter-item expanded "><a href="../Fx/Dissolve.html">Dissolve</a></li><li class="chapter-item expanded "><a href="../Fx/FlowMap.html">FlowMap</a></li><li class="chapter-item expanded "><a href="../Fx/Hatching.html">Hatching</a></li><li class="chapter-item expanded "><a href="../Fx/MatCap.html">MatCap</a></li><li class="chapter-item expanded "><a href="../Fx/Outline.html">Outline</a></li><li class="chapter-item expanded "><a href="../Fx/ParallaxMapping.html">ParallaxMapping</a></li><li class="chapter-item expanded "><a href="../Fx/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><a href="../Fx/SSS.html">SSS</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Fx/_ForceFieldShield.html">_ForceFieldShield</a></li><li class="chapter-item expanded "><a href="../Fx/_LightShaft_Mesh.html">_LightShaft_Mesh</a></li><li class="chapter-item expanded "><a href="../Fx/_RimLight.html">_RimLight</a></li><li class="chapter-item expanded "><a href="../Fx/_SnowStick.html">_SnowStick</a></li><li class="chapter-item expanded "><a href="../Fx/_Toon.html">_Toon</a></li><li class="chapter-item expanded "><a href="../Fx/_ToonFire.html">_ToonFire</a></li><li class="chapter-item expanded "><a href="../Fx/_Imposter.html">_Imposter</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">디퍼드 렌더링</li><li class="chapter-item expanded "><a href="../DeferredRendering/_Deferred.html">_Deferred</a></li><li class="chapter-item expanded affix "><li class="part-title">기타</li><li class="chapter-item expanded "><a href="../Etc/Direction.html">Direction</a></li><li class="chapter-item expanded "><a href="../Etc/CodingStandard.html">CodingStandard</a></li><li class="chapter-item expanded "><a href="../Etc/TroubleShooting.html">TroubleShooting</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Etc/_CommandBuffer.html">_CommandBuffer</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">최적화</li><li class="chapter-item expanded "><a href="../Optimize/ChromaSubsampling.html">ChromaSubsampling</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeCombineTexture.html">OptimizeCombineTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeTip.html">OptimizeTip</a></li><li class="chapter-item expanded "><a href="../Optimize/PostProcessUberShader.html">PostProcessUberShader</a></li><li class="chapter-item expanded "><a href="../Optimize/SpecularPowApproximation.html">SpecularPowApproximation</a></li><li class="chapter-item expanded "><a href="../Optimize/VertexMultipleLight.html">VertexMultipleLight</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Optimize/_AnimationTexture.html">WIP_AnimationTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/_DrawCall.html">WIP_DrawCall</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">참고</li><li class="chapter-item expanded "><a href="../Link/Tool.html">Tool</a></li><li class="chapter-item expanded "><a href="../Link/Presentation.html">Presentation</a></li><li class="chapter-item expanded "><a href="../Link/Reference.html">Reference</a></li><li class="chapter-item expanded "><a href="../Link/EtcLink.html">EtcLink</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/SRP/URP.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="urp-universal-render-pipeline"><a class="header" href="#urp-universal-render-pipeline">URP (Universal Render Pipeline)</a></h1>
+<ul>
+<li>기존 Built-in(Legacy) 쉐이더의 include 경로 및 함수명등 바뀜</li>
+<li>SBR Batcher 사용가능하게 바뀜.</li>
+<li>1패스 1라이트방식 =&gt; 1패스 16개 라이트 지원</li>
+</ul>
+<h2 id="sample"><a class="header" href="#sample">sample</a></h2>
+<pre><code class="language-hlsl">Varyings OUT;
+ZERO_INITIALIZE(Varyings, OUT);
+
+OUT.positionCS    = TransformObjectToHClip(IN.positionOS.xyz);
+OUT.positionWS    = TransformObjectToWorld(IN.positionOS.xyz);
+OUT.N             = TransformObjectToWorldNormal(IN.normal);
+OUT.uv            = TRANSFORM_TEX(IN.uv, _MainTex);
+OUT.fogCoord      = ComputeFogFactor(IN.positionOS.z);          // float
+OUT.shadowCoord   = TransformWorldToShadowCoord(OUT.positionWS);// float4
+</code></pre>
+<pre><code class="language-hlsl">VertexPositionInputs vertexInput = GetVertexPositionInputs(v.vertex.xyz);
+OUT.shadowCoord = GetShadowCoord(vertexInput);
+</code></pre>
+<pre><code class="language-hlsl">Light mainLight = GetMainLight();
+Light mainLight = GetMainLight(shadowCoord);
+
+half3 ambient = SampleSH(IN.normal);
+
+half3 cameraWS = GetCameraPositionWS();
+</code></pre>
+<pre><code class="language-hlsl">// GPU instancing
+#pragma multi_compile_instancing
+
+// Fog
+#pragma multi_compile_fog
+
+// Light &amp; Shadow
+#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+#pragma multi_compile _ _ADDITIONAL_LIGHTS
+#pragma multi_compile _ _ADDITIONAL_LIGHTS_CASCADE
+#pragma multi_compile _ _SHADOWS_SOFT
+
+// LightMap
+#pragma multi_compile _ DIRLIGHTMAP_COMBINED
+#pragma multi_compile _ LIGHTMAP_ON
+</code></pre>
+<h2 id="sbr-batcher--gpu인스턴싱"><a class="header" href="#sbr-batcher--gpu인스턴싱">SBR Batcher / GPU인스턴싱</a></h2>
+<p>SRP Batcher가 추가됨으로써, 동적오브젝트가 많아져도 좋은 퍼포먼스 유지하는게</p>
+<ul>
+<li><a href="https://docs.unity3d.com/Manual/GPUInstancing.html">https://docs.unity3d.com/Manual/GPUInstancing.html</a></li>
+</ul>
+<pre><code class="language-hlsl">// For SRP Batcher
+
+CBUFFER_START(UnityPerMaterial)
+...
+CBUFFER_END
+</code></pre>
+<pre><code class="language-hlsl">// for GPU instancing
+
+struct Attributes
+{
+    UNITY_VERTEX_INPUT_INSTANCE_ID
+};
+
+struct Varyings
+{
+    UNITY_VERTEX_INPUT_INSTANCE_ID
+    UNITY_VERTEX_OUTPUT_STEREO // for VR
+};
+
+Varyings vert(Attributes IN)
+{
+    Varyings OUT;
+    UNITY_SETUP_INSTANCE_ID(IN);
+    UNITY_TRANSFER_INSTANCE_ID(IN, OUT); 
+};
+
+half4 frag(Varyings IN) : SV_Target
+{
+    UNITY_SETUP_INSTANCE_ID(IN); 
+}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>SBR Batcher</th><th>GPU Instancing</th></tr></thead><tbody>
+<tr><td>동일한 메쉬 아니여도 가능</td><td>동일한 메쉬 상태</td></tr>
+<tr><td>CBUFFER_START // CBUFFER_END</td><td>UNITY_INSTANCING_BUFFER_START // UNITY_INSTANCING_BUFFER_END</td></tr>
+</tbody></table>
+</div>
+<h2 id="hlsl"><a class="header" href="#hlsl">hlsl</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>Core.hlsl</td><td>VertexPositionInputs, 스크린 UV, 포그</td></tr>
+<tr><td>Common.hlsl</td><td>각종 수학관련 구현, Texture유틸, 뎁스계산 등</td></tr>
+<tr><td>Lighting.hlsl</td><td>라이트구조체, Diffuse, Specular, GI(SH, lightmap)</td></tr>
+<tr><td>Shadows.hlsl</td><td>쉐도우맵 샘플링, 케스케이드 계산, ShadowCoord, Shadow Bias</td></tr>
+<tr><td>SpaceTransform.hlsl</td><td>각종 공간변환 행렬 정의</td></tr>
+<tr><td>EntityLighting.hlsl</td><td>SH, ProveVolume, Lightmap</td></tr>
+<tr><td>ImageBasedLighting.hlsl</td><td>PBRjcnt IBL관련된 부분(GGX, Anisotropy, ImportanceSample 등)</td></tr>
+</tbody></table>
+</div>
+<h2 id="comunityrender-pipelinescoreshaderlibrary"><a class="header" href="#comunityrender-pipelinescoreshaderlibrary">com.unity.render-pipelines.core/ShaderLibrary</a></h2>
+<h3 id="commonhlsl"><a class="header" href="#commonhlsl">Common.hlsl</a></h3>
+<pre><code class="language-hlsl">// com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl
+
+#elif defined(SHADER_API_D3D11)
+#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/API/D3D11.hlsl&quot;
+</code></pre>
+<h2 id="macroshlsl"><a class="header" href="#macroshlsl">Macros.hlsl</a></h2>
+<pre><code class="language-hlsl">// com.unity.render-pipelines.core/ShaderLibrary/Macros.hlsl
+
+#define PI          3.14159265358979323846 // PI
+#define TWO_PI      6.28318530717958647693 // 2 * PI
+#define FOUR_PI     12.5663706143591729538 // 4 * PI
+#define INV_PI      0.31830988618379067154 // 1 / PI
+#define INV_TWO_PI  0.15915494309189533577 // 1 / (2 * PI)
+#define INV_FOUR_PI 0.07957747154594766788 // 1 / (4 * PI)
+#define HALF_PI     1.57079632679489661923 // PI / 2
+#define INV_HALF_PI 0.63661977236758134308 // 2 / PI
+#define LOG2_E      1.44269504088896340736 // log2e
+#define INV_SQRT2   0.70710678118654752440 // 1 / sqrt(2)
+#define PI_DIV_FOUR 0.78539816339744830961 // PI / 4
+
+#define TRANSFORM_TEX(tex, name) ((tex.xy) * name##_ST.xy + name##_ST.zw)
+#define GET_TEXELSIZE_NAME(name) (name##_TexelSize)
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>name##_ST</th><th>texture space 정보</th></tr></thead><tbody>
+<tr><td>x</td><td>Tiling X</td></tr>
+<tr><td>y</td><td>Tiling Y</td></tr>
+<tr><td>z</td><td>Offset X</td></tr>
+<tr><td>w</td><td>Offset Y</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>name##_TexelSize</th><th>텍스처의 크기 정보</th></tr></thead><tbody>
+<tr><td>x</td><td>1.0/width</td></tr>
+<tr><td>y</td><td>1.0/height</td></tr>
+<tr><td>z</td><td>width</td></tr>
+<tr><td>w</td><td>height</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-txt">(U ,V)
+
+V
+(0,1)       (1,1)
+   +----+----+
+   |    |    |
+   +----+----+
+   |    |    |
+   +----+----+
+(0,0)       (1,0) U
+</code></pre>
+<h2 id="apirendererhlsl"><a class="header" href="#apirendererhlsl">API/(renderer).hlsl</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>tex2D</td><td>SAMPLE_TEXTURE2D</td></tr>
+<tr><td>tex2Dlod</td><td>SAMPLE_TEXTURE2D_LOD</td></tr>
+<tr><td>texCUBE</td><td>SAMPLE_TEXCUBE</td></tr>
+<tr><td>texCUBElod</td><td>SAMPLE_TEXCUBE_LOD</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-hlsl">// com.unity.render-pipelines.core/ShaderLibrary/API/D3D11.hlsl
+
+#define CBUFFER_START(name) cbuffer name {
+#define CBUFFER_END };
+
+#define ZERO_INITIALIZE(type, name) name = (type)0;
+
+
+#define TEXTURE2D(textureName)                Texture2D textureName
+#define TEXTURE2D_ARRAY(textureName)          Texture2DArray textureName
+#define TEXTURECUBE(textureName)              TextureCube textureName
+#define SAMPLER(samplerName)                  SamplerState samplerName
+
+#define SAMPLE_TEXTURE2D(textureName, samplerName, coord2)                               textureName.Sample(samplerName, coord2)
+#define SAMPLE_TEXTURE2D_LOD(textureName, samplerName, coord2, lod)                      textureName.SampleLevel(samplerName, coord2, lod)
+
+#define SAMPLE_TEXTURE2D_ARRAY(textureName, samplerName, coord2, index)                  textureName.Sample(samplerName, float3(coord2, index))
+#define SAMPLE_TEXTURE2D_ARRAY_LOD(textureName, samplerName, coord2, index, lod)         textureName.SampleLevel(samplerName, float3(coord2, index), lod)
+
+#define SAMPLE_TEXTURECUBE(textureName, samplerName, coord3)                             textureName.Sample(samplerName, coord3)
+#define SAMPLE_TEXTURECUBE_LOD(textureName, samplerName, coord3, lod)                    textureName.SampleLevel(samplerName, coord3, lod)
+
+#define SAMPLE_DEPTH_TEXTURE(textureName, samplerName, coord2)          SAMPLE_TEXTURE2D(textureName, samplerName, coord2).r
+#define SAMPLE_DEPTH_TEXTURE_LOD(textureName, samplerName, coord2, lod) SAMPLE_TEXTURE2D_LOD(textureName, samplerName, coord2, lod).r
+</code></pre>
+<h3 id="packinghlsl"><a class="header" href="#packinghlsl">Packing.hlsl</a></h3>
+<pre><code class="language-hlsl">// com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl
+real3 UnpackNormal(real4 packedNormal)
+</code></pre>
+<h2 id="comunityrender-pipelinesuniversalshaderlibrary"><a class="header" href="#comunityrender-pipelinesuniversalshaderlibrary">com.unity.render-pipelines.universal/ShaderLibrary/</a></h2>
+<h3 id="universalshaderlibrarycorehlsl"><a class="header" href="#universalshaderlibrarycorehlsl">universal/ShaderLibrary/Core.hlsl</a></h3>
+<pre><code class="language-hlsl">#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl&quot;
+
+struct VertexPositionInputs
+{
+    float3 positionWS; // World space position
+    float3 positionVS; // View space position
+    float4 positionCS; // Homogeneous clip space position
+    float4 positionNDC;// Homogeneous normalized device coordinates
+};
+
+
+struct VertexNormalInputs
+{
+    real3 tangentWS;
+    real3 bitangentWS;
+    float3 normalWS;
+};
+
+#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl&quot;
+</code></pre>
+<h3 id="shadervariablesfunctionshlsl"><a class="header" href="#shadervariablesfunctionshlsl">ShaderVariablesFunctions.hlsl</a></h3>
+<pre><code class="language-hlsl">// com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl
+
+VertexPositionInputs GetVertexPositionInputs(float3 positionOS)
+{
+    VertexPositionInputs input;
+    input.positionWS = TransformObjectToWorld(positionOS);
+    input.positionVS = TransformWorldToView(input.positionWS);
+    input.positionCS = TransformWorldToHClip(input.positionWS);
+
+    float4 ndc = input.positionCS * 0.5f;
+    input.positionNDC.xy = float2(ndc.x, ndc.y * _ProjectionParams.x) + ndc.w;
+    input.positionNDC.zw = input.positionCS.zw;
+
+    return input;
+}
+
+VertexNormalInputs GetVertexNormalInputs(float3 normalOS)
+VertexNormalInputs GetVertexNormalInputs(float3 normalOS, float4 tangentOS)
+
+float3 GetCameraPositionWS()
+
+float3 GetWorldSpaceViewDir(float3 positionWS)
+
+real ComputeFogFactor(float z)
+
+half3 MixFog(half3 fragColor, half fogFactor)
+
+half LinearDepthToEyeDepth(half rawDepth)
+</code></pre>
+<h3 id="spacetransformshlsl"><a class="header" href="#spacetransformshlsl">SpaceTransforms.hlsl</a></h3>
+<pre><code class="language-hlsl">// com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl
+
+float3 TransformObjectToWorld(float3 positionOS) // OS &gt; WS
+float4 TransformObjectToHClip(float3 positionOS) // OS &gt; HCS
+
+float3 TransformWorldToView(float3 positionWS)   // WS &gt; VS
+float4 TransformWViewToHClip(float3 positionVS)  // VS &gt; HCS
+
+float3 TransformWorldToObject(float3 positionWS) // WS &gt; OS
+
+float3 TransformObjectToWorldDir(float3 dirOS, bool doNormalize = true) // normalOS &gt; normalWS
+
+</code></pre>
+<h2 id="varaiable"><a class="header" href="#varaiable">Varaiable</a></h2>
+<div class="table-wrapper"><table><thead><tr><th><a href="https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html">_ProjectionParams</a></th><th></th></tr></thead><tbody>
+<tr><td>x</td><td>1.0 (or –1.0 flipped projection matrix)</td></tr>
+<tr><td>y</td><td>near plane</td></tr>
+<tr><td>z</td><td>far plane</td></tr>
+<tr><td>w</td><td>1/FarPlane</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><a href="https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html">_ZBufferParams</a></th><th></th></tr></thead><tbody>
+<tr><td>x</td><td>1 - far/near</td></tr>
+<tr><td>y</td><td>far / near</td></tr>
+<tr><td>z</td><td>x / far</td></tr>
+<tr><td>w</td><td>y / far</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>_Time</th><th>Time since level load</th></tr></thead><tbody>
+<tr><td>x</td><td>t / 20</td></tr>
+<tr><td>y</td><td>t</td></tr>
+<tr><td>z</td><td>t * 2</td></tr>
+<tr><td>w</td><td>t * 3</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>_SinTime</th><th>Sine of time</th></tr></thead><tbody>
+<tr><td>x</td><td>t / 8</td></tr>
+<tr><td>y</td><td>t / 4</td></tr>
+<tr><td>z</td><td>t / 2</td></tr>
+<tr><td>w</td><td>t</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>_CosTime</th><th>Cosine of time</th></tr></thead><tbody>
+<tr><td>x</td><td>t / 8</td></tr>
+<tr><td>y</td><td>t / 4</td></tr>
+<tr><td>z</td><td>t / 2</td></tr>
+<tr><td>w</td><td>t</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>unity_DeltaTime</th><th>Delta time</th></tr></thead><tbody>
+<tr><td>x</td><td>dt</td></tr>
+<tr><td>y</td><td>1 / dt</td></tr>
+<tr><td>z</td><td>smoothDt</td></tr>
+<tr><td>w</td><td>1 / smoothDt</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../SRP/ShaderLab.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../SRP/CheatSheet_URP.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../SRP/ShaderLab.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../SRP/CheatSheet_URP.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/hlsl.min.js"></script>
+        <script src="../theme/juxtapose.min.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>_Sky - 넷평의 Unity Shader 노트</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/juxtapose.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html">둘러보기</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">기본</li><li class="chapter-item expanded "><a href="../Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="../Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="../Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="../Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="../Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="../Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="../Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="../Basic/Depth.html">Depth</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">라이팅</li><li class="chapter-item expanded "><a href="../Lighting/LightingModel.html">LightingModel</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/LightingModel-NPR.html">LightingModel-NPR</a></li><li class="chapter-item expanded "><a href="../Lighting/LightingModel-PBR.html">LightingModel-PBR</a></li></ol></li><li class="chapter-item expanded "><a href="../Lighting/HemisphereLight.html">HemisphereLight</a></li><li class="chapter-item expanded "><a href="../Lighting/HairAnisotropic.html">HairAnisotropic</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/WIP_BRDF.html">WIP_BRDF</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_PBR.html">WIP_PBR</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_FlatShader.html">WIP_FlatShader</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">심화</li><li class="chapter-item expanded "><a href="../Advanced/LOD.html">LOD</a></li><li class="chapter-item expanded "><a href="../Advanced/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Advanced/_Dithering.html">wip_Dithering</a></li><li class="chapter-item expanded "><a href="../Advanced/_Geometry.html">wip_Geometry</a></li><li class="chapter-item expanded "><a href="../Advanced/_Lightmap.html">wip_Lightmap</a></li><li class="chapter-item expanded "><a href="../Advanced/_LPV.html">wip_LPV</a></li><li class="chapter-item expanded "><a href="../Advanced/_Noise.html">wip_Noise</a></li><li class="chapter-item expanded "><a href="../Advanced/_Ray.html">wip_Ray</a></li><li class="chapter-item expanded "><a href="../Advanced/_SDF.html">wip_SDF</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">SRP</li><li class="chapter-item expanded "><a href="../SRP/SRP_Overview.html">SRP_Overview</a></li><li class="chapter-item expanded "><a href="../SRP/linear_and_gamma.html">Linear And Gamma</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/shader_model_and_platform.html">셰이더 모델과 플렛폼</a></li></ol></li><li class="chapter-item expanded "><a href="../SRP/SRP.html">SRP</a></li><li class="chapter-item expanded "><a href="../SRP/ShaderLab.html">ShaderLab</a></li><li class="chapter-item expanded "><a href="../SRP/URP.html">URP</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/CheatSheet_URP.html">CheatSheet_URP</a></li><li class="chapter-item expanded "><a href="../SRP/urp_and_builtin.html">URP 랑 Built-in</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">포스트프로세스</li><li class="chapter-item expanded "><a href="../Postprocess/PostProcess.html">PostProcess</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/Filter.html">Filter</a></li><li class="chapter-item expanded "><a href="../Postprocess/Bloom.html">Bloom</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorGradingLUT.html">ColorGradingLUT</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorSpace.html">ColorSpace</a></li><li class="chapter-item expanded "><a href="../Postprocess/EyeAdaptation.html">EyeAdaptation</a></li><li class="chapter-item expanded "><a href="../Postprocess/FXAA.html">FXAA</a></li><li class="chapter-item expanded "><a href="../Postprocess/LightStreak.html">LightStreak</a></li><li class="chapter-item expanded "><a href="../Postprocess/SSAO.html">SSAO</a></li><li class="chapter-item expanded "><a href="../Postprocess/ToneMapping.html">ToneMapping</a></li></ol></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/_ChromaticAberration.html">wip_ChromaticAberration</a></li><li class="chapter-item expanded "><a href="../Postprocess/_DOF.html">wip_DOF</a></li><li class="chapter-item expanded "><a href="../Postprocess/_HDR.html">wip_HDR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LensFlare.html">wip_LensFlare</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LightShaft_postprocess.html">wip_LightShaft_postprocess</a></li><li class="chapter-item expanded "><a href="../Postprocess/_MotionBlur.html">wip_MotionBlur</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSGI.html">wip_SSGI</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSR.html">wip_SSR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_TAA.html">wip_TAA</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">환경</li><li class="chapter-item expanded "><a href="../Environment/CrossFadeShader.html">CrossFadeShader</a></li><li class="chapter-item expanded "><a href="../Environment/CrackedIce.html">CrackedIce</a></li><li class="chapter-item expanded "><a href="../Environment/FakeThicknessWindow.html">FakeThicknessWindow</a></li><li class="chapter-item expanded "><a href="../Environment/ScreenSpaceDecal.html">ScreenSpaceDecal.md</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Environment/_Rain.html">_Rain</a></li><li class="chapter-item expanded "><a href="../Environment/_Sky.html" class="active">_Sky</a></li><li class="chapter-item expanded "><a href="../Environment/_Grass.html">_Grass</a></li><li class="chapter-item expanded "><a href="../Environment/_Water.html">_Water</a></li><li class="chapter-item expanded "><a href="../Environment/_Ice.html">_Ice</a></li><li class="chapter-item expanded "><a href="../Environment/_InteriorMapping.html">_InteriorMapping</a></li><li class="chapter-item expanded "><a href="../Environment/_Vegetation.html">_Vegetation</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">Fx</li><li class="chapter-item expanded "><a href="../Fx/Billboard.html">Billboard</a></li><li class="chapter-item expanded "><a href="../Fx/Dissolve.html">Dissolve</a></li><li class="chapter-item expanded "><a href="../Fx/FlowMap.html">FlowMap</a></li><li class="chapter-item expanded "><a href="../Fx/Hatching.html">Hatching</a></li><li class="chapter-item expanded "><a href="../Fx/MatCap.html">MatCap</a></li><li class="chapter-item expanded "><a href="../Fx/Outline.html">Outline</a></li><li class="chapter-item expanded "><a href="../Fx/ParallaxMapping.html">ParallaxMapping</a></li><li class="chapter-item expanded "><a href="../Fx/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><a href="../Fx/SSS.html">SSS</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Fx/_ForceFieldShield.html">_ForceFieldShield</a></li><li class="chapter-item expanded "><a href="../Fx/_LightShaft_Mesh.html">_LightShaft_Mesh</a></li><li class="chapter-item expanded "><a href="../Fx/_RimLight.html">_RimLight</a></li><li class="chapter-item expanded "><a href="../Fx/_SnowStick.html">_SnowStick</a></li><li class="chapter-item expanded "><a href="../Fx/_Toon.html">_Toon</a></li><li class="chapter-item expanded "><a href="../Fx/_ToonFire.html">_ToonFire</a></li><li class="chapter-item expanded "><a href="../Fx/_Imposter.html">_Imposter</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">디퍼드 렌더링</li><li class="chapter-item expanded "><a href="../DeferredRendering/_Deferred.html">_Deferred</a></li><li class="chapter-item expanded affix "><li class="part-title">기타</li><li class="chapter-item expanded "><a href="../Etc/Direction.html">Direction</a></li><li class="chapter-item expanded "><a href="../Etc/CodingStandard.html">CodingStandard</a></li><li class="chapter-item expanded "><a href="../Etc/TroubleShooting.html">TroubleShooting</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Etc/_CommandBuffer.html">_CommandBuffer</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">최적화</li><li class="chapter-item expanded "><a href="../Optimize/ChromaSubsampling.html">ChromaSubsampling</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeCombineTexture.html">OptimizeCombineTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeTip.html">OptimizeTip</a></li><li class="chapter-item expanded "><a href="../Optimize/PostProcessUberShader.html">PostProcessUberShader</a></li><li class="chapter-item expanded "><a href="../Optimize/SpecularPowApproximation.html">SpecularPowApproximation</a></li><li class="chapter-item expanded "><a href="../Optimize/VertexMultipleLight.html">VertexMultipleLight</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Optimize/_AnimationTexture.html">WIP_AnimationTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/_DrawCall.html">WIP_DrawCall</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">참고</li><li class="chapter-item expanded "><a href="../Link/Tool.html">Tool</a></li><li class="chapter-item expanded "><a href="../Link/Presentation.html">Presentation</a></li><li class="chapter-item expanded "><a href="../Link/Reference.html">Reference</a></li><li class="chapter-item expanded "><a href="../Link/EtcLink.html">EtcLink</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/Environment/_Sky.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="sky"><a class="header" href="#sky">Sky</a></h1>
+<h2 id="skybox-메쉬-형태"><a class="header" href="#skybox-메쉬-형태">Skybox 메쉬 형태</a></h2>
+<ul>
+<li>
+<p>Cube, Sphere, HemiSphere, Ring, Plane</p>
+</li>
+<li>
+<p>유니티 Shader별 사용 메쉬 형태</p>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Shader</th><th>Mesh</th><th>draw</th></tr></thead><tbody>
+<tr><td>Mobile/Skybox</td><td>Cube</td><td>Draw(6) * 6</td></tr>
+<tr><td>Skybox/6 Sided</td><td>Cube</td><td>Draw(6) * 6</td></tr>
+<tr><td>Skybox/Cubemap</td><td>Sphere</td><td>Draw(5040)</td></tr>
+<tr><td>Skybox/Panoramic</td><td>Sphere</td><td>Draw(5040)</td></tr>
+<tr><td>Skybox/Procedural</td><td>Sphere</td><td>Draw(5040)</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>
+<p>렌더독으로 본 유니티의 Sphere Sky Mesh</p>
+<ul>
+<li>일반 Sphere 와는 다르게, 버텍스 갯수는 적게 그리고 수평선 부분이 조금 디테일에 힘을 줬다.</li>
+</ul>
+<p><img src="../res/renderdoc_skyboxmesh.png" alt="renderdoc_skyboxmesh.png" /></p>
+</li>
+</ul>
+<h2 id="유니티-skybox셰이더-작성시-주의점"><a class="header" href="#유니티-skybox셰이더-작성시-주의점">유니티 Skybox셰이더 작성시 주의점</a></h2>
+<ul>
+<li>유니티 Skybox 설정 : <code>Window &gt; Rendering &gt; Lighting &gt; Environment</code>
+<ul>
+<li><code>unity_SpecCube0</code>가 위에서 설정된 메테리얼로 스카이박스를 렌더링함.(<code>Camera &gt; Background Type</code>과는 상관없음)</li>
+</ul>
+</li>
+<li>URP 환경이라도 Built-in(legacy)의 기본 Pass의 태그값 <code>&quot;LightMode&quot; = &quot;ForwardBase&quot;</code>로 하여야만 동작한다.</li>
+</ul>
+<h2 id="유니티의-skybox"><a class="header" href="#유니티의-skybox">유니티의 Skybox</a></h2>
+<ul>
+<li>유니티에서는 Skybox의 메쉬를 지정할 수 있는 방법이 없다.(2021.09.23 기준)</li>
+<li>유니티 Skybox 설정을 안따르면 ReflectionProbe(unity_SpecCube0)를 다루기 껄끄러워진다.
+<ul>
+<li><code>Window &gt; Rendering &gt; Lighting &gt; Environment &gt; Environment Reflections &gt; Source &gt; Custom</code> 으로 처리 가능.</li>
+</ul>
+</li>
+</ul>
+<h2 id="skybox-메쉬-조합"><a class="header" href="#skybox-메쉬-조합">Skybox 메쉬 조합</a></h2>
+<ul>
+<li><a href="https://80.lv/articles/how-to-create-skies-for-3d-games/">How to Create Skies for 3D Games?</a></li>
+</ul>
+<p>구름을 표현하기 위해 돔형태의 메쉬, 링형 매쉬, 평면 매쉬를 이용했다.</p>
+<p><img src="../res/skybox.jpg" alt="skybox.jpg" /></p>
+<p><img src="../res/skybox2.jpg" alt="skybox2.jpg" /></p>
+<h2 id="case-study"><a class="header" href="#case-study">Case Study</a></h2>
+<pre><code class="language-hlsl">half daytimeGradient            = max(0, L_Sun.y);                   // 낮시간 변화 // max(0, dot(-L, DIR_DOWN));
+half skybox_MidTopGradient      = max(0, -V.y);                      // 하늘쪽 변화 // max(0, dot(-V, DIR_UP));
+half skybox_HorizBottomGradient = pow(1 - skybox_MidTopGradient, 8); // 바닥 + 수평 변화
+
+
+
+// 낮시간 하늘의 3단계 변화
+// - 카메라가 스카이박스 안쪽에 있으니 `-V`를 시켜주고, 하늘(Up)쪽으로 변화를 넣는다.
+// - 수평선은 역으로해서 역변화를 얻음.
+half3 daytimeSkyMiddleColor       = lerp(_SkyColor_Sunset, _SkyColor_DaytimeMiddle, daytimeGradient);
+half3 daytimeSkyMiddleBottomColor = lerp(daytimeSkyMiddleColor, _SkyColor_DaytimeBottom, skybox_HorizBottomGradient);
+half3 daytimeSkyGradientColor     = lerp(daytimeSkyMiddleBottomColor, _SkyColor_DaytimeTop, skybox_MidTopGradient);
+
+
+
+// 밤낮을 표현하기 위해 빛이 땅을 바라볼때 변화량([0, 1]) 이용.
+half3 skyNightDayColor = lerp(_SkyColor_Night, daytimeSkyGradientColor, daytimeGradient);
+
+
+
+// 빛이 바라보는 반대 방향에 해를 위치 시킨다.
+half sunGradient = dot(-L_Sun, V);
+half sun = pow(sunGradient, 20);
+
+
+// 노을의 빛의 퍼짐을 표현하기 위해, 노을색과 붉기를 조절한 빛의 색을 섞는다.
+half _SunsetRedness = 0.5; // [0, 1]
+half invRedness = 1 - _SunsetRedness;
+half3 redishLightColor;
+redishLightColor.r = IN.colorLight.r;
+redishLightColor.g = IN.colorLight.g * invRedness;
+redishLightColor.b = IN.colorLight.b * invRedness * 0.5;
+half3 sunsetColor = lerp(_SkyColor_Sunset, redishColor, sun);
+
+
+
+// 해 위치를 빛 방향과 같게 조정하면
+// 케릭터에 조명효과를 다르게 주고 싶어 불가피하게 빛 방향을 바꿔 버리면,
+// 의도치 않도록 해 위치가 바뀌어 버릴 수 있다.
+_ControlledDaytime // [0, 1]
+#define TWO_PI            6.28318530717958647693  // com.unity.render-pipelines.core/ShaderLibrary/Macros.hlsl
+#define SHORT_TWO_PI      6.2831853
+
+half rad =  _ControlledDaytime * SHORT_TWO_PI;
+half s;
+half c;
+sincos(rad, s, c);
+OUT.L_Sun.x = -c;
+OUT.L_Sun.y = s;
+OUT.L_Sun.z = 0;
+
+|                       | 0   | 90   | 180 | 270  | 360    |
+| --------------------- | --- | ---- | --- | ---- | ------ |
+| _ControlTime          | 0   | 0.25 | 0.5 | 0.75 | 1      |
+| _ControlTime x TWO_PI | 0   |      | PI  |      | TWO_PI |
+| x (-cos)              | -1  | 0    | 1   | 0    | -1     |
+| y (sin)               | 0   | 1    | 0   | -1   | 0      |
+
+</code></pre>
+<h2 id="기타-코드-조각들"><a class="header" href="#기타-코드-조각들">기타 코드 조각들</a></h2>
+<pre><code class="language-hlsl">// ref: [mapping texture uvs to sphere for skybox](https://gamedev.stackexchange.com/questions/189357/mapping-texture-uvs-to-sphere-for-skybox)
+// ref: [Correcting projection of 360° content onto a sphere - distortion at the poles](https://gamedev.stackexchange.com/questions/148167/correcting-projection-of-360-content-onto-a-sphere-distortion-at-the-poles/148178#148178)
+
+uv.x = (PI + atan2(positionWS.x, positionWS.z)) * INV_TWO_PI;
+uv.y = uv.y * 0.5 + 0.5
+</code></pre>
+<pre><code class="language-hlsl">// ref: [ARM - The Ice Cave demo](https://developer.arm.com/documentation/102259/0100/Procedural-skybox)
+
+half3 _SunPosition;
+half3 _SunColor;
+half _SunDegree;    // [0.0, 1.0], corresponds to a sun of diameter of 5 degrees: cos(5 degrees) = 0.995
+
+half4 SampleSun(in half3 viewDir, in half alpha)
+{
+    // 원형 해
+    half sunContribution = dot(viewDir,_SunPosition);
+
+    half sunDistanceFade = smoothstep(_SunDegree - (0.025 * alpha), 1.0, sunContribution);
+    half sunOcclusionFade = clamp(0.9 - alpha, 0.0, 1.0);
+    half3 sunColorResult = sunDistanceFade * sunOcclusionFade * _SunColor;
+    return half4(sunColorResult, 1.0);
+}
+</code></pre>
+<pre><code class="language-hlsl">// ['Infinite' sky shader for Unity](https://aras-p.info/blog/2019/02/01/Infinite-sky-shader-for-Unity/)
+// 유니티는 &quot;reversed-Z projection&quot;을 이용하지만, &quot;infinite projection&quot;은 아니다
+
+#if defined(UNITY_REVERSED_Z)
+// when using reversed-Z, make the Z be just a tiny
+// bit above 0.0
+OUT.positionCS.z = 1.0e-9f;
+#else
+// when not using reversed-Z, make Z/W be just a tiny
+// bit below 1.0
+OUT.positionCS.z = o.positionCS.w - 1.0e-6f;
+#endif
+</code></pre>
+<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
+<ul>
+<li>구름 그림자
+<ul>
+<li><a href="https://github.com/EntroPi-Games/Unity-Cloud-Shadows/">https://github.com/EntroPi-Games/Unity-Cloud-Shadows/</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="ref"><a class="header" href="#ref">Ref</a></h2>
+<ul>
+<li><a href="https://github.com/TwoTailsGames/Unity-Built-in-Shaders/blob/master/DefaultResourcesExtra/Skybox-Procedural.shader">Unity's built-in Skybox-Procedural.shader</a></li>
+<li><a href="https://www.slideshare.net/ajinkim/ss-58266584">마른 하늘에 날구름 넣기</a></li>
+<li><a href="https://www.slideshare.net/valhashi/2011-03-gametechtadptforpdf">[TA] 테라에 사용된 렌더링 테크닉 - 임신형 (valhashi)</a></li>
+<li><a href="https://www.e2gamedev.com/skybox">Procedural Skybox - Evan edwards</a></li>
+<li><a href="https://80.lv/articles/easysky-breakdown-of-a-procedural-skybox-for-ue4/">EasySky: Breakdown of a Procedural Skybox for UE4</a></li>
+<li><a href="https://www.youtube.com/watch?v=o66p1QDH7aI">GDC2014  - Moving the Heavens: An Artistic and Technical Look at the Skies of The Last of Us</a></li>
+<li><a href="https://medium.com/@jannik_boysen/procedural-skybox-shader-137f6b0cb77c">Reaching for the stars - Let’s create a procedural skybox shader with Unity’s Shader Graph!</a></li>
+<li>Unity ShaderGraph Procedural Skybox Tutorial
+<ul>
+<li><a href="https://timcoster.com/2019/09/09/tileable-clouds-texture/">cloud texture</a></li>
+<li><a href="https://timcoster.com/2019/09/03/unity-shadergraph-skybox-quick-tutorial/">pt1</a></li>
+<li><a href="https://timcoster.com/2020/02/26/unity-shadergraph-procedural-skybox-tutorial-pt-2-day-night-cycle/">pt2</a></li>
+</ul>
+</li>
+<li>Rastertek's Terrain Tutorial
+<ul>
+<li>Tutorial 10: Sky Domes : <a href="http://www.rastertek.com/tertut10.html">원문</a>, <a href="https://copynull.tistory.com/313">번역</a></li>
+<li>Tutorial 11: Bitmap Clouds : <a href="http://www.rastertek.com/tertut11.html">원문</a>, <a href="https://copynull.tistory.com/314">번역</a></li>
+<li>Tutorial 12: Perturbed Clouds : <a href="http://www.rastertek.com/tertut12.html">원문</a>, <a href="https://copynull.tistory.com/315">번역</a></li>
+</ul>
+</li>
+<li><a href="http://cr4zyb4st4rd.co.uk/SkyShader.html">Creating a unique animated sky shader for UT3/UDK</a> - <a href="http://cr4zyb4st4rd.co.uk/SkyShader/Cr4zys_Cloud_Textures.rar">Cr4zys_Cloud_Textures.rar</a></li>
+<li><a href="https://www.youtube.com/watch?v=YwzOMHXYFyw">Maya - Skydome Techniques</a></li>
+<li>Unity Assets
+<ul>
+<li><a href="https://assetstore.unity.com/packages/tools/particles-effects/tenkoku-dynamic-sky-34435">https://assetstore.unity.com/packages/tools/particles-effects/tenkoku-dynamic-sky-34435</a></li>
+<li><a href="https://assetstore.unity.com/packages/2d/textures-materials/sky/procedural-sky-builtin-lwrp-urp-jupiter-159992">https://assetstore.unity.com/packages/2d/textures-materials/sky/procedural-sky-builtin-lwrp-urp-jupiter-159992</a></li>
+<li><a href="https://assetstore.unity.com/packages/tools/particles-effects/azure-sky-dynamic-skybox-36050">https://assetstore.unity.com/packages/tools/particles-effects/azure-sky-dynamic-skybox-36050</a></li>
+</ul>
+</li>
+<li><a href="https://simul.co/">https://simul.co/</a></li>
+<li><a href="https://github.com/shadowlenz/Procedural.SkyBox">https://github.com/shadowlenz/Procedural.SkyBox</a></li>
+<li><a href="https://github.com/SebLague/Clouds">https://github.com/SebLague/Clouds</a>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=4QOcCGI6xOU">https://www.youtube.com/watch?v=4QOcCGI6xOU</a></li>
+</ul>
+</li>
+<li><a href="https://guildofwriters.org/wiki/Adding_Atmosphere">https://guildofwriters.org/wiki/Adding_Atmosphere</a></li>
+<li><a href="http://walkingfat.com/volumetric-clouds-%e4%bd%93%e7%a7%af%e4%ba%91%e7%9a%84%e5%81%9a%e6%b3%95/">Volumetric Clouds – 体积云的做法</a></li>
+<li>천체리소스 : <a href="https://pngtree.com/so/celestial">https://pngtree.com/so/celestial</a></li>
+<li>ShaderX3 Advanced Rendering with DirectX and OpenGL
+<ul>
+<li>8.4 Volumetric Clouds</li>
+</ul>
+</li>
+<li>ShaderX2 Shader Programming Tips and Tricks with DirectX 9
+<ul>
+<li>Advanced Sky Dome Rendering</li>
+</ul>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Environment/_Rain.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../Environment/_Grass.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Environment/_Rain.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../Environment/_Grass.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/hlsl.min.js"></script>
+        <script src="../theme/juxtapose.min.js"></script>
+
+
+    </div>
+    </body>
+</html>

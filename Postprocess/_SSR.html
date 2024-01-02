@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>wip_SSR - 넷평의 Unity Shader 노트</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/juxtapose.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html">둘러보기</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">기본</li><li class="chapter-item expanded "><a href="../Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="../Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="../Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="../Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="../Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="../Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="../Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="../Basic/Depth.html">Depth</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">라이팅</li><li class="chapter-item expanded "><a href="../Lighting/LightingModel.html">LightingModel</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/LightingModel-NPR.html">LightingModel-NPR</a></li><li class="chapter-item expanded "><a href="../Lighting/LightingModel-PBR.html">LightingModel-PBR</a></li></ol></li><li class="chapter-item expanded "><a href="../Lighting/HemisphereLight.html">HemisphereLight</a></li><li class="chapter-item expanded "><a href="../Lighting/HairAnisotropic.html">HairAnisotropic</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/WIP_BRDF.html">WIP_BRDF</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_PBR.html">WIP_PBR</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_FlatShader.html">WIP_FlatShader</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">심화</li><li class="chapter-item expanded "><a href="../Advanced/LOD.html">LOD</a></li><li class="chapter-item expanded "><a href="../Advanced/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Advanced/_Dithering.html">wip_Dithering</a></li><li class="chapter-item expanded "><a href="../Advanced/_Geometry.html">wip_Geometry</a></li><li class="chapter-item expanded "><a href="../Advanced/_Lightmap.html">wip_Lightmap</a></li><li class="chapter-item expanded "><a href="../Advanced/_LPV.html">wip_LPV</a></li><li class="chapter-item expanded "><a href="../Advanced/_Noise.html">wip_Noise</a></li><li class="chapter-item expanded "><a href="../Advanced/_Ray.html">wip_Ray</a></li><li class="chapter-item expanded "><a href="../Advanced/_SDF.html">wip_SDF</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">SRP</li><li class="chapter-item expanded "><a href="../SRP/SRP_Overview.html">SRP_Overview</a></li><li class="chapter-item expanded "><a href="../SRP/linear_and_gamma.html">Linear And Gamma</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/shader_model_and_platform.html">셰이더 모델과 플렛폼</a></li></ol></li><li class="chapter-item expanded "><a href="../SRP/SRP.html">SRP</a></li><li class="chapter-item expanded "><a href="../SRP/ShaderLab.html">ShaderLab</a></li><li class="chapter-item expanded "><a href="../SRP/URP.html">URP</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/CheatSheet_URP.html">CheatSheet_URP</a></li><li class="chapter-item expanded "><a href="../SRP/urp_and_builtin.html">URP 랑 Built-in</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">포스트프로세스</li><li class="chapter-item expanded "><a href="../Postprocess/PostProcess.html">PostProcess</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/Filter.html">Filter</a></li><li class="chapter-item expanded "><a href="../Postprocess/Bloom.html">Bloom</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorGradingLUT.html">ColorGradingLUT</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorSpace.html">ColorSpace</a></li><li class="chapter-item expanded "><a href="../Postprocess/EyeAdaptation.html">EyeAdaptation</a></li><li class="chapter-item expanded "><a href="../Postprocess/FXAA.html">FXAA</a></li><li class="chapter-item expanded "><a href="../Postprocess/LightStreak.html">LightStreak</a></li><li class="chapter-item expanded "><a href="../Postprocess/SSAO.html">SSAO</a></li><li class="chapter-item expanded "><a href="../Postprocess/ToneMapping.html">ToneMapping</a></li></ol></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/_ChromaticAberration.html">wip_ChromaticAberration</a></li><li class="chapter-item expanded "><a href="../Postprocess/_DOF.html">wip_DOF</a></li><li class="chapter-item expanded "><a href="../Postprocess/_HDR.html">wip_HDR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LensFlare.html">wip_LensFlare</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LightShaft_postprocess.html">wip_LightShaft_postprocess</a></li><li class="chapter-item expanded "><a href="../Postprocess/_MotionBlur.html">wip_MotionBlur</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSGI.html">wip_SSGI</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSR.html" class="active">wip_SSR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_TAA.html">wip_TAA</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">환경</li><li class="chapter-item expanded "><a href="../Environment/CrossFadeShader.html">CrossFadeShader</a></li><li class="chapter-item expanded "><a href="../Environment/CrackedIce.html">CrackedIce</a></li><li class="chapter-item expanded "><a href="../Environment/FakeThicknessWindow.html">FakeThicknessWindow</a></li><li class="chapter-item expanded "><a href="../Environment/ScreenSpaceDecal.html">ScreenSpaceDecal.md</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Environment/_Rain.html">_Rain</a></li><li class="chapter-item expanded "><a href="../Environment/_Sky.html">_Sky</a></li><li class="chapter-item expanded "><a href="../Environment/_Grass.html">_Grass</a></li><li class="chapter-item expanded "><a href="../Environment/_Water.html">_Water</a></li><li class="chapter-item expanded "><a href="../Environment/_Ice.html">_Ice</a></li><li class="chapter-item expanded "><a href="../Environment/_InteriorMapping.html">_InteriorMapping</a></li><li class="chapter-item expanded "><a href="../Environment/_Vegetation.html">_Vegetation</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">Fx</li><li class="chapter-item expanded "><a href="../Fx/Billboard.html">Billboard</a></li><li class="chapter-item expanded "><a href="../Fx/Dissolve.html">Dissolve</a></li><li class="chapter-item expanded "><a href="../Fx/FlowMap.html">FlowMap</a></li><li class="chapter-item expanded "><a href="../Fx/Hatching.html">Hatching</a></li><li class="chapter-item expanded "><a href="../Fx/MatCap.html">MatCap</a></li><li class="chapter-item expanded "><a href="../Fx/Outline.html">Outline</a></li><li class="chapter-item expanded "><a href="../Fx/ParallaxMapping.html">ParallaxMapping</a></li><li class="chapter-item expanded "><a href="../Fx/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><a href="../Fx/SSS.html">SSS</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Fx/_ForceFieldShield.html">_ForceFieldShield</a></li><li class="chapter-item expanded "><a href="../Fx/_LightShaft_Mesh.html">_LightShaft_Mesh</a></li><li class="chapter-item expanded "><a href="../Fx/_RimLight.html">_RimLight</a></li><li class="chapter-item expanded "><a href="../Fx/_SnowStick.html">_SnowStick</a></li><li class="chapter-item expanded "><a href="../Fx/_Toon.html">_Toon</a></li><li class="chapter-item expanded "><a href="../Fx/_ToonFire.html">_ToonFire</a></li><li class="chapter-item expanded "><a href="../Fx/_Imposter.html">_Imposter</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">디퍼드 렌더링</li><li class="chapter-item expanded "><a href="../DeferredRendering/_Deferred.html">_Deferred</a></li><li class="chapter-item expanded affix "><li class="part-title">기타</li><li class="chapter-item expanded "><a href="../Etc/Direction.html">Direction</a></li><li class="chapter-item expanded "><a href="../Etc/CodingStandard.html">CodingStandard</a></li><li class="chapter-item expanded "><a href="../Etc/TroubleShooting.html">TroubleShooting</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Etc/_CommandBuffer.html">_CommandBuffer</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">최적화</li><li class="chapter-item expanded "><a href="../Optimize/ChromaSubsampling.html">ChromaSubsampling</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeCombineTexture.html">OptimizeCombineTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeTip.html">OptimizeTip</a></li><li class="chapter-item expanded "><a href="../Optimize/PostProcessUberShader.html">PostProcessUberShader</a></li><li class="chapter-item expanded "><a href="../Optimize/SpecularPowApproximation.html">SpecularPowApproximation</a></li><li class="chapter-item expanded "><a href="../Optimize/VertexMultipleLight.html">VertexMultipleLight</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Optimize/_AnimationTexture.html">WIP_AnimationTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/_DrawCall.html">WIP_DrawCall</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">참고</li><li class="chapter-item expanded "><a href="../Link/Tool.html">Tool</a></li><li class="chapter-item expanded "><a href="../Link/Presentation.html">Presentation</a></li><li class="chapter-item expanded "><a href="../Link/Reference.html">Reference</a></li><li class="chapter-item expanded "><a href="../Link/EtcLink.html">EtcLink</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/Postprocess/_SSR.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="ssr"><a class="header" href="#ssr">SSR</a></h1>
+<ul>
+<li>SSR(Screen Space Reflection)</li>
+</ul>
+<h2 id="주의점"><a class="header" href="#주의점">주의점</a></h2>
+<ul>
+<li>화면 공간이므로, 당연히 화면밖이나 가려져 있는 것을 반사시키진 못한다
+<ul>
+<li>화면 바깥과 가까우면 fadeout</li>
+<li>어느정도 구께일때만 반사적용</li>
+</ul>
+</li>
+<li>깊이버퍼를 이용함으로, 깊이버퍼를 안쓰는 오브젝트는 반사가 안됨</li>
+<li>3d ray marching 언더샘플링 오버샘플링</li>
+<li>모션블러 감소</li>
+</ul>
+<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
+<ul>
+<li>SSR 준비물
+<ul>
+<li>색상</li>
+<li>깊이(위치를 얻기 위해)</li>
+<li>노말</li>
+<li>반사 마스크</li>
+</ul>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>구할것</th><th>구하는 법</th></tr></thead><tbody>
+<tr><td>카메라레이</td><td>uv와 카메라 역행렬을 이용</td></tr>
+<tr><td>반사레이 시작점(VS)</td><td>카메라 레이와 뎁스버퍼를 이용</td></tr>
+<tr><td>입사벡터(VS)</td><td>반사레이 시작점을 노말라이즈함. (incident : 입사/투사되는)</td></tr>
+<tr><td>반사레이벡터(VS)</td><td>입사벡터와 노멀을 이용</td></tr>
+<tr><td>반사레이 도착점(VS)</td><td>반사레이벡터에서 점진적 이동(Ray Marching)</td></tr>
+<tr><td>반사색</td><td>반사레이 도착점의 색 (두께처리가 있으면 처리하고, uv가 범위안에 있는지도 체크)</td></tr>
+</tbody></table>
+</div>
+<h2 id="반사-레이를-쏘는-방식"><a class="header" href="#반사-레이를-쏘는-방식">반사 레이를 쏘는 방식</a></h2>
+<ul>
+<li><a href="http://casual-effects.blogspot.com/2014/08/screen-space-ray-tracing.html">http://casual-effects.blogspot.com/2014/08/screen-space-ray-tracing.html</a></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>3D</td><td>원근법때문에 언더샘플링(가까운거), 오버샘플링(먼것) 이슈</td></tr>
+<tr><td>2D</td><td>DDA(Digital Differential Analyzer)</td></tr>
+</tbody></table>
+</div>
+<h2 id="코드-예"><a class="header" href="#코드-예">코드 예</a></h2>
+<pre><code class="language-cs">_material_SSR.SetMatrix( &quot;_MATRIX_InverseCameraProjection&quot;, _camera.projectionMatrix.inverse);
+</code></pre>
+<pre><code class="language-hlsl">// vert =====================
+// 카메라레이
+float4 cameraRay = float4(IN.uv * 2 - 1, 1, 1);
+cameraRay = mul(_MATRIX_InverseCameraProjection, cameraRay);
+OUT.cameraRay = cameraRay.xyz / cameraRay.w;
+
+
+
+// frag =====================
+half reflectMask = SAMPLE_TEXTURE2D(_ReflectMask_, sampler_ReflectMask, IN.uv).r;
+clip(reflectMask - 0.1);
+
+// 반사레이 시작점
+half sceneRawDepth = SampleSceneDepth(IN.uv);
+half scene01Depth  = Linear01Depth(sceneRawDepth, _ZBufferParams);
+half3 reflectRayStartPositionWS = IN.cameraRay * sceen01Depth;
+
+// 입사벡터
+half3 incidentVec = normalize(reflectRayStartPositionWS);
+
+// 반사레이벡터
+half3 sceneNormal = SampleSceneNormals(IN.uv);
+half3 reflectRayDirWS = normalize(reflect(incidentVec, sceneNormal));
+
+// 레이 처리
+half step = _MaxDistance / _MaxIteration;
+half stepDistance = _MinDistance + step;
+half availableThickness = _MaxThickness / _MaxIteration;
+int iteratorCount = min(64, _MaxIteration);
+half3 reflectionColor = 0;
+
+UNITY_UNROLL
+for (int i = 0; i &lt; iteratorCount; ++i)
+{
+    // 반사레이 도착점 
+    half3 reflectRayEndPositionWS = reflectRayStartPositionWS + (reflectRayDirWS * stepDistance);
+    float4 reflectRayEndPositionCS = TransformWorldToHClip(reflectRayEndPositionWS);
+    float2 reflectRayEndUV = reflectRayEndPositionCS.xy / reflectRayEndPositionCS.w * 0.5 + 0.5;
+
+    bool isValidUV = max(abs(reflectRayEndUV.x - 0.5), abs(reflectRayEndUV.y - 0.5)) &lt;= 0.5;
+    if (!isValidUV)
+    {
+        break;
+    }
+
+    half reflectRayEndDepth = ComputeDepth(reflectRayEndPositionCS);
+    half sceneReflectRayEndDepth = SampleSceneDepth(reflectRayEndUV);
+    half depthDiff = reflectRayEndDepth - sceneReflectRayEndDepth;
+    if (0 &lt; depthDiff &amp;&amp; depthDiff &lt; availableThickness)
+    {
+        // 반사색
+        reflectionColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, reflectRayEndUV).rgb;
+        break;
+    }
+
+    stepDistance += step;
+}
+return half4(reflectionColor, 1);
+
+
+// etc ==========================
+float ComputeDepth(float4 positionCS)
+{
+#if defined(SHADER_TARGET_GLSL) || defined(SHADER_API_GLES) || defined(SHADER_API_GLES3)
+    return (positionCS.z / positionCS.w) * 0.5 + 0.5;
+#else
+    return (positionCS.z / positionCS.w);
+#endif
+}
+</code></pre>
+<pre><code>???
+    float sampleDepth = tex_depth.read(tid).x;
+    float4 samplePosInCS =  float4(((float2(tid)+0.5)/sceneInfo.ViewSize)*2-1.0f, sampleDepth, 1);
+    samplePosInCS.y *= -1;
+</code></pre>
+<p>incidentVec = normalize(rayStartPositionWS)
+N</p>
+<p>half3 reflectionColor = 0;
+if (reflectMask &gt; 0)
+{
+reflectionColor = 
+}</p>
+<p>half3 scaledR = _RayStepScale * R;
+for (_MaxRayStep)
+{</p>
+<p>}</p>
+<h2 id="hi-z-buffer"><a class="header" href="#hi-z-buffer">Hi-Z Buffer</a></h2>
+<ul>
+<li>Hierarchical-Z buffer</li>
+<li>기존 Z buffer를 축소시키며 계층을 만들며(밉맵)
+<ul>
+<li>셀은 최소 3×3 셀</li>
+</ul>
+</li>
+<li>기존 Z Buffer보다 비교적 적은 샘플 횟수로 교차점을 얻을 수 있다.</li>
+</ul>
+<p><img src="../res/zbuffer_to_hiz.jpg" alt="zbuffer_to_hiz.png" /></p>
+<ul>
+<li>https://zhuanlan.zhihu.com/p/278793984</li>
+</ul>
+<h2 id="ref"><a class="header" href="#ref">Ref</a></h2>
+<ul>
+<li><a href="https://www.slideshare.net/xtozero/screen-space-reflection">https://www.slideshare.net/xtozero/screen-space-reflection</a></li>
+<li><a href="http://www.kode80.com/blog/2015/03/11/screen-space-reflections-in-unity-5/">http://www.kode80.com/blog/2015/03/11/screen-space-reflections-in-unity-5/</a>
+<ul>
+<li><a href="https://github.com/kode80/kode80SSR">https://github.com/kode80/kode80SSR</a></li>
+</ul>
+</li>
+<li>Screen Space Reflections : Implementation and optimization
+<ul>
+<li><a href="https://github.com/leesg213/ssr_optimizing">src</a>, <a href="https://sugulee.wordpress.com/2021/01/16/performance-optimizations-for-screen-space-reflections-technique-part-1-linear-tracing-method/">pt1</a>, <a href="https://sugulee.wordpress.com/2021/01/19/screen-space-reflections-implementation-and-optimization-part-2-hi-z-tracing-method/">pt2</a></li>
+<li><a href="https://scahp.tistory.com/66">번역1</a>, <a href="https://scahp.tistory.com/67">번역2</a></li>
+</ul>
+</li>
+<li>GPU Pro 5: Hi-Z Screen-Space Cone-Traced Reflections by Yasin Uludag</li>
+<li><a href="https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.postprocessing/PostProcessing/Shaders/Builtins/ScreenSpaceReflections.hlsl">https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.postprocessing/PostProcessing/Shaders/Builtins/ScreenSpaceReflections.hlsl</a></li>
+<li><a href="https://tips.hecomi.com/entry/2016/04/04/022550">Unity で Screen Space Reflection の実装をしてみた</a>
+<ul>
+<li><a href="https://github.com/hecomi/UnityScreenSpaceReflection">https://github.com/hecomi/UnityScreenSpaceReflection</a></li>
+</ul>
+</li>
+<li><a href="https://youtu.be/RdN06E6Xn9E?t=2243">GDC2016 - Low Complexity, High Fidelity: The Rendering of INSIDE</a></li>
+<li><a href="https://www.youtube.com/watch?v=2XXS5UyNjjU">GDC2016 - Temporal Reprojection Anti-Aliasing in INSIDE</a>
+<ul>
+<li><a href="https://github.com/playdeadgames/temporal">https://github.com/playdeadgames/temporal</a></li>
+</ul>
+</li>
+<li><a href="https://books.google.co.kr/books?id=30ZOCgAAQBAJ&amp;pg=PA65&amp;lpg=PA65#v=onepage&amp;q&amp;f=false">GPU Pro 6: Advanced Rendering Techniques - II: RENDERING - 1.2.3 Screen-Space Reflections</a></li>
+<li>Approximating ray traced reflections using screen-space data by MATTIAS JOHNSSON</li>
+<li><a href="https://dataprocess.tistory.com/315">https://dataprocess.tistory.com/315</a></li>
+<li><a href="https://sakibsaikia.github.io/graphics/2016/12/26/Screen-Space-Reflection-in-Killing-Floor-2.html">https://sakibsaikia.github.io/graphics/2016/12/26/Screen-Space-Reflection-in-Killing-Floor-2.html</a></li>
+<li><a href="http://roar11.com/2015/07/screen-space-glossy-reflections/">http://roar11.com/2015/07/screen-space-glossy-reflections/</a></li>
+<li><a href="https://www.slideshare.net/MicheleGiacalone1/screen-space-reflections-in-the-surge">Screen Space Reflections in The Surge</a></li>
+<li><a href="https://www.slideshare.net/DICEStudio/stochastic-screenspace-reflections">SIGGRAPH2015 -  Stochastic Screen-Space Reflections</a></li>
+<li><a href="https://lettier.github.io/3d-game-shaders-for-beginners/screen-space-reflection.html">https://lettier.github.io/3d-game-shaders-for-beginners/screen-space-reflection.html</a></li>
+<li><a href="https://www.gamedeveloper.com/disciplines/screen-space-reflections-in-blightbound">https://www.gamedeveloper.com/disciplines/screen-space-reflections-in-blightbound</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Postprocess/_SSGI.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../Postprocess/_TAA.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Postprocess/_SSGI.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../Postprocess/_TAA.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/hlsl.min.js"></script>
+        <script src="../theme/juxtapose.min.js"></script>
+
+
+    </div>
+    </body>
+</html>

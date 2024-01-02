@@ -1,0 +1,447 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>URP 랑 Built-in - 넷평의 Unity Shader 노트</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/juxtapose.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html">둘러보기</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">기본</li><li class="chapter-item expanded "><a href="../Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="../Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="../Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="../Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="../Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="../Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="../Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="../Basic/Depth.html">Depth</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">라이팅</li><li class="chapter-item expanded "><a href="../Lighting/LightingModel.html">LightingModel</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/LightingModel-NPR.html">LightingModel-NPR</a></li><li class="chapter-item expanded "><a href="../Lighting/LightingModel-PBR.html">LightingModel-PBR</a></li></ol></li><li class="chapter-item expanded "><a href="../Lighting/HemisphereLight.html">HemisphereLight</a></li><li class="chapter-item expanded "><a href="../Lighting/HairAnisotropic.html">HairAnisotropic</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/WIP_BRDF.html">WIP_BRDF</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_PBR.html">WIP_PBR</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_FlatShader.html">WIP_FlatShader</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">심화</li><li class="chapter-item expanded "><a href="../Advanced/LOD.html">LOD</a></li><li class="chapter-item expanded "><a href="../Advanced/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Advanced/_Dithering.html">wip_Dithering</a></li><li class="chapter-item expanded "><a href="../Advanced/_Geometry.html">wip_Geometry</a></li><li class="chapter-item expanded "><a href="../Advanced/_Lightmap.html">wip_Lightmap</a></li><li class="chapter-item expanded "><a href="../Advanced/_LPV.html">wip_LPV</a></li><li class="chapter-item expanded "><a href="../Advanced/_Noise.html">wip_Noise</a></li><li class="chapter-item expanded "><a href="../Advanced/_Ray.html">wip_Ray</a></li><li class="chapter-item expanded "><a href="../Advanced/_SDF.html">wip_SDF</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">SRP</li><li class="chapter-item expanded "><a href="../SRP/SRP_Overview.html">SRP_Overview</a></li><li class="chapter-item expanded "><a href="../SRP/linear_and_gamma.html">Linear And Gamma</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/shader_model_and_platform.html">셰이더 모델과 플렛폼</a></li></ol></li><li class="chapter-item expanded "><a href="../SRP/SRP.html">SRP</a></li><li class="chapter-item expanded "><a href="../SRP/ShaderLab.html">ShaderLab</a></li><li class="chapter-item expanded "><a href="../SRP/URP.html">URP</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/CheatSheet_URP.html">CheatSheet_URP</a></li><li class="chapter-item expanded "><a href="../SRP/urp_and_builtin.html" class="active">URP 랑 Built-in</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">포스트프로세스</li><li class="chapter-item expanded "><a href="../Postprocess/PostProcess.html">PostProcess</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/Filter.html">Filter</a></li><li class="chapter-item expanded "><a href="../Postprocess/Bloom.html">Bloom</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorGradingLUT.html">ColorGradingLUT</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorSpace.html">ColorSpace</a></li><li class="chapter-item expanded "><a href="../Postprocess/EyeAdaptation.html">EyeAdaptation</a></li><li class="chapter-item expanded "><a href="../Postprocess/FXAA.html">FXAA</a></li><li class="chapter-item expanded "><a href="../Postprocess/LightStreak.html">LightStreak</a></li><li class="chapter-item expanded "><a href="../Postprocess/SSAO.html">SSAO</a></li><li class="chapter-item expanded "><a href="../Postprocess/ToneMapping.html">ToneMapping</a></li></ol></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/_ChromaticAberration.html">wip_ChromaticAberration</a></li><li class="chapter-item expanded "><a href="../Postprocess/_DOF.html">wip_DOF</a></li><li class="chapter-item expanded "><a href="../Postprocess/_HDR.html">wip_HDR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LensFlare.html">wip_LensFlare</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LightShaft_postprocess.html">wip_LightShaft_postprocess</a></li><li class="chapter-item expanded "><a href="../Postprocess/_MotionBlur.html">wip_MotionBlur</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSGI.html">wip_SSGI</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSR.html">wip_SSR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_TAA.html">wip_TAA</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">환경</li><li class="chapter-item expanded "><a href="../Environment/CrossFadeShader.html">CrossFadeShader</a></li><li class="chapter-item expanded "><a href="../Environment/CrackedIce.html">CrackedIce</a></li><li class="chapter-item expanded "><a href="../Environment/FakeThicknessWindow.html">FakeThicknessWindow</a></li><li class="chapter-item expanded "><a href="../Environment/ScreenSpaceDecal.html">ScreenSpaceDecal.md</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Environment/_Rain.html">_Rain</a></li><li class="chapter-item expanded "><a href="../Environment/_Sky.html">_Sky</a></li><li class="chapter-item expanded "><a href="../Environment/_Grass.html">_Grass</a></li><li class="chapter-item expanded "><a href="../Environment/_Water.html">_Water</a></li><li class="chapter-item expanded "><a href="../Environment/_Ice.html">_Ice</a></li><li class="chapter-item expanded "><a href="../Environment/_InteriorMapping.html">_InteriorMapping</a></li><li class="chapter-item expanded "><a href="../Environment/_Vegetation.html">_Vegetation</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">Fx</li><li class="chapter-item expanded "><a href="../Fx/Billboard.html">Billboard</a></li><li class="chapter-item expanded "><a href="../Fx/Dissolve.html">Dissolve</a></li><li class="chapter-item expanded "><a href="../Fx/FlowMap.html">FlowMap</a></li><li class="chapter-item expanded "><a href="../Fx/Hatching.html">Hatching</a></li><li class="chapter-item expanded "><a href="../Fx/MatCap.html">MatCap</a></li><li class="chapter-item expanded "><a href="../Fx/Outline.html">Outline</a></li><li class="chapter-item expanded "><a href="../Fx/ParallaxMapping.html">ParallaxMapping</a></li><li class="chapter-item expanded "><a href="../Fx/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><a href="../Fx/SSS.html">SSS</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Fx/_ForceFieldShield.html">_ForceFieldShield</a></li><li class="chapter-item expanded "><a href="../Fx/_LightShaft_Mesh.html">_LightShaft_Mesh</a></li><li class="chapter-item expanded "><a href="../Fx/_RimLight.html">_RimLight</a></li><li class="chapter-item expanded "><a href="../Fx/_SnowStick.html">_SnowStick</a></li><li class="chapter-item expanded "><a href="../Fx/_Toon.html">_Toon</a></li><li class="chapter-item expanded "><a href="../Fx/_ToonFire.html">_ToonFire</a></li><li class="chapter-item expanded "><a href="../Fx/_Imposter.html">_Imposter</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">디퍼드 렌더링</li><li class="chapter-item expanded "><a href="../DeferredRendering/_Deferred.html">_Deferred</a></li><li class="chapter-item expanded affix "><li class="part-title">기타</li><li class="chapter-item expanded "><a href="../Etc/Direction.html">Direction</a></li><li class="chapter-item expanded "><a href="../Etc/CodingStandard.html">CodingStandard</a></li><li class="chapter-item expanded "><a href="../Etc/TroubleShooting.html">TroubleShooting</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Etc/_CommandBuffer.html">_CommandBuffer</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">최적화</li><li class="chapter-item expanded "><a href="../Optimize/ChromaSubsampling.html">ChromaSubsampling</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeCombineTexture.html">OptimizeCombineTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeTip.html">OptimizeTip</a></li><li class="chapter-item expanded "><a href="../Optimize/PostProcessUberShader.html">PostProcessUberShader</a></li><li class="chapter-item expanded "><a href="../Optimize/SpecularPowApproximation.html">SpecularPowApproximation</a></li><li class="chapter-item expanded "><a href="../Optimize/VertexMultipleLight.html">VertexMultipleLight</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Optimize/_AnimationTexture.html">WIP_AnimationTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/_DrawCall.html">WIP_DrawCall</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><li class="part-title">참고</li><li class="chapter-item expanded "><a href="../Link/Tool.html">Tool</a></li><li class="chapter-item expanded "><a href="../Link/Presentation.html">Presentation</a></li><li class="chapter-item expanded "><a href="../Link/Reference.html">Reference</a></li><li class="chapter-item expanded "><a href="../Link/EtcLink.html">EtcLink</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/SRP/urp_and_builtin.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="urp-and-builtin"><a class="header" href="#urp-and-builtin">URP and Builtin</a></h1>
+<ul>
+<li><a href="https://teodutra.com/unity/shaders/urp/graphics/2020/05/18/From-Built-in-to-URP/">Teo Dutra's From Built-in To URP</a></li>
+</ul>
+<p>URP</p>
+<ul>
+<li><a href="https://github.com/Unity-Technologies/UniversalRenderingExamples">https://github.com/Unity-Technologies/UniversalRenderingExamples</a></li>
+<li><a href="https://github.com/phi-lira/UniversalShaderExamples">https://github.com/phi-lira/UniversalShaderExamples</a></li>
+</ul>
+<h2 id="include"><a class="header" href="#include">include</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Content</th><th>Built-in</th><th>URP</th></tr></thead><tbody>
+<tr><td>Core</td><td>Unity.cginc</td><td>com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl</td></tr>
+<tr><td>Light</td><td>AutoLight.cginc</td><td>com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl</td></tr>
+<tr><td>Shadows</td><td>AutoLight.cginc</td><td>com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl</td></tr>
+<tr><td>Surface shaders</td><td>Lighting.cginc</td><td>None, but you can find a side project for this here</td></tr>
+</tbody></table>
+</div>
+<h2 id="variant-keyword"><a class="header" href="#variant-keyword">Variant Keyword</a></h2>
+<ul>
+<li><a href="https://blogs.unity3d.com/2018/05/14/stripping-scriptable-shader-variants/">https://blogs.unity3d.com/2018/05/14/stripping-scriptable-shader-variants/</a></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>_MAIN_LIGHT_SHADOWS</td><td></td></tr>
+<tr><td>_MAIN_LIGHT_SHADOWS_CASCADE</td><td></td></tr>
+<tr><td>_ADDITIONAL_LIGHTS_VERTEX</td><td></td></tr>
+<tr><td>_ADDITIONAL_LIGHTS</td><td></td></tr>
+<tr><td>_ADDITIONAL_LIGHT_SHADOWS</td><td></td></tr>
+<tr><td>_SHADOWS_SOFT</td><td></td></tr>
+<tr><td>_MIXED_LIGHTING_SUBTRACTIVE</td><td></td></tr>
+</tbody></table>
+</div>
+<h2 id="macro"><a class="header" href="#macro">Macro</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>built-in</th><th>URP</th></tr></thead><tbody>
+<tr><td>UNITY_PROJ_COORD (a)</td><td>없음, 대신 a.xy / aw 사용</td></tr>
+<tr><td>UNITY_INITIALIZE_OUTPUT(type, name)</td><td>ZERO_INITIALIZE (type, name)</td></tr>
+</tbody></table>
+</div>
+<h2 id="shadow"><a class="header" href="#shadow">Shadow</a></h2>
+<p>Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl</p>
+<div class="table-wrapper"><table><thead><tr><th>Built-in</th><th>URP</th></tr></thead><tbody>
+<tr><td>UNITY_DECLARE_SHADOWMAP(tex)</td><td>TEXTURE2D_SHADOW_PARAM(textureName, samplerName)</td></tr>
+<tr><td>UNITY_SAMPLE_SHADOW(tex, uv)</td><td>SAMPLE_TEXTURE2D_SHADOW(textureName, samplerName, coord3)</td></tr>
+<tr><td>UNITY_SAMPLE_SHADOW_PROJ(tex, uv)</td><td>SAMPLE_TEXTURE2D_SHADOW(textureName, samplerName, coord4.xyz/coord4.w)</td></tr>
+<tr><td>TRANSFER_SHADOW</td><td>TransformWorldToShadowCoord</td></tr>
+<tr><td>UNITY_SHADOW_COORDS(x)</td><td>x</td></tr>
+<tr><td>SHADOWS_SCREEN</td><td>x</td></tr>
+<tr><td></td><td>GetShadowCoords</td></tr>
+</tbody></table>
+</div>
+<h2 id="fog"><a class="header" href="#fog">Fog</a></h2>
+<p>com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl</p>
+<div class="table-wrapper"><table><thead><tr><th>Built-in</th><th>URP</th></tr></thead><tbody>
+<tr><td>UNITY_TRANSFER_FOG(o, outpos)</td><td>o.fogCoord = ComputeFogFactor(clipSpacePosition.z);</td></tr>
+<tr><td>UNITY_APPLY_FOG(coord, col)</td><td>color = MixFog(color, i.fogCoord);</td></tr>
+<tr><td>UNITY_FOG_COORDS(x)</td><td>x</td></tr>
+</tbody></table>
+</div>
+<h2 id="texturesampler-declaration-macros"><a class="header" href="#texturesampler-declaration-macros">Texture/Sampler Declaration Macros</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Built-in</th><th>URP</th></tr></thead><tbody>
+<tr><td>UNITY_DECLARE_TEX2D(name)</td><td>TEXTURE2D(textureName); SAMPLER(samplerName);</td></tr>
+<tr><td>UNITY_DECLARE_TEX2D_NOSAMPLER(name)</td><td>TEXTURE2D(textureName);</td></tr>
+<tr><td>UNITY_DECLARE_TEX2DARRAY(name)</td><td>TEXTURE2D_ARRAY(textureName); SAMPLER(samplerName);</td></tr>
+<tr><td>UNITY_SAMPLE_TEX2D(name, uv)</td><td>SAMPLE_TEXTURE2D(textureName, samplerName, coord2)</td></tr>
+<tr><td>UNITY_SAMPLE_TEX2D_SAMPLER(name, samplername, uv)</td><td>SAMPLE_TEXTURE2D(textureName, samplerName, coord2)</td></tr>
+<tr><td>UNITY_SAMPLE_TEX2DARRAY(name, uv)</td><td>SAMPLE_TEXTURE2D_ARRAY(textureName, samplerName, coord2, index)</td></tr>
+<tr><td>UNITY_SAMPLE_TEX2DARRAY_LOD(name, uv, lod)</td><td>SAMPLE_TEXTURE2D_ARRAY_LOD(textureName, samplerName, coord2, index, lod)</td></tr>
+</tbody></table>
+</div>
+<p>Important to note that SCREENSPACE_TEXTURE has become TEXTURE2D_X. If you are working on some screen space effect for VR in Single Pass Instanced or Multi-view modes, you must declare the textures used with TEXTURE2D_X. This macro will handle for you the correct texture (array or not) declaration. You also have to sample the textures using SAMPLE_TEXTURE2D_X and use UnityStereoTransformScreenSpaceTex for the uv.</p>
+<h2 id="helper"><a class="header" href="#helper">Helper</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Built-in</th><th>URP</th><th></th></tr></thead><tbody>
+<tr><td>fixed Luminance (fixed3 c)</td><td>Luminance</td><td>com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl</td></tr>
+<tr><td>fixed3 DecodeLightmap (fixed4 color)</td><td>DecodeLightmap</td><td>com.unity.render-pipelines.core/ShaderLibrary/EntityLighting.hlsl</td></tr>
+<tr><td>float4 EncodeFloatRGBA (float v)</td><td>X</td><td></td></tr>
+<tr><td>float DecodeFloatRGBA (float4 enc)</td><td>X</td><td></td></tr>
+<tr><td>float2 EncodeFloatRG (float v)</td><td>X</td><td></td></tr>
+<tr><td>float DecodeFloatRG (float2 enc)</td><td>X</td><td></td></tr>
+<tr><td>float2 EncodeViewNormalStereo (float3 n)</td><td>X</td><td></td></tr>
+<tr><td>float3 DecodeViewNormalStereo (float4 enc4)</td><td>X</td><td></td></tr>
+</tbody></table>
+</div>
+<p>decodeInstructions is used as half4(LIGHTMAP_HDR_MULTIPLIER, LIGHTMAP_HDR_EXPONENT, 0.0h, 0.0h) by URP</p>
+<h2 id="lighting"><a class="header" href="#lighting">Lighting</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Built-in</th><th>URP</th><th></th></tr></thead><tbody>
+<tr><td>WorldSpaceLightDir</td><td>TransformObjectToWorld(objectSpacePosition)</td><td>com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl</td></tr>
+<tr><td>ObjSpaceLightDir</td><td>TransformWorldToObject(_MainLightPosition.xyz)</td><td>com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl</td></tr>
+<tr><td>float3 Shade4PointLights</td><td>x</td><td></td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-txt">URP -_MainLightPosition.xyz 
+URP - half3 VertexLighting(float3 positionWS, half3 normalWS) - com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl
+If you want to loop over all additional lights using GetAdditionalLight(...), you can query the additional lights count by using GetAdditionalLightsCount().
+
+Built-in	URP	 
+_LightColor0	_MainLightColor	Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl”
+_WorldSpaceLightPos0	_MainLightPosition	Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl”
+_LightMatrix0	Gone ? Cookies are not supported yet	 
+unity_4LightPosX0, unity_4LightPosY0, unity_4LightPosZ0	In URP, additional lights are stored in an array/buffer (depending on platform). Retrieve light information using Light GetAdditionalLight(uint i, float3 positionWS)	Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”
+unity_4LightAtten0	In URP, additional lights are stored in an array/buffer (depending on platform). Retrieve light information using Light GetAdditionalLight(uint i, float3 positionWS)	Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”
+unity_LightColor	In URP, additional lights are stored in an array/buffer (depending on platform). Retrieve light information using Light GetAdditionalLight(uint i, float3 positionWS)	Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”
+unity_WorldToShadow	float4x4 _MainLightWorldToShadow[MAX_SHADOW_CASCADES + 1] or _AdditionalLightsWorldToShadow[MAX_VISIBLE_LIGHTS]	Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl
+
+</code></pre>
+<p>| LIGHTING_COORDS| x| |</p>
+<h2 id="vertex-lit-helper-functions"><a class="header" href="#vertex-lit-helper-functions">Vertex-lit Helper Functions</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Built-in</th><th>URP</th></tr></thead><tbody>
+<tr><td>float3 ShadeVertexLights (float4 vertex, float3 normal)</td><td>Gone. You can try to use UNITY_LIGHTMODEL_AMBIENT.xyz + VertexLighting(...)	For VertexLighting(...) include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”</td></tr>
+</tbody></table>
+</div>
+<p>A bunch of utilities can be found in “Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl”.</p>
+<h2 id="screen-space-helper-functions"><a class="header" href="#screen-space-helper-functions">Screen-space Helper Functions</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Built-in</th><th>URP</th></tr></thead><tbody>
+<tr><td>float4 ComputeScreenPos (float4 clipPos)</td><td>float4 ComputeScreenPos(float4 positionCS) Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl”</td></tr>
+<tr><td>float4 ComputeGrabScreenPos (float4 clipPos)</td><td>Gone.</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>ComputeScreenPos deprecated - <a href="https://github.com/Unity-Technologies/Graphics/pull/2529">https://github.com/Unity-Technologies/Graphics/pull/2529</a></li>
+<li>GetVertexPositionInputs().positionNDC </li>
+</ul>
+<h2 id="camera-texture"><a class="header" href="#camera-texture">Camera Texture</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>_CameraDepthTexture</td><td>Camera.depthTextureMode</td></tr>
+<tr><td>_CameraOpaqueTexture</td><td>GrabPass</td></tr>
+</tbody></table>
+</div>
+<p>fixed depth = SAMPLE_DEPTH_TEXTURE(texture, sampler, uv);</p>
+<pre><code class="language-shader">GrabPass
+{
+    &quot;_GrabPass&quot;
+}
+sampler2D _GrabPass
+fixed4 fGrapPass = tex2Dproj(_GrabPass, i.screenPosition + 0.5f);
+</code></pre>
+<h2 id="depth"><a class="header" href="#depth">Depth</a></h2>
+<ul>
+<li>Built-in	URP</li>
+<li>LinearEyeDepth(sceneZ)	LinearEyeDepth(sceneZ, _ZBufferParams)	Include “Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl”</li>
+<li>Linear01Depth(sceneZ)	Linear01Depth(sceneZ, _ZBufferParams)	Include “Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl”</li>
+</ul>
+<p>To use the camera depth texture, include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl” and the _CameraDepthTexture will be declared for you as well as helper the functions SampleSceneDepth(...) and LoadSceneDepth(...).</p>
+<h2 id="etc"><a class="header" href="#etc">etc</a></h2>
+<ul>
+<li>ShadeSH9(normal)	SampleSH(normal)	Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl”</li>
+<li>unity_ColorSpaceLuminance	Gone. Use Luminance()	Include “Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl”</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Built-in</th><th></th><th></th></tr></thead><tbody>
+<tr><td>PerceptualRoughnessToSpecPower</td><td>x</td><td></td></tr>
+<tr><td>FresnelTerm</td><td>x</td><td></td></tr>
+<tr><td>_SpecColor</td><td>x</td><td></td></tr>
+<tr><td>BlendNormals</td><td>x</td><td>CommonMaterial.hlsl</td></tr>
+<tr><td>DotClamped</td><td>x</td><td></td></tr>
+<tr><td>unity_LightGammaCorrectionConsts_PIDiv4</td><td>x</td><td></td></tr>
+<tr><td>UnityGlobalIllumiation</td><td>x</td><td></td></tr>
+</tbody></table>
+</div>
+<hr />
+<p>여깃는건 쓰지말것
+https://leegoonz.blog/
+https://www.alanzucconi.com/tutorials/</p>
+<ul>
+<li>https://alexanderameye.github.io/outlineshader
+https://roystan.net/articles/toon-water.html - 물웅덩이
+https://darkcatgame.tistory.com/84
+https://www.cyanilux.com/recent/2/</li>
+</ul>
+<p>https://github.com/hebory?before=Y3Vyc29yOnYyOpK5MjAyMC0xMS0wOVQyMjo0MToyOCswOTowMM4Oqhfn&amp;tab=stars - https://blog.naver.com/cra2yboy/222236607952</p>
+<ul>
+<li>
+<p>툰쉐이더</p>
+<ul>
+<li>https://musoucrow.github.io/2020/07/05/urp_outline/ </li>
+<li>https://kink3d.github.io/blog/2017/10/04/Physically-Based-Toon-Shading-In-Unity
+<ul>
+<li>https://github.com/Kink3d/kShading/blob/master/Shaders/ToonLit.shader</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>반사</p>
+<ul>
+<li>https://github.com/Kink3d/kMirrors</li>
+</ul>
+</li>
+<li>
+<p>모션블러</p>
+<ul>
+<li>https://github.com/Kink3d/kMotion</li>
+</ul>
+</li>
+<li>
+<p>월드 스페이스노말</p>
+<ul>
+<li>https://github.com/Kink3d/kNormals</li>
+</ul>
+</li>
+<li>
+<p>Fast Subsurface Scattering in unity</p>
+<ul>
+<li>https://www.alanzucconi.com/2017/08/30/fast-subsurface-scattering-2/</li>
+</ul>
+</li>
+<li>
+<p>헤어 그림자</p>
+<ul>
+<li>https://zhuanlan.zhihu.com/p/232450616</li>
+</ul>
+</li>
+</ul>
+<p>Bulit-in URP</p>
+<p>GammaToLinearSpace Gamma22ToLinear com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../SRP/CheatSheet_URP.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../Postprocess/PostProcess.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../SRP/CheatSheet_URP.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../Postprocess/PostProcess.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/hlsl.min.js"></script>
+        <script src="../theme/juxtapose.min.js"></script>
+
+
+    </div>
+    </body>
+</html>
