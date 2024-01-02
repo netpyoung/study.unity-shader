@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/juxtapose.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -88,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html">둘러보기</a></li><li class="chapter-item expanded affix "><li class="part-title">Basic</li><li class="chapter-item expanded "><a href="Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="Basic/Depth.html">Depth</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html">둘러보기</a></li><li class="chapter-item expanded affix "><li class="part-title">Basic</li><li class="chapter-item expanded "><a href="Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="Basic/Depth.html">Depth</a></li><li class="chapter-item expanded affix "><li class="part-title">Link</li><li class="chapter-item expanded "><a href="Link/Tool.html">Tool</a></li><li class="chapter-item expanded "><a href="Link/Presentation.html">Presentation</a></li><li class="chapter-item expanded "><a href="Link/Reference.html">Reference</a></li><li class="chapter-item expanded "><a href="Link/EtcLink.html">EtcLink</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -1553,6 +1554,215 @@ float3 normalVS = normalize(cross(diff_h, diff_v));
 <li><a href="https://beta.unity3d.com/talks/Siggraph2011_SpecialEffectsWithDepth_WithNotes.pdf">https://beta.unity3d.com/talks/Siggraph2011_SpecialEffectsWithDepth_WithNotes.pdf</a></li>
 <li><a href="https://www.reedbeta.com/blog/depth-precision-visualized/">https://www.reedbeta.com/blog/depth-precision-visualized/</a></li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tool"><a class="header" href="#tool">Tool</a></h1>
+<ul>
+<li>
+<p><a href="https://renderdoc.org/">RenderDoc</a></p>
+</li>
+<li>
+<p><a href="https://developer.nvidia.com/nvidia-texture-tools-exporter">NVIDIA Texture Tools Exporter</a></p>
+</li>
+<li>
+<p>텍스쳐 생성 : <a href="https://github.com/mtwoodard/TextureGenerator">https://github.com/mtwoodard/TextureGenerator</a></p>
+</li>
+<li>
+<p><a href="http://teckartist.com/?page_id=107">FlowMap Painter</a></p>
+</li>
+<li>
+<p><a href="https://gumroad.com/l/EasyChannelPacking">EasyChannelPacking</a></p>
+</li>
+<li>
+<p><a href="https://docs.unity3d.com/Packages/com.unity.progrids@3.0/manual/index.html">https://docs.unity3d.com/Packages/com.unity.progrids@3.0/manual/index.html</a></p>
+</li>
+<li>
+<p><a href="https://docs.unity3d.com/Packages/com.unity.polybrush@1.0/manual/index.html">https://docs.unity3d.com/Packages/com.unity.polybrush@1.0/manual/index.html</a></p>
+</li>
+<li>
+<p><a href="https://docs.unity3d.com/Packages/com.unity.formats.fbx@4.0/manual/index.html">https://docs.unity3d.com/Packages/com.unity.formats.fbx@4.0/manual/index.html</a></p>
+</li>
+<li>
+<p><a href="https://catlikecoding.com/sdf-toolkit/docs/texture-generator/">https://catlikecoding.com/sdf-toolkit/docs/texture-generator/</a></p>
+</li>
+<li>
+<p><a href="https://github.com/andydbc/unity-texture-packer">https://github.com/andydbc/unity-texture-packer</a></p>
+</li>
+<li>
+<p><a href="https://github.com/unity3d-jp/MeshSync">https://github.com/unity3d-jp/MeshSync</a></p>
+</li>
+<li>
+<p><a href="https://github.com/unity3d-jp/NormalPainter">https://github.com/unity3d-jp/NormalPainter</a></p>
+</li>
+<li>
+<p><a href="https://github.com/M-Fatah/texture_maker">https://github.com/M-Fatah/texture_maker</a></p>
+</li>
+<li>
+<p><a href="http://mebiusbox.github.io/contents/EffectTextureMaker/">http://mebiusbox.github.io/contents/EffectTextureMaker/</a></p>
+</li>
+<li>
+<p>BRDF explorer</p>
+<ul>
+<li><a href="https://oduska.com/datahoarder/Walt%20Disney%20Animation%20Studios/BRDF%20Explorer/Website/BRDF%20Explorer.html">https://oduska.com/datahoarder/Walt%20Disney%20Animation%20Studios/BRDF%20Explorer/Website/BRDF%20Explorer.html</a></li>
+<li><a href="https://github.com/wdas/brdf/downloads">https://github.com/wdas/brdf/downloads</a></li>
+</ul>
+</li>
+<li>
+<p>MERL BRDF Database - <a href="https://www.merl.com/brdf/">https://www.merl.com/brdf/</a></p>
+</li>
+</ul>
+<h2 id="모델"><a class="header" href="#모델">모델</a></h2>
+<ul>
+<li><a href="https://www.mixamo.com/">https://www.mixamo.com/</a></li>
+<li><a href="https://www.models-resource.com/">https://www.models-resource.com/</a></li>
+<li><a href="https://en.wikipedia.org/wiki/List_of_common_3D_test_models">https://en.wikipedia.org/wiki/List_of_common_3D_test_models</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="presentation"><a class="header" href="#presentation">Presentation</a></h1>
+<ul>
+<li>년도별 작품 위주 셰이더관련 발표자료 모음.</li>
+<li>일단 모바일 URP에서 쓰일법한 기술 위주로 담자.</li>
+</ul>
+<h2 id="국내"><a class="header" href="#국내">국내</a></h2>
+<ul>
+<li><a href="https://www.slideshare.net/valhashi/2011-03-gametechtadptforpdf">2011 - [TA] 2011. 03. 테라에 사용된 렌더링 테크닉 - 임신형 (valhashi)</a></li>
+<li><a href="https://www.slideshare.net/jpcorp/kgc2012-multi-plaformmmo">2012 - [kgc2012] multi plaform Full3D MMO 만들기 &quot;삼국지를 품다&quot;의 테크니컬 아트</a></li>
+<li><a href="https://www.slideshare.net/jalnaga/ndc13ndc-2013-udk-19999169">2013 - [NDC2013] 김동석:UDK로 물리기반 셰이더 만들기</a></li>
+<li><a href="https://www.slideshare.net/kokyoungseok/2-20009459">2013 - [NDC2013] 구세대 엔진 신데렐라 만들기 최종본</a></li>
+<li><a href="https://www.slideshare.net/hyurichel/kgc2014-41150275">2014 - [KGC2014] 울프나이츠 엔진 프로그래밍 기록</a></li>
+<li><a href="https://www.slideshare.net/ndoors/2014-33402528">2014 - [유나이트코리아] 영웅의 군단의 테크니컬 아트 - 황재철</a></li>
+<li><a href="http://ndcreplay.nexon.com/NDC2014/sessions/NDC2014_0096.html">2014 - [NDC2014] 뉴비탈출 넘버원: 그래픽스 프로그래밍 길들이기</a></li>
+<li><a href="https://www.slideshare.net/HwangGoonLife/ndc15-48732678">2015 - [NDC2015] 광개토태왕 테크니컬 아트</a></li>
+<li><a href="https://www.slideshare.net/KiHyunwoo/ndc2016-a1-aaa-61450613">2016 - [NDC2016] 프로젝트 A1의 AAA급 캐릭터 렌더링 기술</a></li>
+<li><a href="https://www.slideshare.net/ssuser052dd11/igc-2016-unreal4">2016 - [IGC 2016] 넷게임즈 김영희 - Unreal4를 사용해 모바일 프로젝트 제작하기</a></li>
+<li><a href="http://www.inven.co.kr/webzine/news/?news=184847">2017 - [IGC2017] 펄어비스 개발자가 직접 알려주는 '검은사막의 압도적인 비주얼 노하우'</a></li>
+<li><a href="https://www.youtube.com/watch?v=hC62O9NGXEw">2019 - [NDC2019] 모바일에서 사용 가능한 유니티 커스텀 섭스턴스 PBR 셰이더 만들기</a></li>
+<li><a href="https://youtu.be/0LwlNVS3FJo">2019 - [Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : “애니메이션의 감성을 그대로＂와 “개발 최적화</a>
+<ul>
+<li><a href="https://youtu.be/8iKWEYvozws?t=800">https://youtu.be/8iKWEYvozws?t=800</a></li>
+<li>MatCap / Imposter / LookAt</li>
+<li>ChromaticAberration / Bloom / Noise / RadialBlur / Vignette / InvertColor / ScratchedFilm / ColorGradingLUT</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/watch?v=ufNYLgE2WGA">2020 - Dev Weeks: A3 Still Alive - Technical Art Review</a></li>
+</ul>
+<h3 id="디퍼드"><a class="header" href="#디퍼드">디퍼드</a></h3>
+<ul>
+<li><a href="https://www.slideshare.net//ozlael/deferred-rendering-case-study">2012 - [KGC 2012] 디퍼드 랜더링 케이스 스터디 : 레이더즈 &amp; 건즈2</a></li>
+</ul>
+<h2 id="일본"><a class="header" href="#일본">일본</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=ZpWsinhPFLM">2018 - 【Unite Tokyo 2018】『崩壊3rd』開発者が語るアニメ風レンダリングの極意</a>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=egHSE0dpWRw">https://www.youtube.com/watch?v=egHSE0dpWRw</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="중국"><a class="header" href="#중국">중국</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=00QugD5u1CU">유나이트 서울 2020 - 원신 콘솔 플랫폼 개발 경험 및 렌더링 파이프라인 기술 소개 Track3-1</a>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=t0rOOs1701o">Unite Seoul 2020 세션 다시보기 - 원신 콘솔 플랫폼 개발 및 렌더링 파이프라인 기술 소개</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="해외"><a class="header" href="#해외">해외</a></h2>
+<ul>
+<li>RIME
+<ul>
+<li><a href="https://www.youtube.com/watch?v=fwKQyDZ4ark">ADDON2017 - GAT #65: Stylized VFX in RIME</a></li>
+<li><a href="https://www.youtube.com/watch?v=4FIDBeF_4SI">UNREALFEST2018 - GAT #67: Stylized VFX in RIME 2.0 - Water Edition</a></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
+<h2 id="books"><a class="header" href="#books">Books</a></h2>
+<ul>
+<li><a href="https://www.hanbit.co.kr/store/books/look.php?p_code=B9447539340">2004 - Directx 9 셰이더 프로그래밍 - 타카시 이마기레</a>
+<ul>
+<li>DirectX기준</li>
+<li>저자 블로그 : <a href="https://t-pot.com/program/index.html">https://t-pot.com/program/index.html</a></li>
+<li><a href="https://dw.hanbit.co.kr/exam/1285/cd.zip">부록소스</a></li>
+</ul>
+</li>
+<li><a href="http://www.hanbit.co.kr/store/books/look.php?p_code=B8421024205">2012 - 셰이더 프로그래밍 입문 - Pope Kim</a>
+<ul>
+<li>DirectX기준, rendermonkey</li>
+<li><a href="https://github.com/netpyoung/bs.introduction-to-shader-programming">log</a></li>
+</ul>
+</li>
+<li><a href="https://www.packtpub.com/product/unity-5-x-shaders-and-effects-cookbook/9781785285240">2016 - Unity 5.x Shaders and Effects Cookbook - Alan Zucconi , Kenneth Lammers</a>
+<ul>
+<li>Built-in(Legacy)</li>
+</ul>
+</li>
+<li><a href="https://vielbooks.com/235">2017 - 유니티 쉐이더 스타트업 - 정종필</a>
+<ul>
+<li>Built-in(Legacy) / Surface</li>
+<li><a href="https://github.com/netpyoung/bs.shader_startup">log</a></li>
+</ul>
+</li>
+<li><a href="https://www.apress.com/kr/book/9781484233085">2017 - Physically Based Shader Development for Unity 2017 - Zignaigo, Claudia</a>
+<ul>
+<li>Built-in(Legacy)</li>
+<li><a href="https://github.com/netpyoung/bs.physically_based_shader_develop_for_unity">log</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="video"><a class="header" href="#video">Video</a></h2>
+<ul>
+<li><a href="https://shaderdev.com/">ShaderDev -  Chayan Vinayak Goswami</a>
+<ul>
+<li>Built-in(Legacy)</li>
+<li><a href="https://github.com/netpyoung/vs.shader-developing-using-unity">log</a></li>
+</ul>
+</li>
+<li><a href="https://www.udacity.com/course/interactive-3d-graphics--cs291">Interactive 3D Graphics by Autodesk</a></li>
+</ul>
+<h2 id="tutorial"><a class="header" href="#tutorial">Tutorial</a></h2>
+<ul>
+<li><a href="https://github.com/netpyoung/unity.shader.sandbox">https://github.com/netpyoung/unity.shader.sandbox</a>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/12RrqyAkFanKmfL96ZHvhDCozE-_rKFPlU1YVwej4_bc">setchi - ビルトイン関数の使い方いろいろ！シェーダアートの表現力を高める小技集</a>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1zga066sEmZMnZeIaIuDt0ijVIF0ii271Atl2okzCw6c">번역: 빌트인 함수 사용법 이것저것! 셰이더 아트의 표현력을 높이는 잔기술</a></li>
+</ul>
+</li>
+<li><a href="https://docs.google.com/presentation/d/1NMhx4HWuNZsjNRRlaFOu2ysjo04NgcpFlEhzodE8Rlg">setchi - 楽しい！Unityシェーダーお絵描き入門！</a>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/13VJ470UGLtMUOdNGrGZVvI-aHW3BLkNa0XUOZLvppKI">번역: 신나는! Unity 셰이더 그림 그리기 입문!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="돈아까움"><a class="header" href="#돈아까움">돈아까움</a></h2>
+<ul>
+<li>the GAME GRAPHICS: 유니티 비주얼 테크닉</li>
+<li>유니티짱 툰쉐이더 2.0 슈퍼테크닉</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="etclink"><a class="header" href="#etclink">EtcLink</a></h1>
+<h2 id="그래픽-링크-모음집"><a class="header" href="#그래픽-링크-모음집">그래픽 링크 모음집</a></h2>
+<ul>
+<li><a href="https://kesen.realtimerendering.com/">https://kesen.realtimerendering.com/</a></li>
+<li><a href="http://trowley.org/">http://trowley.org/</a></li>
+</ul>
+<h2 id="리서치"><a class="header" href="#리서치">리서치</a></h2>
+<ul>
+<li><a href="https://www.gdcvault.com/">GDC</a></li>
+<li><a href="http://research.tri-ace.com/">tri-Ace</a></li>
+<li><a href="https://developer.arm.com/solutions/graphics-and-gaming/gaming-engine/unity/presentations">ARM</a></li>
+</ul>
+<h2 id="그래프"><a class="header" href="#그래프">그래프</a></h2>
+<ul>
+<li><a href="https://www.geogebra.org/graphing">https://www.geogebra.org/graphing</a></li>
+<li><a href="https://www.desmos.com/calculator">https://www.desmos.com/calculator</a></li>
+<li><a href="https://graphtoy.com/">https://graphtoy.com/</a></li>
+<li><a href="http://tobyschachman.com/Shadershop/editor/">http://tobyschachman.com/Shadershop/editor/</a></li>
+</ul>
+<h2 id="튜토리얼"><a class="header" href="#튜토리얼">튜토리얼</a></h2>
+<ul>
+<li><a href="https://www.ronja-tutorials.com/">https://www.ronja-tutorials.com/</a></li>
+<li><a href="https://guru/unity-cpu-performance/mesh-baker-interview-ian-deane/">https://guru/unity-cpu-performance/mesh-baker-interview-ian-deane/</a></li>
+<li><a href="https://www.gamedevpensieve.com/graphics/3d/3d_lighting">https://www.gamedevpensieve.com/graphics/3d/3d_lighting</a></li>
+</ul>
 
                     </main>
 
@@ -1588,6 +1798,8 @@ float3 normalVS = normalize(cross(diff_h, diff_v));
         <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
+        <script src="theme/hlsl.min.js"></script>
+        <script src="theme/juxtapose.min.js"></script>
 
         <script>
         window.addEventListener('load', function() {
