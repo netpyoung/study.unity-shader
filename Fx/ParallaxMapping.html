@@ -184,19 +184,19 @@
 <li>parallax mapping, offset mapping, photonic mapping, virtual displace mapping 이라고 부른다.</li>
 <li>높이 정보를 활용하여 텍스처 좌표를 보정.</li>
 </ul>
-<p><img src="./res/normal_mapping_tbn_vectors.png" alt="./res/normal_mapping_tbn_vectors.png" /></p>
+<p><img src="../res/normal_mapping_tbn_vectors.png" alt="../res/normal_mapping_tbn_vectors.png" /></p>
 <ul>
 <li>Tangent Space 의 임의의 벡터 x는 <code>(t, b, n)</code>의 값을 갖게된다.</li>
 <li>t는 UV.u와 관련있을 것이고, b는 UV.v와 관련이 있게 된다.</li>
 </ul>
-<p><img src="./res/parallax_mapping_depth.png" alt="./res/parallax_mapping_depth.png" /></p>
+<p><img src="../res/parallax_mapping_depth.png" alt="../res/parallax_mapping_depth.png" /></p>
 <pre><code class="language-hlsl">Eye
 = -V_TS.tbn / V_TS.n
 = -(V_TS.t / V_TS.n,  V_TS.b / V_TS.n, V_TS.n / V_TS.n)
 = -(V_TS.t / V_TS.n,  V_TS.b / V_TS.n,               1)
 </code></pre>
-<p><img src="./res/LightTS.gif" alt="./res/LightTS.gif" /></p>
-<p><img src="./res/LightTS2.gif" alt="./res/LightTS2.gif" /></p>
+<p><img src="../res/LightTS.gif" alt="../res/LightTS.gif" /></p>
+<p><img src="../res/LightTS2.gif" alt="../res/LightTS2.gif" /></p>
 <pre><code class="language-hlsl">half3x3 TBN = half3x3(normalInputs.tangentWS, normalInputs.bitangentWS, normalInputs.normalWS);
 
 // 시점에 대한 tangent space의 V

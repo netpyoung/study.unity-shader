@@ -5637,11 +5637,18 @@ half3 final_chromatic = half3(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, chroma
 <li><a href="https://mgun.tistory.com/3253">Chromatic Aberration 1 (색수차)</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="depth-of-field"><a class="header" href="#depth-of-field">Depth of Field</a></h1>
-<p><a href="https://www.slideshare.net/youpyo/d2-depth-of-field">slideshare.net/youpyo/d2-depth-of-field</a>
-https://catlikecoding.com/unity/tutorials/advanced-rendering/depth-of-field/
-https://blog.naver.com/eryners/220152909470</p>
 <ul>
-<li>ShaderX3 Advanced Rendering with DirectX and OpenGL
+<li>
+<p><a href="https://www.slideshare.net/youpyo/d2-depth-of-field">slideshare.net/youpyo/d2-depth-of-field</a></p>
+</li>
+<li>
+<p><a href="https://catlikecoding.com/unity/tutorials/advanced-rendering/depth-of-field/">https://catlikecoding.com/unity/tutorials/advanced-rendering/depth-of-field/</a></p>
+</li>
+<li>
+<p><a href="https://blog.naver.com/eryners/220152909470">https://blog.naver.com/eryners/220152909470</a></p>
+</li>
+<li>
+<p>ShaderX3 Advanced Rendering with DirectX and OpenGL</p>
 <ul>
 <li>4.4 Improved Depth-of-Field Rendering</li>
 </ul>
@@ -5695,14 +5702,15 @@ https://blog.naver.com/eryners/220152909470</p>
 <li><a href="https://www.ea.com/frostbite/news/high-dynamic-range-color-grading-and-display-in-frostbite">https://www.ea.com/frostbite/news/high-dynamic-range-color-grading-and-display-in-frostbite</a></li>
 <li><a href="https://research.activision.com/publications/archives/hdr-in-call-of-duty">https://research.activision.com/publications/archives/hdr-in-call-of-duty</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="렌즈-플레어"><a class="header" href="#렌즈-플레어">렌즈 플레어</a></h1>
+<ul>
 <li><a href="https://www.slideshare.net/agebreak/0821-lens-flare">[0821 박민근] 렌즈 플레어(lens flare)</a></li>
 <li><a href="http://cg.skku.edu/pub/2013-lee-egsr-matrixflare">http://cg.skku.edu/pub/2013-lee-egsr-matrixflare</a></li>
 <li><a href="https://github.com/modanhan/Unity-Lens-Flare-2019">https://github.com/modanhan/Unity-Lens-Flare-2019</a></li>
 <li><a href="https://opengameart.org/content/lens-flares-and-particles?page=1">https://opengameart.org/content/lens-flares-and-particles?page=1</a></li>
 <li><a href="http://john-chapman-graphics.blogspot.com/2013/02/pseudo-lens-flare.html">http://john-chapman-graphics.blogspot.com/2013/02/pseudo-lens-flare.html</a></li>
+<li><a href="https://developer.arm.com/documentation/102259/0100/Dirty-lens-effect">https://developer.arm.com/documentation/102259/0100/Dirty-lens-effect</a></li>
 </ul>
-<p>https://developer.arm.com/documentation/102259/0100/Dirty-lens-effect</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lightshaft_postprocess"><a class="header" href="#lightshaft_postprocess">LightShaft_Postprocess</a></h1>
 <ul>
 <li>Shaft : 한 줄기 광선, 전광</li>
@@ -6112,17 +6120,22 @@ float ComputeDepth(float4 positionCS)
     float4 samplePosInCS =  float4(((float2(tid)+0.5)/sceneInfo.ViewSize)*2-1.0f, sampleDepth, 1);
     samplePosInCS.y *= -1;
 </code></pre>
-<p>incidentVec = normalize(rayStartPositionWS)
-N</p>
-<p>half3 reflectionColor = 0;
+<pre><code class="language-hlsl">
+incidentVec = normalize(rayStartPositionWS)
+N
+
+half3 reflectionColor = 0;
 if (reflectMask &gt; 0)
 {
-reflectionColor = 
-}</p>
-<p>half3 scaledR = _RayStepScale * R;
+  reflectionColor = 
+}
+
+half3 scaledR = _RayStepScale * R;
 for (_MaxRayStep)
-{</p>
-<p>}</p>
+{
+
+}
+</code></pre>
 <h2 id="hi-z-buffer"><a class="header" href="#hi-z-buffer">Hi-Z Buffer</a></h2>
 <ul>
 <li>Hierarchical-Z buffer</li>
@@ -6135,7 +6148,7 @@ for (_MaxRayStep)
 </ul>
 <p><img src="Postprocess/../res/zbuffer_to_hiz.jpg" alt="zbuffer_to_hiz.png" /></p>
 <ul>
-<li>https://zhuanlan.zhihu.com/p/278793984</li>
+<li><a href="https://zhuanlan.zhihu.com/p/278793984">https://zhuanlan.zhihu.com/p/278793984</a></li>
 </ul>
 <h2 id="ref-34"><a class="header" href="#ref-34">Ref</a></h2>
 <ul>
@@ -6318,9 +6331,9 @@ LODDitheringTransition(fadeMaskSeed, fade);
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cracked-ice"><a class="header" href="#cracked-ice">Cracked Ice</a></h1>
 <ul>
-<li>https://blog.naver.com/daehuck/222228360615
-<a href="https://www.youtube.com/watch?v=rlGNbq5p5CQ">Unity Shadergraph Tutorial - Cracked Ice</a></li>
-<li>https://80.lv/articles/how-to-build-cracked-ice-in-material-editor/</li>
+<li><a href="https://blog.naver.com/daehuck/222228360615">https://blog.naver.com/daehuck/222228360615</a></li>
+<li><a href="https://www.youtube.com/watch?v=rlGNbq5p5CQ">Unity Shadergraph Tutorial - Cracked Ice</a></li>
+<li><a href="https://80.lv/articles/how-to-build-cracked-ice-in-material-editor/">https://80.lv/articles/how-to-build-cracked-ice-in-material-editor/</a></li>
 </ul>
 <p>Parallax쓰면 조금 들어간것처럼 보임. - 이걸 겹겹히 쌓으면 더 깊이 들어간것처럼 보임</p>
 <pre><code class="language-hlsl">
@@ -6883,16 +6896,22 @@ OUT.positionCS.z = o.positionCS.w - 1.0e-6f;
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="_grass"><a class="header" href="#_grass">_Grass</a></h1>
-<p>https://roystan.net/articles/grass-shader.html</p>
-<div style="break-before: page; page-break-before: always;"></div><p>https://ateliersera.blog.me/220413097549</p>
-<p>https://www.ronja-tutorials.com/2018/11/03/river.html</p>
-<p>https://alexanderameye.github.io/simple-water.html</p>
-<p>https://darkcatgame.tistory.com/30?category=806332</p>
-<p>https://github.com/simplestargame/UniversalOceanShaderGraph</p>
-<p>https://www.youtube.com/watch?v=LyiRALUOQqo&amp;list=PL412Ym60h6uvBOpPSP-tcnINt971OD7ZC</p>
-<p>https://www.gamedeveloper.com/programming/water-interaction-model-for-boats-in-video-games-part-2
-https://www.e2gamedev.com/water-buoyancy</p>
-<div style="break-before: page; page-break-before: always;"></div><p><a href="https://www.youtube.com/watch?v=Gym5JWHgjkk">Unity Shader Graph - Ice Tutorial</a></p>
+<ul>
+<li><a href="https://roystan.net/articles/grass-shader.html">https://roystan.net/articles/grass-shader.html</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="물"><a class="header" href="#물">물</a></h1>
+<ul>
+<li><a href="https://ateliersera.blog.me/220413097549">https://ateliersera.blog.me/220413097549</a></li>
+<li><a href="https://www.ronja-tutorials.com/2018/11/03/river.html">https://www.ronja-tutorials.com/2018/11/03/river.html</a></li>
+<li><a href="https://alexanderameye.github.io/simple-water.html">https://alexanderameye.github.io/simple-water.html</a></li>
+<li><a href="https://darkcatgame.tistory.com/30?category=806332">https://darkcatgame.tistory.com/30?category=806332</a></li>
+<li><a href="https://github.com/simplestargame/UniversalOceanShaderGraph">https://github.com/simplestargame/UniversalOceanShaderGraph</a></li>
+<li><a href="https://www.youtube.com/watch?v=LyiRALUOQqo&amp;list=PL412Ym60h6uvBOpPSP-tcnINt971OD7ZC">https://www.youtube.com/watch?v=LyiRALUOQqo&amp;list=PL412Ym60h6uvBOpPSP-tcnINt971OD7ZC</a></li>
+<li><a href="https://www.gamedeveloper.com/programming/water-interaction-model-for-boats-in-video-games-part-2">https://www.gamedeveloper.com/programming/water-interaction-model-for-boats-in-video-games-part-2</a></li>
+<li><a href="https://www.e2gamedev.com/water-buoyancy">https://www.e2gamedev.com/water-buoyancy</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="얼음"><a class="header" href="#얼음">얼음</a></h1>
+<p><a href="https://www.youtube.com/watch?v=Gym5JWHgjkk">Unity Shader Graph - Ice Tutorial</a></p>
 <p>ScreenColor
 add Fresnel</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="interior-mapping"><a class="header" href="#interior-mapping">Interior Mapping</a></h1>
@@ -7383,19 +7402,19 @@ final.rgb *= pow(rim, 3);
 <li>parallax mapping, offset mapping, photonic mapping, virtual displace mapping 이라고 부른다.</li>
 <li>높이 정보를 활용하여 텍스처 좌표를 보정.</li>
 </ul>
-<p><img src="Fx/./res/normal_mapping_tbn_vectors.png" alt="./res/normal_mapping_tbn_vectors.png" /></p>
+<p><img src="Fx/../res/normal_mapping_tbn_vectors.png" alt="../res/normal_mapping_tbn_vectors.png" /></p>
 <ul>
 <li>Tangent Space 의 임의의 벡터 x는 <code>(t, b, n)</code>의 값을 갖게된다.</li>
 <li>t는 UV.u와 관련있을 것이고, b는 UV.v와 관련이 있게 된다.</li>
 </ul>
-<p><img src="Fx/./res/parallax_mapping_depth.png" alt="./res/parallax_mapping_depth.png" /></p>
+<p><img src="Fx/../res/parallax_mapping_depth.png" alt="../res/parallax_mapping_depth.png" /></p>
 <pre><code class="language-hlsl">Eye
 = -V_TS.tbn / V_TS.n
 = -(V_TS.t / V_TS.n,  V_TS.b / V_TS.n, V_TS.n / V_TS.n)
 = -(V_TS.t / V_TS.n,  V_TS.b / V_TS.n,               1)
 </code></pre>
-<p><img src="Fx/./res/LightTS.gif" alt="./res/LightTS.gif" /></p>
-<p><img src="Fx/./res/LightTS2.gif" alt="./res/LightTS2.gif" /></p>
+<p><img src="Fx/../res/LightTS.gif" alt="../res/LightTS.gif" /></p>
+<p><img src="Fx/../res/LightTS2.gif" alt="../res/LightTS2.gif" /></p>
 <pre><code class="language-hlsl">half3x3 TBN = half3x3(normalInputs.tangentWS, normalInputs.bitangentWS, normalInputs.normalWS);
 
 // 시점에 대한 tangent space의 V
@@ -7473,8 +7492,11 @@ half NdotL = saturate(dot(N, L));
 <li><a href="http://blog.naver.com/sybershin/129399930">http://blog.naver.com/sybershin/129399930</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="shadow-2"><a class="header" href="#shadow-2">Shadow</a></h1>
-<p>TRANSFER_SHADOW
-TRANSFER_SHADOW_CASTER</p>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>TRANSFER_SHADOW</td><td></td></tr>
+<tr><td>TRANSFER_SHADOW_CASTER</td><td></td></tr>
+</tbody></table>
+</div>
 <h2 id="바닥그림자"><a class="header" href="#바닥그림자">바닥그림자</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>이름</th><th>부하</th><th>형상</th><th>자기그림자</th><th>특징</th></tr></thead><tbody>
 <tr><td>원형</td><td>가장적음</td><td>평면</td><td>X</td><td>원형텍스쳐</td></tr>
@@ -8120,15 +8142,16 @@ float3 GetCurrentViewPosition()
 <ul>
 <li>zfighiting
 <ul>
-<li>https://blog.naver.com/shol9570/222407549035</li>
+<li><a href="https://blog.naver.com/shol9570/222407549035">https://blog.naver.com/shol9570/222407549035</a></li>
 <li>모바일 소수점 계산이 원할하지 않음</li>
 <li>Near와 Far의 격차를 줄임</li>
 </ul>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><ul>
-<li>https://docs.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-render-multi-thread-render</li>
-<li>https://docs.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-render-multi-thread-command-list</li>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="command-buffer"><a class="header" href="#command-buffer">Command Buffer</a></h1>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-render-multi-thread-render">https://docs.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-render-multi-thread-render</a></li>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-render-multi-thread-command-list">https://docs.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-render-multi-thread-command-list</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="chromasubsampling"><a class="header" href="#chromasubsampling">ChromaSubsampling</a></h1>
 <div class="table-wrapper"><table><thead><tr><th>사람 눈 세포</th><th>인식</th><th>갯수</th></tr></thead><tbody>

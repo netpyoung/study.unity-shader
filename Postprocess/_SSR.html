@@ -302,17 +302,22 @@ float ComputeDepth(float4 positionCS)
     float4 samplePosInCS =  float4(((float2(tid)+0.5)/sceneInfo.ViewSize)*2-1.0f, sampleDepth, 1);
     samplePosInCS.y *= -1;
 </code></pre>
-<p>incidentVec = normalize(rayStartPositionWS)
-N</p>
-<p>half3 reflectionColor = 0;
+<pre><code class="language-hlsl">
+incidentVec = normalize(rayStartPositionWS)
+N
+
+half3 reflectionColor = 0;
 if (reflectMask &gt; 0)
 {
-reflectionColor = 
-}</p>
-<p>half3 scaledR = _RayStepScale * R;
+  reflectionColor = 
+}
+
+half3 scaledR = _RayStepScale * R;
 for (_MaxRayStep)
-{</p>
-<p>}</p>
+{
+
+}
+</code></pre>
 <h2 id="hi-z-buffer"><a class="header" href="#hi-z-buffer">Hi-Z Buffer</a></h2>
 <ul>
 <li>Hierarchical-Z buffer</li>
@@ -325,7 +330,7 @@ for (_MaxRayStep)
 </ul>
 <p><img src="../res/zbuffer_to_hiz.jpg" alt="zbuffer_to_hiz.png" /></p>
 <ul>
-<li>https://zhuanlan.zhihu.com/p/278793984</li>
+<li><a href="https://zhuanlan.zhihu.com/p/278793984">https://zhuanlan.zhihu.com/p/278793984</a></li>
 </ul>
 <h2 id="ref"><a class="header" href="#ref">Ref</a></h2>
 <ul>
