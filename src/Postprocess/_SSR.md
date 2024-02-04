@@ -122,7 +122,7 @@ float ComputeDepth(float4 positionCS)
     samplePosInCS.y *= -1;
 ```
 
-
+``` hlsl
 
 incidentVec = normalize(rayStartPositionWS)
 N
@@ -133,14 +133,12 @@ if (reflectMask > 0)
   reflectionColor = 
 }
 
-
-
-
 half3 scaledR = _RayStepScale * R;
 for (_MaxRayStep)
 {
 
 }
+```
 
 ## Hi-Z Buffer
 
@@ -151,7 +149,7 @@ for (_MaxRayStep)
 
 ![zbuffer_to_hiz.png](../res/zbuffer_to_hiz.jpg)
 
-- https://zhuanlan.zhihu.com/p/278793984
+- <https://zhuanlan.zhihu.com/p/278793984>
 
 ## Ref
 

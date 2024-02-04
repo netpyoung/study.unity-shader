@@ -3,12 +3,12 @@
 - parallax mapping, offset mapping, photonic mapping, virtual displace mapping 이라고 부른다.
 - 높이 정보를 활용하여 텍스처 좌표를 보정.
 
-![./res/normal_mapping_tbn_vectors.png](./res/normal_mapping_tbn_vectors.png)
+![../res/normal_mapping_tbn_vectors.png](../res/normal_mapping_tbn_vectors.png)
 
 - Tangent Space 의 임의의 벡터 x는 `(t, b, n)`의 값을 갖게된다.
 - t는 UV.u와 관련있을 것이고, b는 UV.v와 관련이 있게 된다.
 
-![./res/parallax_mapping_depth.png](./res/parallax_mapping_depth.png)
+![../res/parallax_mapping_depth.png](../res/parallax_mapping_depth.png)
 
 ``` hlsl
 Eye
@@ -17,9 +17,9 @@ Eye
 = -(V_TS.t / V_TS.n,  V_TS.b / V_TS.n,               1)
 ```
 
-![./res/LightTS.gif](./res/LightTS.gif)
+![../res/LightTS.gif](../res/LightTS.gif)
 
-![./res/LightTS2.gif](./res/LightTS2.gif)
+![../res/LightTS2.gif](../res/LightTS2.gif)
 
 ``` hlsl
 half3x3 TBN = half3x3(normalInputs.tangentWS, normalInputs.bitangentWS, normalInputs.normalWS);

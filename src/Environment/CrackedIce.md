@@ -1,8 +1,8 @@
 # Cracked Ice
 
-- https://blog.naver.com/daehuck/222228360615
-[Unity Shadergraph Tutorial - Cracked Ice](https://www.youtube.com/watch?v=rlGNbq5p5CQ)
-- https://80.lv/articles/how-to-build-cracked-ice-in-material-editor/
+- <https://blog.naver.com/daehuck/222228360615>
+- [Unity Shadergraph Tutorial - Cracked Ice](https://www.youtube.com/watch?v=rlGNbq5p5CQ)
+- <https://80.lv/articles/how-to-build-cracked-ice-in-material-editor/>
 
 Parallax쓰면 조금 들어간것처럼 보임. - 이걸 겹겹히 쌓으면 더 깊이 들어간것처럼 보임
 
