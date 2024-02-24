@@ -41,11 +41,11 @@ half4 frag(Varyings IN) : SV_Target
 
 ## TBN
 
-| TBN        | Source      | xyz | UV |
-|------------|-------------|-----|----|
-| `T`angent  | TANGENT     | x   | u  |
-| `B`inormal | cross(T, N) | y   | v  |
-| `N`ormal   | NORMAL      | z   |    |
+| TBN        | Source      | xyz | UV  |
+| ---------- | ----------- | --- | --- |
+| `T`angent  | TANGENT     | x   | u   |
+| `B`inormal | cross(T, N) | y   | v   |
+| `N`ormal   | NORMAL      | z   |     |
 
 ``` shader
 N = mul(mat_I_M, normalOS);
@@ -93,12 +93,12 @@ normalTS = lerp(normalTS, vec_TBN_UP, _Flatteness);
 - <https://docs.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-block-compression#bc3>
 
 |        |                                   |              |
-|--------|-----------------------------------|--------------|
+| ------ | --------------------------------- | ------------ |
 | DXT5   | BC3 format                        | (x, y, 0, 1) |
 | DXT5nm | DXT5의 R채널값이 A채널로 이동된것 | (1, y, 0, x) |
 
 | BC3 | channel       | bit |
-|-----|---------------|-----|
+| --- | ------------- | --- |
 | x   | a0, a1        | 16  |
 |     | alpha indices | 48  |
 | y   | color0,1      | 32  |
@@ -107,7 +107,7 @@ normalTS = lerp(normalTS, vec_TBN_UP, _Flatteness);
 ![d3d10-compression-bc3.png](../res/d3d10-compression-bc3.png)
 
 | BC5 | channel       | bit |
-|-----|---------------|-----|
+| --- | ------------- | --- |
 | x   | r0, r1        | 16  |
 |     | red indices   | 48  |
 | y   | g0, g1        | 32  |
@@ -179,11 +179,11 @@ real3 UnpackNormalAG(real4 packedNormal, real scale = 1.0)
 
 A라는 도형을 x에 대해서 2만큼 스케일 업하고 싶다고 가정하면,
 
-|   | 정점   | x 스케일 | 노말     |
-|---|--------|----------|----------|
-| A | (1, 1) | 1        | (1, 1)   |
-| B | (2, 1) | 2        | (2, 1)   |
-| C | (2, 1) | 2        | (0.5, 1) |
+|     | 정점   | x 스케일 | 노말     |
+| --- | ------ | -------- | -------- |
+| A   | (1, 1) | 1        | (1, 1)   |
+| B   | (2, 1) | 2        | (2, 1)   |
+| C   | (2, 1) | 2        | (0.5, 1) |
 
 ![res](../res/scaleproblem.png)
 
@@ -249,3 +249,31 @@ world-Normal
 
 - 유니티는 OpenGL(Y+) 를 써서 보기 비교적 편하다.
 - DirectX와 같은 엔진에서는 작업자를 위해 Y+텍스쳐 제작 쉐이더에서 y에 `-1`을 곱해 뒤집어 주는 코드를 넣어주면 작업자들이 편해진다.
+
+## MikkTSpace
+
+- Mikkelsen tangent space normal
+  - <https://github.com/mmikk/MikkTSpace>
+
+| URP   | 셰이더 그래프             | URP Lit |
+| ----- | ------------------------- | ------- |
+| 8.1.0 | 픽셀당 MikkTSpace 노멀 맵 | 정점당  |
+| 8.2.0 | 픽셀당                    | 픽셀당  |
+
+
+- 노말맵 베이크
+  - 방식1. 하이트맵이나 일반 이미지를 이용해서 노멀맵 변환
+  - 방식2. 로우폴리곤과 하이폴리곤을 가지고 베이크
+    - 3D프로그램 별 에버레지 버텍스 노말에 동일한 연산을 하지 않음.
+      - 동일한 연산을 하도록 MikkTSpace로 통일.
+
+
+## Ref
+
+- youtube: 안콜3D - (전체공개) 노말맵의 모든것
+  - PART [01](https://www.youtube.com/watch?v=NSLT6CoUUK0), [02](https://www.youtube.com/watch?v=bGv3OJQCGeM)
+- [xNormal](https://xnormal.net/) 프로그램
+  - 사용법
+    - youtube: 엑스 노말(x-Normal) 사용법
+      - [1](https://www.youtube.com/watch?v=v9RnG4jJ16k), [2](https://www.youtube.com/watch?v=Nl1A-C3rvfE)
+- <https://bgolus.medium.com/generating-perfect-normal-maps-for-unity-f929e673fc57>
