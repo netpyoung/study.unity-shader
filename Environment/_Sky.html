@@ -213,7 +213,7 @@
 <li><code>unity_SpecCube0</code>가 위에서 설정된 메테리얼로 스카이박스를 렌더링함.(<code>Camera &gt; Background Type</code>과는 상관없음)</li>
 </ul>
 </li>
-<li>URP 환경이라도 Built-in(legacy)의 기본 Pass의 태그값 <code>&quot;LightMode&quot; = &quot;ForwardBase&quot;</code>로 하여야만 동작한다.</li>
+<li>URP 환경이라도 Built-in(legacy)의 기본 Pass의 태그값 <code>"LightMode" = "ForwardBase"</code>로 하여야만 동작한다.</li>
 </ul>
 <h2 id="유니티의-skybox"><a class="header" href="#유니티의-skybox">유니티의 Skybox</a></h2>
 <ul>
@@ -316,7 +316,7 @@ half4 SampleSun(in half3 viewDir, in half alpha)
 }
 </code></pre>
 <pre><code class="language-hlsl">// ['Infinite' sky shader for Unity](https://aras-p.info/blog/2019/02/01/Infinite-sky-shader-for-Unity/)
-// 유니티는 &quot;reversed-Z projection&quot;을 이용하지만, &quot;infinite projection&quot;은 아니다
+// 유니티는 "reversed-Z projection"을 이용하지만, "infinite projection"은 아니다
 
 #if defined(UNITY_REVERSED_Z)
 // when using reversed-Z, make the Z be just a tiny

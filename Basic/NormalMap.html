@@ -409,6 +409,57 @@ world-Normal
 <li>유니티는 OpenGL(Y+) 를 써서 보기 비교적 편하다.</li>
 <li>DirectX와 같은 엔진에서는 작업자를 위해 Y+텍스쳐 제작 쉐이더에서 y에 <code>-1</code>을 곱해 뒤집어 주는 코드를 넣어주면 작업자들이 편해진다.</li>
 </ul>
+<h2 id="mikktspace"><a class="header" href="#mikktspace">MikkTSpace</a></h2>
+<ul>
+<li>Mikkelsen tangent space normal
+<ul>
+<li><a href="https://github.com/mmikk/MikkTSpace">https://github.com/mmikk/MikkTSpace</a></li>
+</ul>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>URP</th><th>셰이더 그래프</th><th>URP Lit</th></tr></thead><tbody>
+<tr><td>8.1.0</td><td>픽셀당 MikkTSpace 노멀 맵</td><td>정점당</td></tr>
+<tr><td>8.2.0</td><td>픽셀당</td><td>픽셀당</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>노말맵 베이크
+<ul>
+<li>방식1. 하이트맵이나 일반 이미지를 이용해서 노멀맵 변환</li>
+<li>방식2. 로우폴리곤과 하이폴리곤을 가지고 베이크
+<ul>
+<li>3D프로그램 별 에버레지 버텍스 노말에 동일한 연산을 하지 않음.
+<ul>
+<li>동일한 연산을 하도록 MikkTSpace로 통일.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="ref"><a class="header" href="#ref">Ref</a></h2>
+<ul>
+<li>youtube: 안콜3D - (전체공개) 노말맵의 모든것
+<ul>
+<li>PART <a href="https://www.youtube.com/watch?v=NSLT6CoUUK0">01</a>, <a href="https://www.youtube.com/watch?v=bGv3OJQCGeM">02</a></li>
+</ul>
+</li>
+<li><a href="https://xnormal.net/">xNormal</a> 프로그램
+<ul>
+<li>사용법
+<ul>
+<li>youtube: 엑스 노말(x-Normal) 사용법
+<ul>
+<li><a href="https://www.youtube.com/watch?v=v9RnG4jJ16k">1</a>, <a href="https://www.youtube.com/watch?v=Nl1A-C3rvfE">2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://bgolus.medium.com/generating-perfect-normal-maps-for-unity-f929e673fc57">https://bgolus.medium.com/generating-perfect-normal-maps-for-unity-f929e673fc57</a></li>
+</ul>
 
                     </main>
 

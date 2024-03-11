@@ -191,7 +191,7 @@ Shader &lt;shader-name&gt;
     // http://docs.unity3d.com/Manual/SL-Properties.html
     Properties
     {
-        _PropertyName (&quot;displayed name&quot;, &lt;property-type&gt;) = &lt;property-default-value&gt;
+        _PropertyName ("displayed name", &lt;property-type&gt;) = &lt;property-default-value&gt;
     }
 
     // http://docs.unity3d.com/Manual/SL-SubShader.html
@@ -208,13 +208,13 @@ Shader &lt;shader-name&gt;
         LOD &lt;lod-number&gt;
             
         // http://docs.unity3d.com/Manual/SL-UsePass.html
-        UsePass &quot;Shader/Name&quot;
+        UsePass "Shader/Name"
         
         
         // http://docs.unity3d.com/Manual/SL-Pass.html
         Pass
         {
-            Name &quot;PassName&quot;
+            Name "PassName"
             
             // https://docs.unity3d.com/Manual/SL-PassTags.html
             Tags
@@ -263,10 +263,10 @@ Range(min, max) | float  |
 Vector          | float4 | (x, y, z, w)
 Color           | float4 | (r, g, b, a)
 
-2D              | float4 | &quot;&quot;, &quot;white&quot;, &quot;black&quot;, &quot;gray&quot;, &quot;bump&quot; // for     power of 2 size
-Rect            | float4 | &quot;&quot;, &quot;white&quot;, &quot;black&quot;, &quot;gray&quot;, &quot;bump&quot; // for non-power of 2 size
+2D              | float4 | "", "white", "black", "gray", "bump" // for     power of 2 size
+Rect            | float4 | "", "white", "black", "gray", "bump" // for non-power of 2 size
 
-Cube            | float4 | &quot;&quot;, &quot;white&quot;, &quot;black&quot;, &quot;gray&quot;, &quot;bump&quot;
+Cube            | float4 | "", "white", "black", "gray", "bump"
 
 // 주의해야할게 2D/Rect/Cube는 linear설정 관계없이 sRGB로 된다.
 // ex) pow(gray, 2.2);
@@ -318,19 +318,19 @@ unity_SpecCube1
     Tags
     {
         // 주의. Pass의 Tag랑 다름
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-        &quot;RenderType&quot; = &quot;Opaque&quot;
-        &quot;Queue&quot; = &quot;Geometry&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
+        "RenderType" = "Opaque"
+        "Queue" = "Geometry"
     }
 }
 </code></pre>
 <pre><code class="language-hlsl">// ex) cutout() 셰이더
 Tags
 {
-    &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-    &quot;Queue&quot; = &quot;AlphaTest&quot;
-    &quot;RenderType&quot; = &quot;TransparentCutout&quot;
-    &quot;IgnoreProjector&quot; = &quot;True&quot;
+    "RenderPipeline" = "UniversalRenderPipeline"
+    "Queue" = "AlphaTest"
+    "RenderType" = "TransparentCutout"
+    "IgnoreProjector" = "True"
 }
 </code></pre>
 <h3 id="renderpipeline"><a class="header" href="#renderpipeline">RenderPipeline</a></h3>
@@ -353,7 +353,7 @@ Tags
 <ul>
 <li>그룹을 짓는것. 해당 그룹의 셰이더를 바꿔 랜더링 할 수 있음.
 <ul>
-<li>예를들어 Opaque의 노말버퍼를 만들고 싶을때 <code>RenderWithShader(Shader shader, &quot;Opaque&quot;)</code> 이런 식으로.. </li>
+<li>예를들어 Opaque의 노말버퍼를 만들고 싶을때 <code>RenderWithShader(Shader shader, "Opaque")</code> 이런 식으로..</li>
 </ul>
 </li>
 <li><a href="https://docs.unity3d.com/2021.1/Documentation/Manual/SL-ShaderReplacement.html">https://docs.unity3d.com/2021.1/Documentation/Manual/SL-ShaderReplacement.html</a></li>
@@ -384,7 +384,7 @@ Tags
     Tags
     {
         // 주의. SubShader의 Tag랑 다름
-        &quot;LightMode&quot; = &quot;UniversalForward&quot;
+        "LightMode" = "UniversalForward"
     }
 }
 </code></pre>
@@ -426,7 +426,7 @@ Tags
 <h2 id="offset"><a class="header" href="#offset">Offset</a></h2>
 <pre><code class="language-hlsl">Offset Factor, Units
 </code></pre>
-<p>Factor 및 units 파라미터 2개를 사용하여 뎁스 오프셋을 지정. Factor 는 폴리곤의 X 또는 Y를 기준으로 최대 Z 기울기를 스케일하고 units 는 최소 분석 가능 뎁스 버퍼 값을 스케일 하게된다.이를 통해 두개의 오브젝트가 겹칠경우 특정 오브젝트를 앞에 그리게 조절할 수 있다. </p>
+<p>Factor 및 units 파라미터 2개를 사용하여 뎁스 오프셋을 지정. Factor 는 폴리곤의 X 또는 Y를 기준으로 최대 Z 기울기를 스케일하고 units 는 최소 분석 가능 뎁스 버퍼 값을 스케일 하게된다.이를 통해 두개의 오브젝트가 겹칠경우 특정 오브젝트를 앞에 그리게 조절할 수 있다.</p>
 <h2 id="alphatomask"><a class="header" href="#alphatomask">AlphaToMask</a></h2>
 <pre><code class="language-hlsl">AlphaToMask On
 </code></pre>
@@ -488,7 +488,7 @@ Pass
     SetTexture textureProperty { combine options }
 
     GrabPass { } // _GrabTexture 
-    GrabPass { &quot;TextureName&quot; } 
+    GrabPass { "TextureName" } 
 
     CGPROGRAM
     #pragma surface surfaceFunction lightModel [optionalparams]

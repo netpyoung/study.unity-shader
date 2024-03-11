@@ -193,17 +193,17 @@
 <h2 id="2-pass"><a class="header" href="#2-pass">2-pass</a></h2>
 <pre><code class="language-hlsl">Tags
 {
-    &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
+    "RenderPipeline" = "UniversalRenderPipeline"
 }
 
 Pass
 {
-    Name &quot;Outline&quot;
+    Name "Outline"
     Tags
     {
-        &quot;LightMode&quot; = &quot;SRPDefaultUnlit&quot;
-        &quot;Queue&quot; = &quot;Geometry&quot;
-        &quot;RenderType&quot; = &quot;Opaque&quot;
+        "LightMode" = "SRPDefaultUnlit"
+        "Queue" = "Geometry"
+        "RenderType" = "Opaque"
     }
     Cull Front
     
@@ -214,12 +214,12 @@ Pass
 
 Pass
 {
-    Name &quot;Front&quot;
+    Name "Front"
     Tags
     {
-        &quot;LightMode&quot; = &quot;UniversalForward&quot;
-        &quot;Queue&quot; = &quot;Geometry&quot;
-        &quot;RenderType&quot; = &quot;Opaque&quot;
+        "LightMode" = "UniversalForward"
+        "Queue" = "Geometry"
+        "RenderType" = "Opaque"
     }
     Cull Back
 

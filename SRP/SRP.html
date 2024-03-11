@@ -194,7 +194,7 @@ public RenderPipelineAsset _renderPipelineAsset;
 GraphicsSettings.renderPipelineAsset = _renderPipelineAsset;
 </code></pre>
 <pre><code class="language-cs">// 클래스를 만들어서 사용자 렌더파이프라인에셋 만들기
-[CreateAssetMenu(menuName = &quot;Rendering/CustomRenderPipelineAsset&quot;)]
+[CreateAssetMenu(menuName = "Rendering/CustomRenderPipelineAsset")]
 public class CustomRenderPipelineAsset : RenderPipelineAsset
 {
     protected override RenderPipeline CreatePipeline()
@@ -226,12 +226,12 @@ public class CustomRenderPipeline : RenderPipeline
     Tags
     {
         // LightMode 태그는 라이팅 파이프 라인에서 패스의 역할을 정의.
-        &quot;LightMode&quot; = &quot;CustomLightMode&quot;
+        "LightMode" = "CustomLightMode"
     }
 }
 
 </code></pre>
-<pre><code class="language-cs">[CreateAssetMenu(menuName = &quot;Rendering/CustomRenderPipelineAsset&quot;)]
+<pre><code class="language-cs">[CreateAssetMenu(menuName = "Rendering/CustomRenderPipelineAsset")]
 public class CustomRenderPipelineAsset : RenderPipelineAsset
 {
     protected override RenderPipeline CreatePipeline()
@@ -257,7 +257,7 @@ public class CustomRenderPipeline : RenderPipeline
 // ==========================================================================
 public class CustomRenderer
 {
-    readonly static ShaderTagId unlitShaderTagId = new ShaderTagId(&quot;CustomLightMode&quot;);
+    readonly static ShaderTagId unlitShaderTagId = new ShaderTagId("CustomLightMode");
 
     public void Render(ref ScriptableRenderContext context, Camera cam)
     {
@@ -294,7 +294,7 @@ context.DrawSkybox(camera)        // Skybox
 </code></pre>
 <pre><code class="language-cs">// cs
 var cmd = new CommandBuffer();
-cmd.SetGlobalVector(&quot;_LightDir&quot;, new Vector4(0, 1, 0, 0));
+cmd.SetGlobalVector("_LightDir", new Vector4(0, 1, 0, 0));
 context.ExecuteCommandBuffer(cmd);
 cmd.Release();
 
@@ -311,7 +311,7 @@ CBUFFER_END
 <pre><code class="language-cs">/// Render Texture 사용.
 
 // RenderTarget Id가 필요
-int _TmpShaderProperty = Shader.PropertyToID(&quot;_TmpShaderProperty&quot;);
+int _TmpShaderProperty = Shader.PropertyToID("_TmpShaderProperty");
 
 {
     var cmd = new CommandBuffer();

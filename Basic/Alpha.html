@@ -191,24 +191,24 @@
 {
     Tags // SubShader의 Tags는 Pass의 Tags와 다름.
     {
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
 
-        // &quot;IgnoreProjector&quot; &lt;&lt;&lt; 요놈은 URP에서 안씀
+        // "IgnoreProjector" &lt;&lt;&lt; 요놈은 URP에서 안씀
 
         // for cutout
-        &quot;Queue&quot; = &quot;AlphaTest&quot;              // 렌더순서
-        &quot;RenderType&quot; = &quot;TransparentCutout&quot; // 그룹핑(전체 노말맵같이 한꺼번에 바꾸어 그릴때 이용)
+        "Queue" = "AlphaTest"              // 렌더순서
+        "RenderType" = "TransparentCutout" // 그룹핑(전체 노말맵같이 한꺼번에 바꾸어 그릴때 이용)
 
         // for blend
-        &quot;Queue&quot; = &quot;Transparent&quot;
-        &quot;RenderType&quot; = &quot;Transparent&quot;
+        "Queue" = "Transparent"
+        "RenderType" = "Transparent"
     }
 
     Pass
     {
         Tags
         {
-            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+            "LightMode" = "UniversalForward"
         }
 
         // https://docs.unity3d.com/Manual/SL-Blend.html
@@ -258,16 +258,16 @@
 {
     Tags // SubShader의 Tags는 Pass의 Tags와 다름.
     {
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-        &quot;Queue&quot; = &quot;AlphaTest&quot;
-        &quot;RenderType&quot; = &quot;TransparentCutout&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
+        "Queue" = "AlphaTest"
+        "RenderType" = "TransparentCutout"
     }
 
     Pass
     {
         Tags
         {
-            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+            "LightMode" = "UniversalForward"
         }
 
         HLSLPROGRAM
@@ -303,9 +303,9 @@ void AlphaDiscard(real alpha, real cutoff, real offset = real(0.0))
 {
     Tags // SubShader의 Tags는 Pass의 Tags와 다름.
     {
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-        &quot;Queue&quot; = &quot;Transparent&quot;
-        &quot;RenderType&quot; = &quot;Transparent&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
+        "Queue" = "Transparent"
+        "RenderType" = "Transparent"
     }
 
     Pass
@@ -315,7 +315,7 @@ void AlphaDiscard(real alpha, real cutoff, real offset = real(0.0))
 
         Tags
         {
-            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+            "LightMode" = "UniversalForward"
         }
     }
 }
@@ -331,16 +331,16 @@ void AlphaDiscard(real alpha, real cutoff, real offset = real(0.0))
 {
     Tags // SubShader의 Tags는 Pass의 Tags와 다름.
     {
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-        &quot;Queue&quot; = &quot;Transparent&quot;
-        &quot;RenderType&quot; = &quot;Transparent&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
+        "Queue" = "Transparent"
+        "RenderType" = "Transparent"
     }
 
     Pass
     {
         Tags
         {
-            &quot;LightMode&quot; = &quot;SRPDefaultUnlit&quot;
+            "LightMode" = "SRPDefaultUnlit"
         }
         ZWrite On
         ColorMask 0 // 색 렌더링 안함
@@ -355,7 +355,7 @@ void AlphaDiscard(real alpha, real cutoff, real offset = real(0.0))
     {
         Tags
         {
-            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+            "LightMode" = "UniversalForward"
         }
 
         ZWrite Off

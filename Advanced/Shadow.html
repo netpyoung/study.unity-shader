@@ -240,7 +240,7 @@ finalColor.rgb *= shadow;
 // Toggle fog on transparent
 #define _ENABLE_FOG_ON_TRANSPARENT
 </code></pre>
-<pre><code class="language-hlsl">UsePass &quot;Universal Render Pipeline/Lit/ShadowCaster&quot;
+<pre><code class="language-hlsl">UsePass "Universal Render Pipeline/Lit/ShadowCaster"
 
 com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl
 
@@ -340,7 +340,7 @@ half shadowAttenuation = MainLightRealtimeShadow(shadowCoord);
 <pre><code class="language-hlsl">// 그림자 그려주는놈
 Pass
 {
-    Tags{&quot;LightMode&quot; = &quot;ShadowCaster&quot;}
+    Tags{"LightMode" = "ShadowCaster"}
 }
 
 vert()
@@ -358,10 +358,10 @@ frag()
 </code></pre>
 <pre><code class="language-hlsl">Pass
 {
-    Name &quot;ShadowCaster&quot;
+    Name "ShadowCaster"
     Tags
     {
-        &quot;LightMode&quot; = &quot;ShadowCaster&quot;
+        "LightMode" = "ShadowCaster"
     }
 
     ZWrite On
@@ -373,10 +373,10 @@ frag()
     #pragma vertex shadowVert
     #pragma fragment shadowFrag
 
-    #include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl&quot;  // real
-    #include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl&quot; // LerpWhiteTo
-    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl&quot;
-    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl&quot; // ApplyShadowBias
+    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"  // real
+    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl" // LerpWhiteTo
+    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl" // ApplyShadowBias
 
     struct Attributes
     {
@@ -407,7 +407,7 @@ frag()
     ENDHLSL
 }
 </code></pre>
-<pre><code class="language-hlsl">#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl&quot;  // real
+<pre><code class="language-hlsl">#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"  // real
 #if defined(SHADER_API_MOBILE) || defined(SHADER_API_SWITCH)
 #define HAS_HALF 1
 #else
@@ -420,14 +420,14 @@ frag()
 #define real3 half3
 #define real4 half4
 
-#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl&quot; // ApplyShadowBias
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl" // ApplyShadowBias
 float3 ApplyShadowBias(float3 positionWS, float3 normalWS, float3 lightDirection)
 
 
 real SampleShadowmap(TEXTURE2D_SHADOW_PARAM(ShadowMap, sampler_ShadowMap), float4 shadowCoord, ShadowSamplingData samplingData, half4 shadowParams, bool isPerspectiveProjection = true)
 // 안쓰는 놈인데.. LerpWhiteTo를 들고있다..
 
-#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl&quot; // LerpWhiteTo
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl" // LerpWhiteTo
 real LerpWhiteTo(real b, real t)
 </code></pre>
 <h2 id="쉐도우맵"><a class="header" href="#쉐도우맵">쉐도우맵</a></h2>
@@ -489,7 +489,7 @@ else
 {
     Tags
     {
-        &quot;LightMode&quot; = &quot;DepthOnly&quot;
+        "LightMode" = "DepthOnly"
     }
 
     ZWrite On
@@ -515,7 +515,7 @@ else
 {
     Tags
     {
-        &quot;LightMode&quot; = &quot;DepthOnly&quot;
+        "LightMode" = "DepthOnly"
     }
 
     ...

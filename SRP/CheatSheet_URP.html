@@ -186,7 +186,7 @@
 <pre><code class="language-hlsl">// Cheetsheet for URP
 
 // ref: https://docs.unity3d.com/Manual/SL-Shader.html
-Shader &quot;Name&quot;
+Shader "Name"
 {
     HLSLINCLUDE
     // ...
@@ -195,16 +195,16 @@ Shader &quot;Name&quot;
     // ref: https://docs.unity3d.com/Manual/SL-Properties.html
     Properties
     {
-        _Name (&quot;display name&quot;, Float)               = number
-        _Name (&quot;display name&quot;, Int)                 = number
-        _Name (&quot;display name&quot;, Range (min, max))    = number
-        _Name (&quot;display name&quot;, Color)               = (number,number,number,number)
-        _Name (&quot;display name&quot;, Vector)              = (number,number,number,number)
+        _Name ("display name", Float)               = number
+        _Name ("display name", Int)                 = number
+        _Name ("display name", Range (min, max))    = number
+        _Name ("display name", Color)               = (number,number,number,number)
+        _Name ("display name", Vector)              = (number,number,number,number)
 
-        _Name (&quot;display name&quot;, 2D)      = &quot;default-ColorString&quot; {} // power of 2
-        _Name (&quot;display name&quot;, Rect)    = &quot;default-ColorString&quot; {} // non-power of 2
-        _Name (&quot;display name&quot;, Cube)    = &quot;default-ColorString&quot; {}
-        _Name (&quot;display name&quot;, 3D)      = &quot;default-ColorString&quot; {}
+        _Name ("display name", 2D)      = "default-ColorString" {} // power of 2
+        _Name ("display name", Rect)    = "default-ColorString" {} // non-power of 2
+        _Name ("display name", Cube)    = "default-ColorString" {}
+        _Name ("display name", 3D)      = "default-ColorString" {}
 
         // ## Property Attribute
         // ref: https://docs.unity3d.com/ScriptReference/MaterialPropertyDrawer.html
@@ -217,13 +217,13 @@ Shader &quot;Name&quot;
         // | [Gamma]                                                                  | indicates that a float/vector property is specified as sRGB value in the UI (just like colors are), and possibly needs conversion according to color space used. See Properties in Shader Programs. |
         // | [PerRendererData]                                                        | indicates that a texture property will be coming from per-renderer data in the form of a MaterialPropertyBlock. Material inspector changes the texture slot UI for these properties.                |
         // | [Toggle]                                                                 |                                                                                                                                                                                                     |
-        // | [Toggle(ENABLE_FANCY)] _Fancy (&quot;Fancy?&quot;, Float) = 0                      | Will set &quot;ENABLE_FANCY&quot; shader keyword when set.                                                                                                                                                    |
+        // | [Toggle(ENABLE_FANCY)] _Fancy ("Fancy?", Float) = 0                      | Will set "ENABLE_FANCY" shader keyword when set.                                                                                                                                                    |
         // | [ToggleOff]                                                              |                                                                                                                                                                                                     |
         // | [ToggleOff(DISABLE_EXAMPLE_FEATURE)]                                     |                                                                                                                                                                                                     |
-        // | [Enum(UnityEngine.Rendering.BlendMode)] _Blend (&quot;Blend mode&quot;, Float) = 1 | blend modes selection.                                                                                                                                                                              |
-        // | [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest(&quot;ZTest&quot;, Float) = 0 |                                                                                                                                                                                                     |
-        // | [Enum(UnityEngine.Rendering.CullMode)] _CullMode(&quot;Cull Mode&quot;, Int) = 0   |                                                                                                                                                                                                     |
-        // | [KeywordEnum(None, Add, Multiply)] _Overlay (&quot;Overlay mode&quot;, Float) = 0  | Display a popup with None,Add,Multiply choices. Each option will set _OVERLAY_NONE, _OVERLAY_ADD, _OVERLAY_MULTIPLY shader keywords.                                                                |
+        // | [Enum(UnityEngine.Rendering.BlendMode)] _Blend ("Blend mode", Float) = 1 | blend modes selection.                                                                                                                                                                              |
+        // | [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0 |                                                                                                                                                                                                     |
+        // | [Enum(UnityEngine.Rendering.CullMode)] _CullMode("Cull Mode", Int) = 0   |                                                                                                                                                                                                     |
+        // | [KeywordEnum(None, Add, Multiply)] _Overlay ("Overlay mode", Float) = 0  | Display a popup with None,Add,Multiply choices. Each option will set _OVERLAY_NONE, _OVERLAY_ADD, _OVERLAY_MULTIPLY shader keywords.                                                                |
         // | [MainTexture]                                                            |                                                                                                                                                                                                     |
         // | [MainColor]                                                              |                                                                                                                                                                                                     |
         // | [Header(A group of things)]                                              |                                                                                                                                                                                                     |
@@ -233,28 +233,28 @@ Shader &quot;Name&quot;
         // Later on in the shader’s fixed function parts, property values can be accessed using property name in square brackets: [name] e.g. Blend [_SrcBlend] [_DstBlend].
 
         // ## ColorString
-        // &quot;red&quot;
-        // &quot;black&quot;         &quot;&quot;
-        // &quot;white&quot;
-        // &quot;gray&quot;          &quot;grey&quot;
-        // &quot;linearGray&quot;    &quot;linearGrey&quot;
-        // &quot;grayscaleRamp&quot; &quot;greyscaleRamp&quot;
-        // &quot;bump&quot;
-        // &quot;blackCube&quot;
-        // &quot;lightmap&quot;
-        // &quot;unity_Lightmap&quot;
-        // &quot;unity_LightmapInd&quot;
-        // &quot;unity_ShadowMask&quot;
-        // &quot;unity_DynamicLightmap&quot;
-        // &quot;unity_DynamicDirectionality&quot;
-        // &quot;unity_DynamicNormal&quot;
-        // &quot;unity_DitherMask&quot;
-        // &quot;_DitherMaskLOD&quot;
-        // &quot;_DitherMaskLOD2D&quot;
-        // &quot;unity_RandomRotation16&quot;
-        // &quot;unity_NHxRoughness&quot;
-        // &quot;unity_SpecCube0&quot;
-        // &quot;unity_SpecCube1&quot;
+        // "red"
+        // "black"         ""
+        // "white"
+        // "gray"          "grey"
+        // "linearGray"    "linearGrey"
+        // "grayscaleRamp" "greyscaleRamp"
+        // "bump"
+        // "blackCube"
+        // "lightmap"
+        // "unity_Lightmap"
+        // "unity_LightmapInd"
+        // "unity_ShadowMask"
+        // "unity_DynamicLightmap"
+        // "unity_DynamicDirectionality"
+        // "unity_DynamicNormal"
+        // "unity_DitherMask"
+        // "_DitherMaskLOD"
+        // "_DitherMaskLOD2D"
+        // "unity_RandomRotation16"
+        // "unity_NHxRoughness"
+        // "unity_SpecCube0"
+        // "unity_SpecCube1"
     }
 
     // ref: https://docs.unity3d.com/Manual/SL-SubShader.html
@@ -263,8 +263,8 @@ Shader &quot;Name&quot;
         // ref: https://docs.unity3d.com/Manual/SL-SubShaderTags.html
         Tags
         {
-            &quot;TagName1&quot; = &quot;Value1&quot;
-            &quot;TagName2&quot; = &quot;Value2&quot;
+            "TagName1" = "Value1"
+            "TagName2" = "Value2"
         }
 
         // Queue tag: 렌더링 순서 지정. `Geometry+1`, `Geometry-1` 과 같이 가중치 적용가능
@@ -287,29 +287,29 @@ Shader &quot;Name&quot;
         // | Overlay           | 후광(Halo), 플레어(Flare)                  |
 
         // 기타 SubShader의 Tags
-        // &quot;DisableBatching&quot;      = &quot;(True | &lt;False&gt; | LODFading)&quot;
-        // &quot;ForceNoShadowCasting&quot; = &quot;(True | &lt;False&gt;)&quot;
-        // &quot;CanUseSpriteAtlas&quot;    = &quot;(&lt;True&gt; | False)&quot;
-        // &quot;PreviewType&quot;          = &quot;(&lt;Sphere&gt; | Plane | Skybox)&quot;
+        // "DisableBatching"      = "(True | &lt;False&gt; | LODFading)"
+        // "ForceNoShadowCasting" = "(True | &lt;False&gt;)"
+        // "CanUseSpriteAtlas"    = "(&lt;True&gt; | False)"
+        // "PreviewType"          = "(&lt;Sphere&gt; | Plane | Skybox)"
 
         // ref: https://docs.unity3d.com/Manual/SL-ShaderLOD.html
         LOD &lt;lod-number&gt;
 
         // ref: https://docs.unity3d.com/Manual/SL-UsePass.html
         // 주어진 이름의 셰이더의 (첫번째 SubShader의) 모든 패스들이 삽입됨.
-        UsePass &quot;Shader/Name&quot;
+        UsePass "Shader/Name"
 
         // ref: https://docs.unity3d.com/Manual/SL-Pass.html
         Pass
         {
-            Name &quot;Pass Name&quot;
+            Name "Pass Name"
 
             // ref: https://docs.unity3d.com/Manual/SL-PassTags.html
             // 주의. `Pass의 Tag`는 `SubShader의 Tag`랑 다름
             Tags
             {
-                &quot;TagName1&quot; = &quot;Value1&quot;
-                &quot;TagName2&quot; = &quot;Value2&quot;
+                "TagName1" = "Value1"
+                "TagName2" = "Value2"
             }
 
             // LightMode tag : 
@@ -428,7 +428,7 @@ Shader &quot;Name&quot;
     }
 
     // ref : https://docs.unity3d.com/Manual/SL-Fallback.html
-    Fallback &quot;Diffuse&quot;
+    Fallback "Diffuse"
 
     // ref: https://docs.unity3d.com/Manual/SL-CustomEditor.html
     // ref: https://docs.unity3d.com/Manual/SL-CustomMaterialEditors.html

@@ -241,7 +241,7 @@ half b = SAMPLE_TEXTURE2D_X(_SourceTex, sampler_LinearClamp, DistortUV(delta * 2
 
 color = half3(r, g, b);
 </code></pre>
-<pre><code class="language-hlsl">// ref: [2019 - [Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : &quot;애니메이션의 감성을 그대로&quot;와 &quot;개발 최적화.&quot;](https://youtu.be/0LwlNVS3FJo?t=1988)
+<pre><code class="language-hlsl">// ref: [2019 - [Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : "애니메이션의 감성을 그대로"와 "개발 최적화."](https://youtu.be/0LwlNVS3FJo?t=1988)
 half3 mainTex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv).rgb;
 half k = _ParamK;
 half kcube = _ParamKcube;

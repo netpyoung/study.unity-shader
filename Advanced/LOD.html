@@ -195,7 +195,7 @@
 </div>
 <pre><code class="language-cs">// ref: https://www.unity3dtips.com/unity-fix-blurry-textures-on-mipmap/
 
-UnityEditor.EditorPrefs.SetBool(&quot;DeveloperMode&quot;, true);
+UnityEditor.EditorPrefs.SetBool("DeveloperMode", true);
 
 // 인스펙터에 Debug-Internal로 들어가서
 // Texture Settings &gt; Mip Bias 부분 설정 가능
@@ -221,7 +221,7 @@ UnityEditor.EditorPrefs.SetBool(&quot;DeveloperMode&quot;, true);
 {
     void OnPostprocessTexture(Texture2D texture)
     {
-        if (!Path.GetFileNameWithoutExtension(assetPath).EndsWith(&quot;_sharppen&quot;))
+        if (!Path.GetFileNameWithoutExtension(assetPath).EndsWith("_sharppen"))
         {
             return;
         }

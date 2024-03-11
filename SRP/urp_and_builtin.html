@@ -297,7 +297,7 @@ unity_WorldToShadow	float4x4 _MainLightWorldToShadow[MAX_SHADOW_CASCADES + 1] or
 </div>
 <ul>
 <li>ComputeScreenPos deprecated - <a href="https://github.com/Unity-Technologies/Graphics/pull/2529">https://github.com/Unity-Technologies/Graphics/pull/2529</a></li>
-<li>GetVertexPositionInputs().positionNDC </li>
+<li>GetVertexPositionInputs().positionNDC</li>
 </ul>
 <h2 id="camera-texture"><a class="header" href="#camera-texture">Camera Texture</a></h2>
 <div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
@@ -308,7 +308,7 @@ unity_WorldToShadow	float4x4 _MainLightWorldToShadow[MAX_SHADOW_CASCADES + 1] or
 <p>fixed depth = SAMPLE_DEPTH_TEXTURE(texture, sampler, uv);</p>
 <pre><code class="language-shader">GrabPass
 {
-    &quot;_GrabPass&quot;
+    "_GrabPass"
 }
 sampler2D _GrabPass
 fixed4 fGrapPass = tex2Dproj(_GrabPass, i.screenPosition + 0.5f);
@@ -350,7 +350,7 @@ https://www.cyanilux.com/recent/2/</li>
 <li>
 <p>툰쉐이더</p>
 <ul>
-<li>https://musoucrow.github.io/2020/07/05/urp_outline/ </li>
+<li>https://musoucrow.github.io/2020/07/05/urp_outline/</li>
 <li>https://kink3d.github.io/blog/2017/10/04/Physically-Based-Toon-Shading-In-Unity
 <ul>
 <li>https://github.com/Kink3d/kShading/blob/master/Shaders/ToonLit.shader</li>

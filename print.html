@@ -664,24 +664,24 @@ OpenGL / UnityEngine
 {
     Tags // SubShader의 Tags는 Pass의 Tags와 다름.
     {
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
 
-        // &quot;IgnoreProjector&quot; &lt;&lt;&lt; 요놈은 URP에서 안씀
+        // "IgnoreProjector" &lt;&lt;&lt; 요놈은 URP에서 안씀
 
         // for cutout
-        &quot;Queue&quot; = &quot;AlphaTest&quot;              // 렌더순서
-        &quot;RenderType&quot; = &quot;TransparentCutout&quot; // 그룹핑(전체 노말맵같이 한꺼번에 바꾸어 그릴때 이용)
+        "Queue" = "AlphaTest"              // 렌더순서
+        "RenderType" = "TransparentCutout" // 그룹핑(전체 노말맵같이 한꺼번에 바꾸어 그릴때 이용)
 
         // for blend
-        &quot;Queue&quot; = &quot;Transparent&quot;
-        &quot;RenderType&quot; = &quot;Transparent&quot;
+        "Queue" = "Transparent"
+        "RenderType" = "Transparent"
     }
 
     Pass
     {
         Tags
         {
-            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+            "LightMode" = "UniversalForward"
         }
 
         // https://docs.unity3d.com/Manual/SL-Blend.html
@@ -731,16 +731,16 @@ OpenGL / UnityEngine
 {
     Tags // SubShader의 Tags는 Pass의 Tags와 다름.
     {
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-        &quot;Queue&quot; = &quot;AlphaTest&quot;
-        &quot;RenderType&quot; = &quot;TransparentCutout&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
+        "Queue" = "AlphaTest"
+        "RenderType" = "TransparentCutout"
     }
 
     Pass
     {
         Tags
         {
-            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+            "LightMode" = "UniversalForward"
         }
 
         HLSLPROGRAM
@@ -776,9 +776,9 @@ void AlphaDiscard(real alpha, real cutoff, real offset = real(0.0))
 {
     Tags // SubShader의 Tags는 Pass의 Tags와 다름.
     {
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-        &quot;Queue&quot; = &quot;Transparent&quot;
-        &quot;RenderType&quot; = &quot;Transparent&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
+        "Queue" = "Transparent"
+        "RenderType" = "Transparent"
     }
 
     Pass
@@ -788,7 +788,7 @@ void AlphaDiscard(real alpha, real cutoff, real offset = real(0.0))
 
         Tags
         {
-            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+            "LightMode" = "UniversalForward"
         }
     }
 }
@@ -804,16 +804,16 @@ void AlphaDiscard(real alpha, real cutoff, real offset = real(0.0))
 {
     Tags // SubShader의 Tags는 Pass의 Tags와 다름.
     {
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-        &quot;Queue&quot; = &quot;Transparent&quot;
-        &quot;RenderType&quot; = &quot;Transparent&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
+        "Queue" = "Transparent"
+        "RenderType" = "Transparent"
     }
 
     Pass
     {
         Tags
         {
-            &quot;LightMode&quot; = &quot;SRPDefaultUnlit&quot;
+            "LightMode" = "SRPDefaultUnlit"
         }
         ZWrite On
         ColorMask 0 // 색 렌더링 안함
@@ -828,7 +828,7 @@ void AlphaDiscard(real alpha, real cutoff, real offset = real(0.0))
     {
         Tags
         {
-            &quot;LightMode&quot; = &quot;UniversalForward&quot;
+            "LightMode" = "UniversalForward"
         }
 
         ZWrite Off
@@ -1091,6 +1091,57 @@ world-Normal
 <li>유니티는 OpenGL(Y+) 를 써서 보기 비교적 편하다.</li>
 <li>DirectX와 같은 엔진에서는 작업자를 위해 Y+텍스쳐 제작 쉐이더에서 y에 <code>-1</code>을 곱해 뒤집어 주는 코드를 넣어주면 작업자들이 편해진다.</li>
 </ul>
+<h2 id="mikktspace"><a class="header" href="#mikktspace">MikkTSpace</a></h2>
+<ul>
+<li>Mikkelsen tangent space normal
+<ul>
+<li><a href="https://github.com/mmikk/MikkTSpace">https://github.com/mmikk/MikkTSpace</a></li>
+</ul>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>URP</th><th>셰이더 그래프</th><th>URP Lit</th></tr></thead><tbody>
+<tr><td>8.1.0</td><td>픽셀당 MikkTSpace 노멀 맵</td><td>정점당</td></tr>
+<tr><td>8.2.0</td><td>픽셀당</td><td>픽셀당</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>노말맵 베이크
+<ul>
+<li>방식1. 하이트맵이나 일반 이미지를 이용해서 노멀맵 변환</li>
+<li>방식2. 로우폴리곤과 하이폴리곤을 가지고 베이크
+<ul>
+<li>3D프로그램 별 에버레지 버텍스 노말에 동일한 연산을 하지 않음.
+<ul>
+<li>동일한 연산을 하도록 MikkTSpace로 통일.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="ref-3"><a class="header" href="#ref-3">Ref</a></h2>
+<ul>
+<li>youtube: 안콜3D - (전체공개) 노말맵의 모든것
+<ul>
+<li>PART <a href="https://www.youtube.com/watch?v=NSLT6CoUUK0">01</a>, <a href="https://www.youtube.com/watch?v=bGv3OJQCGeM">02</a></li>
+</ul>
+</li>
+<li><a href="https://xnormal.net/">xNormal</a> 프로그램
+<ul>
+<li>사용법
+<ul>
+<li>youtube: 엑스 노말(x-Normal) 사용법
+<ul>
+<li><a href="https://www.youtube.com/watch?v=v9RnG4jJ16k">1</a>, <a href="https://www.youtube.com/watch?v=Nl1A-C3rvfE">2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://bgolus.medium.com/generating-perfect-normal-maps-for-unity-f929e673fc57">https://bgolus.medium.com/generating-perfect-normal-maps-for-unity-f929e673fc57</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cubemap"><a class="header" href="#cubemap">Cubemap</a></h1>
 <ul>
 <li>텍스쳐를 받을 수 있는 Cubemap생성하기 : <code>Create &gt; Legacy &gt; Cubemap</code></li>
@@ -1124,11 +1175,11 @@ using UnityEngine;
 
 public class BakeStaticCubemap : ScriptableWizard
 {
-    static string imageDirectory = &quot;Assets/CubemapImages&quot;;
+    static string imageDirectory = "Assets/CubemapImages";
     static string[] cubemapImage = new string[6] {
-        &quot;top+Y&quot;, &quot;bottom-Y&quot;,
-        &quot;left-X&quot;, &quot;right+X&quot;,
-        &quot;front+Z&quot;,&quot;back-Z&quot;,
+        "top+Y", "bottom-Y",
+        "left-X", "right+X",
+        "front+Z","back-Z",
     };
     static Vector3[] eulerAngles = new Vector3[6] {
         new Vector3(-90.0f, 0.0f, 0.0f), new Vector3(90.0f, 0.0f, 0.0f),
@@ -1153,15 +1204,15 @@ public class BakeStaticCubemap : ScriptableWizard
 
     public bool IsCreateIndividualImages = false;
 
-    [MenuItem(&quot;GameObject/Bake Cubemap&quot;)]
+    [MenuItem("GameObject/Bake Cubemap")]
     static void RenderCubemap()
     {
-        DisplayWizard(&quot;Bake CubeMap&quot;, typeof(BakeStaticCubemap), &quot;Bake!&quot;);
+        DisplayWizard("Bake CubeMap", typeof(BakeStaticCubemap), "Bake!");
     }
 
     void OnWizardUpdate()
     {
-        helpString = &quot;Set the position to render from and the cubemap to bake.&quot;;
+        helpString = "Set the position to render from and the cubemap to bake.";
         if (renderPosition != null &amp;&amp; cubemap != null)
         {
             isValid = true;
@@ -1177,7 +1228,7 @@ public class BakeStaticCubemap : ScriptableWizard
         QualitySettings.antiAliasing = antiAliasing;
         cubemap.filterMode = cubemapFilterMode;
 
-        GameObject go = new GameObject(&quot;CubemapCam&quot;, typeof(Camera));
+        GameObject go = new GameObject("CubemapCam", typeof(Camera));
         go.transform.position = renderPosition.position;
         go.transform.rotation = Quaternion.identity;
 
@@ -1211,7 +1262,7 @@ public class BakeStaticCubemap : ScriptableWizard
 
         for (int camOrientation = 0; camOrientation &lt; eulerAngles.Length; camOrientation++)
         {
-            string imageName = Path.Combine(imageDirectory, cubemap.name + &quot;_&quot; + cubemapImage[camOrientation] + &quot;.png&quot;);
+            string imageName = Path.Combine(imageDirectory, cubemap.name + "_" + cubemapImage[camOrientation] + ".png");
             camera.transform.eulerAngles = eulerAngles[camOrientation];
             RenderTexture renderTex = new RenderTexture(cubemap.height, cubemap.height, cameraDepth);
             camera.targetTexture = renderTex;
@@ -1229,7 +1280,7 @@ public class BakeStaticCubemap : ScriptableWizard
     }
 }
 </code></pre>
-<h2 id="ref-3"><a class="header" href="#ref-3">Ref</a></h2>
+<h2 id="ref-4"><a class="header" href="#ref-4">Ref</a></h2>
 <ul>
 <li><a href="https://developer.arm.com/documentation/102179/0100/Implement-reflections-with-a-local-cubemap">https://developer.arm.com/documentation/102179/0100/Implement-reflections-with-a-local-cubemap</a></li>
 <li><a href="https://www.slideshare.net/honestee/choi-jihyun-ndc2011">NDC2011 - PRT(Precomputed Radiance Transfer) 및 SH(Spherical Harmonics) 개괄</a></li>
@@ -1273,25 +1324,25 @@ Pass
 <pre><code class="language-hlsl">Properties
 {
     [IntRange]
-    _StencilRef(&quot;Stencil ID [0-255]&quot;,      Range(0, 255)) = 0
+    _StencilRef("Stencil ID [0-255]",      Range(0, 255)) = 0
     
     [IntRange]
-    _StencilReadMask(&quot;ReadMask [0-255]&quot;,   Range(0, 255)) = 255
+    _StencilReadMask("ReadMask [0-255]",   Range(0, 255)) = 255
     
     [IntRange]
-    _StencilWriteMask(&quot;WriteMask [0-255]&quot;, Range(0, 255)) = 255
+    _StencilWriteMask("WriteMask [0-255]", Range(0, 255)) = 255
 
     [Enum(UnityEngine.Rendering.CompareFunction)]
-    _StencilComp(&quot;Stencil Comparison&quot;,     Float) = 8 // Always
+    _StencilComp("Stencil Comparison",     Float) = 8 // Always
 
     [Enum(UnityEngine.Rendering.StencilOp)]
-    _StencilPass(&quot;Stencil Pass&quot;,           Float) = 0 // Keep
+    _StencilPass("Stencil Pass",           Float) = 0 // Keep
 
     [Enum(UnityEngine.Rendering.StencilOp)]
-    _StencilFail(&quot;Stencil Fail&quot;,           Float) = 0 // Keep
+    _StencilFail("Stencil Fail",           Float) = 0 // Keep
 
     [Enum(UnityEngine.Rendering.StencilOp)]
-    _StencilZFail(&quot;Stencil ZFail&quot;,         Float) = 0 // Keep
+    _StencilZFail("Stencil ZFail",         Float) = 0 // Keep
 }
 
 Pass
@@ -1391,7 +1442,7 @@ Stencil
 {
     Tags
     {
-        &quot;LightMode&quot; = &quot;SRPDefaultUnlit&quot;
+        "LightMode" = "SRPDefaultUnlit"
     }
     
     ZTest Greater
@@ -1408,7 +1459,7 @@ Pass
 {
     Tags
     {
-        &quot;LightMode&quot; = &quot;UniversalForward&quot;
+        "LightMode" = "UniversalForward"
     }
 
     Stencil
@@ -1418,7 +1469,7 @@ Pass
     }
 }
 </code></pre>
-<h2 id="ref-4"><a class="header" href="#ref-4">Ref</a></h2>
+<h2 id="ref-5"><a class="header" href="#ref-5">Ref</a></h2>
 <ul>
 <li><a href="https://docs.unity3d.com/Manual/SL-CullAndDepth.html">https://docs.unity3d.com/Manual/SL-CullAndDepth.html</a></li>
 <li><a href="https://docs.unity3d.com/Manual/SL-Stencil.html">https://docs.unity3d.com/Manual/SL-Stencil.html</a></li>
@@ -1431,7 +1482,7 @@ Pass
 <li>LinearEyeDepth : distance from the eye in world units</li>
 <li>Linear01Depth : distance from the eye in [0;1]</li>
 </ul>
-<pre><code class="language-hlsl">#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl&quot;
+<pre><code class="language-hlsl">#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
 half3 pd            = IN.positionNDC.xyz / IN.positionNDC.w; // perspectiveDivide
 half2 uv_Screen     = pd.xy;
 
@@ -1564,7 +1615,7 @@ float3 diff_v = float3(offset_r, depth_r - depth_c);  // vertical
 
 float3 normalVS = normalize(cross(diff_h, diff_v));
 </code></pre>
-<h2 id="ref-5"><a class="header" href="#ref-5">Ref</a></h2>
+<h2 id="ref-6"><a class="header" href="#ref-6">Ref</a></h2>
 <ul>
 <li><a href="https://www.cyanilux.com/tutorials/depth/">https://www.cyanilux.com/tutorials/depth/</a></li>
 <li><a href="https://beta.unity3d.com/talks/Siggraph2011_SpecialEffectsWithDepth_WithNotes.pdf">https://beta.unity3d.com/talks/Siggraph2011_SpecialEffectsWithDepth_WithNotes.pdf</a></li>
@@ -1751,7 +1802,7 @@ half3 specular = norm * pow(VdotR, shininess);
 <li>SIGGRAPH 2012 - Brent Burley - Physically Based Shading at Disney</li>
 <li>여러 파라미터</li>
 </ul>
-<h2 id="ref-6"><a class="header" href="#ref-6">Ref</a></h2>
+<h2 id="ref-7"><a class="header" href="#ref-7">Ref</a></h2>
 <ul>
 <li><a href="https://www.cnblogs.com/timlly/p/10631718.html">https://www.cnblogs.com/timlly/p/10631718.html</a></li>
 <li><a href="https://www.jordanstevenstechart.com/physically-based-rendering">https://www.jordanstevenstechart.com/physically-based-rendering</a></li>
@@ -1788,7 +1839,7 @@ half3 specular = (max(0, pow(skyWeight, _SpecularPower)) + max(0, pow(skyWeight,
     * diffuse;
 half3 result = diffuse + specular;
 </code></pre>
-<h2 id="ref-7"><a class="header" href="#ref-7">Ref</a></h2>
+<h2 id="ref-8"><a class="header" href="#ref-8">Ref</a></h2>
 <ul>
 <li><a href="https://github.com/hughsk/glsl-hemisphere-light">https://github.com/hughsk/glsl-hemisphere-light</a></li>
 <li><a href="https://emunix.emich.edu/~mevett/GraphicsCourse/Labs/MattsLab5Lighting/index.html#Hemisphere">https://emunix.emich.edu/~mevett/GraphicsCourse/Labs/MattsLab5Lighting/index.html#Hemisphere</a></li>
@@ -1876,7 +1927,7 @@ half specular = pow(sinTH, specularPower);
 <ul>
 <li><a href="https://www.slideshare.net/jalnaga/ss-61522038">버텍스 셰이더로 하는 머리카락 애니메이션</a></li>
 </ul>
-<h2 id="ref-8"><a class="header" href="#ref-8">Ref</a></h2>
+<h2 id="ref-9"><a class="header" href="#ref-9">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/WolfgangEngel/hair-intombraider-final">Hair in Tomb Raider</a></li>
 <li>ShaderX3 Advanced Rendering with DirectX and OpenGL
@@ -1951,7 +2002,7 @@ half3 brdfTex = tex2D(BRDFSampler, brdfUV).rgb;
 half3 color = ambient + brdfTex;
 
 </code></pre>
-<h2 id="ref-9"><a class="header" href="#ref-9">Ref</a></h2>
+<h2 id="ref-10"><a class="header" href="#ref-10">Ref</a></h2>
 <ul>
 <li>SIGGRAH 2013 Real Shading in Unreal Engine 4
 <ul>
@@ -1978,7 +2029,7 @@ half3 color = ambient + brdfTex;
 <p><a href="https://www.slideshare.net/jalnaga/ndc13ndc-2013-udk-19999169">[Ndc13]Ndc 2013 김동석:UDK로 물리기반 셰이더 만들기</a></p>
 <p>siggraph 2010
 tri-Ace
-Practical Implementation of Physically-Based Shading Models at tri-Ace (Yoshiharu Gotanda) 
+Practical Implementation of Physically-Based Shading Models at tri-Ace (Yoshiharu Gotanda)
 <a href="https://renderwonk.com/publications/s2010-shading-course/gotanda/slide_practical_implementation_at_triace.pdf">slide</a>
 <a href="https://renderwonk.com/publications/s2010-shading-course/gotanda/course_note_practical_implementation_at_triace.pdf">cource notes</a></p>
 <p>siggraph 2011
@@ -1986,7 +2037,7 @@ Lazarov
 Physically Based Lighting in Call of Duty: Black Ops
 Dimitar Lazarov, Lead Graphics Engineer, Treyarch</p>
 <p>Sébastien Lagarde
-Moving Frostbite to PBR (Sébastien Lagarde &amp; Charles de Rousiers) 
+Moving Frostbite to PBR (Sébastien Lagarde &amp; Charles de Rousiers)
 https://blog.selfshadow.com/publications/s2014-shading-course/frostbite/s2014_pbs_frostbite_slides.pdf</p>
 <ul>
 <li>Etc
@@ -2005,7 +2056,7 @@ https://blog.selfshadow.com/publications/s2014-shading-course/frostbite/s2014_pb
 <li><a href="https://www.slideshare.net/DaeHyekKIM/4-4-special-case-materials-moss-wetness-glass">언차티드4 테크아트 파트4 Special Case Materials - Moss &amp; Wetness &amp; Glass</a></li>
 <li><a href="https://www.slideshare.net/DaeHyekKIM/4-3-microshadowbrdf-term"> 언차티드4 테크아트 파트3 MicroShadowBRDF Term </a></li>
 </ul>
-<h2 id="ref-10"><a class="header" href="#ref-10">Ref</a></h2>
+<h2 id="ref-11"><a class="header" href="#ref-11">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/MRESC/pbr-vol2-131205432">https://www.slideshare.net/MRESC/pbr-vol2-131205432</a></li>
 <li>Adobe The PBR Guide
@@ -2078,7 +2129,7 @@ half3 N = normalize(-cross(x, y));
 </div>
 <pre><code class="language-cs">// ref: https://www.unity3dtips.com/unity-fix-blurry-textures-on-mipmap/
 
-UnityEditor.EditorPrefs.SetBool(&quot;DeveloperMode&quot;, true);
+UnityEditor.EditorPrefs.SetBool("DeveloperMode", true);
 
 // 인스펙터에 Debug-Internal로 들어가서
 // Texture Settings &gt; Mip Bias 부분 설정 가능
@@ -2104,7 +2155,7 @@ UnityEditor.EditorPrefs.SetBool(&quot;DeveloperMode&quot;, true);
 {
     void OnPostprocessTexture(Texture2D texture)
     {
-        if (!Path.GetFileNameWithoutExtension(assetPath).EndsWith(&quot;_sharppen&quot;))
+        if (!Path.GetFileNameWithoutExtension(assetPath).EndsWith("_sharppen"))
         {
             return;
         }
@@ -2190,7 +2241,7 @@ UnityEditor.EditorPrefs.SetBool(&quot;DeveloperMode&quot;, true);
 <li>HLOD : Hierarchical Level Of Detail</li>
 <li><a href="https://www.slideshare.net/ssuser4635b2/unite2019-hlod">Unite2019 HLOD를 활용한 대규모 씬 제작 방법</a></li>
 </ul>
-<h2 id="ref-11"><a class="header" href="#ref-11">Ref</a></h2>
+<h2 id="ref-12"><a class="header" href="#ref-12">Ref</a></h2>
 <ul>
 <li><a href="https://docs.unity3d.com/ScriptReference/AssetPostprocessor.OnPostprocessTexture.html">https://docs.unity3d.com/ScriptReference/AssetPostprocessor.OnPostprocessTexture.html</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/413834301">https://zhuanlan.zhihu.com/p/413834301</a></li>
@@ -2257,7 +2308,7 @@ finalColor.rgb *= shadow;
 // Toggle fog on transparent
 #define _ENABLE_FOG_ON_TRANSPARENT
 </code></pre>
-<pre><code class="language-hlsl">UsePass &quot;Universal Render Pipeline/Lit/ShadowCaster&quot;
+<pre><code class="language-hlsl">UsePass "Universal Render Pipeline/Lit/ShadowCaster"
 
 com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl
 
@@ -2357,7 +2408,7 @@ half shadowAttenuation = MainLightRealtimeShadow(shadowCoord);
 <pre><code class="language-hlsl">// 그림자 그려주는놈
 Pass
 {
-    Tags{&quot;LightMode&quot; = &quot;ShadowCaster&quot;}
+    Tags{"LightMode" = "ShadowCaster"}
 }
 
 vert()
@@ -2375,10 +2426,10 @@ frag()
 </code></pre>
 <pre><code class="language-hlsl">Pass
 {
-    Name &quot;ShadowCaster&quot;
+    Name "ShadowCaster"
     Tags
     {
-        &quot;LightMode&quot; = &quot;ShadowCaster&quot;
+        "LightMode" = "ShadowCaster"
     }
 
     ZWrite On
@@ -2390,10 +2441,10 @@ frag()
     #pragma vertex shadowVert
     #pragma fragment shadowFrag
 
-    #include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl&quot;  // real
-    #include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl&quot; // LerpWhiteTo
-    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl&quot;
-    #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl&quot; // ApplyShadowBias
+    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"  // real
+    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl" // LerpWhiteTo
+    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl" // ApplyShadowBias
 
     struct Attributes
     {
@@ -2424,7 +2475,7 @@ frag()
     ENDHLSL
 }
 </code></pre>
-<pre><code class="language-hlsl">#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl&quot;  // real
+<pre><code class="language-hlsl">#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"  // real
 #if defined(SHADER_API_MOBILE) || defined(SHADER_API_SWITCH)
 #define HAS_HALF 1
 #else
@@ -2437,14 +2488,14 @@ frag()
 #define real3 half3
 #define real4 half4
 
-#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl&quot; // ApplyShadowBias
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl" // ApplyShadowBias
 float3 ApplyShadowBias(float3 positionWS, float3 normalWS, float3 lightDirection)
 
 
 real SampleShadowmap(TEXTURE2D_SHADOW_PARAM(ShadowMap, sampler_ShadowMap), float4 shadowCoord, ShadowSamplingData samplingData, half4 shadowParams, bool isPerspectiveProjection = true)
 // 안쓰는 놈인데.. LerpWhiteTo를 들고있다..
 
-#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl&quot; // LerpWhiteTo
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl" // LerpWhiteTo
 real LerpWhiteTo(real b, real t)
 </code></pre>
 <h2 id="쉐도우맵"><a class="header" href="#쉐도우맵">쉐도우맵</a></h2>
@@ -2506,7 +2557,7 @@ else
 {
     Tags
     {
-        &quot;LightMode&quot; = &quot;DepthOnly&quot;
+        "LightMode" = "DepthOnly"
     }
 
     ZWrite On
@@ -2532,13 +2583,13 @@ else
 {
     Tags
     {
-        &quot;LightMode&quot; = &quot;DepthOnly&quot;
+        "LightMode" = "DepthOnly"
     }
 
     ...
 }
 </code></pre>
-<h2 id="ref-12"><a class="header" href="#ref-12">Ref</a></h2>
+<h2 id="ref-13"><a class="header" href="#ref-13">Ref</a></h2>
 <ul>
 <li><a href="https://blog.naver.com/mnpshino/221844164319">URP 셰이더 코딩 튜토리얼 : 제 1편 - Unlit Soft Shadow</a></li>
 <li><a href="https://illu.tistory.com/1407">URP Default Unlit Based to Custom Lighting</a></li>
@@ -2561,7 +2612,7 @@ else
 </li>
 <li>jitter : 흐트러짐</li>
 </ul>
-<h2 id="ref-13"><a class="header" href="#ref-13">Ref</a></h2>
+<h2 id="ref-14"><a class="header" href="#ref-14">Ref</a></h2>
 <ul>
 <li><a href="https://www.ronja-tutorials.com/post/042-dithering/">https://www.ronja-tutorials.com/post/042-dithering/</a></li>
 <li><a href="https://youtu.be/FMfC47xsImU?t=1190s">GDC2016 - Low Complexity, High Fidelity: The Rendering of INSIDE</a></li>
@@ -2655,7 +2706,7 @@ half4 frag(GStoFS IN) : SV_Target
 <li><a href="https://jayjingyuliu.wordpress.com/2018/01/24/unity3d-wireframe-shader/">https://jayjingyuliu.wordpress.com/2018/01/24/unity3d-wireframe-shader/</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lightmap"><a class="header" href="#lightmap">Lightmap</a></h1>
-<h2 id="ref-14"><a class="header" href="#ref-14">Ref</a></h2>
+<h2 id="ref-15"><a class="header" href="#ref-15">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/JaesikHwang/lightmap-ec8-b9cec8aa4ed859ceab5acecb695ed9598eab8b0">KGC2008 -Build Lightmap system</a></li>
 </ul>
@@ -2663,7 +2714,7 @@ half4 frag(GStoFS IN) : SV_Target
 <ul>
 <li>Light Propagation Volumes</li>
 </ul>
-<h2 id="ref-15"><a class="header" href="#ref-15">Ref</a></h2>
+<h2 id="ref-16"><a class="header" href="#ref-16">Ref</a></h2>
 <ul>
 <li>https://ericpolman.com/2016/06/28/light-propagation-volumes/
 <ul>
@@ -2672,7 +2723,7 @@ half4 frag(GStoFS IN) : SV_Target
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="noise"><a class="header" href="#noise">Noise</a></h1>
-<h2 id="ref-16"><a class="header" href="#ref-16">Ref</a></h2>
+<h2 id="ref-17"><a class="header" href="#ref-17">Ref</a></h2>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=u9lOaPVtSqg">Unity Shader Graph - Electricity Shader Effect Tutorial</a></li>
 <li><a href="https://blog.naver.com/sorkelf/40156271551">sorkelf - 펄린 노이즈(Perln Noise)</a></li>
@@ -2708,7 +2759,7 @@ https://blog.csdn.net/qq_38275140/article/details/96859384</p>
 <li><a href="https://www.youtube.com/playlist?list=PL3POsQzaCw53iK_EhOYR39h1J9Lvg-m-g">Peer Play - Raymarching Shader Tutorial playlist</a></li>
 <li><a href="https://rito15.github.io/posts/ray-marching/">https://rito15.github.io/posts/ray-marching/</a></li>
 </ul>
-<h2 id="ref-17"><a class="header" href="#ref-17">Ref</a></h2>
+<h2 id="ref-18"><a class="header" href="#ref-18">Ref</a></h2>
 <ul>
 <li><a href="Advanced/_SDF.html">SDF.md</a></li>
 <li><a href="https://www.youtube.com/watch?v=frLwRLS_ZR0">Disney's Practical Guide to Path Tracing</a></li>
@@ -2727,7 +2778,7 @@ https://blog.csdn.net/qq_38275140/article/details/96859384</p>
 </li>
 <li>Ray Marching</li>
 </ul>
-<h2 id="ref-18"><a class="header" href="#ref-18">Ref</a></h2>
+<h2 id="ref-19"><a class="header" href="#ref-19">Ref</a></h2>
 <ul>
 <li><a href="https://advances.realtimerendering.com/s2015/DynamicOcclusionWithSignedDistanceFields.pdf">SIGGRAPH2015 - Dynamic Occlusion with Signed Distance Fields</a></li>
 <li><a href="https://www.youtube.com/watch?v=s8nFqwOho-s">NVScene 2015 Session: How to Create Content with Signed Distance Functions (Johann Korndörfer)</a></li>
@@ -2958,7 +3009,7 @@ finalColor.rgb = lerp(mainColor.rgb, uiColor.rgb, uiColor.a);
 finalColor.rgb = Gamma22ToLinear(finalColor.rgb);
 finalColor.a = 1;
 </code></pre>
-<h2 id="ref-19"><a class="header" href="#ref-19">Ref</a></h2>
+<h2 id="ref-20"><a class="header" href="#ref-20">Ref</a></h2>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=Xwlm5V-bnBc">정종필 - Gamma Color space와 Linear Color space란?</a></li>
 <li><a href="https://www.youtube.com/watch?v=oVyqLhVrjhY">정종필 - 라이팅과 셰이더에서 연산을 위한 선형 파이프라인</a></li>
@@ -3044,7 +3095,7 @@ finalColor.a = 1;
 <tr><td>2014</td><td>노트 4</td><td>4.4 → 5.0 → 5.1  → 6.0</td><td>es3.0</td><td>19</td></tr>
 </tbody></table>
 </div>
-<h2 id="ref-20"><a class="header" href="#ref-20">Ref</a></h2>
+<h2 id="ref-21"><a class="header" href="#ref-21">Ref</a></h2>
 <ul>
 <li><a href="https://developer.android.com/guide/topics/graphics/opengl?hl=ko">https://developer.android.com/guide/topics/graphics/opengl?hl=ko</a></li>
 <li><a href="https://source.android.com/setup/start/build-numbers?hl=ko">https://source.android.com/setup/start/build-numbers?hl=ko</a></li>
@@ -3069,7 +3120,7 @@ public RenderPipelineAsset _renderPipelineAsset;
 GraphicsSettings.renderPipelineAsset = _renderPipelineAsset;
 </code></pre>
 <pre><code class="language-cs">// 클래스를 만들어서 사용자 렌더파이프라인에셋 만들기
-[CreateAssetMenu(menuName = &quot;Rendering/CustomRenderPipelineAsset&quot;)]
+[CreateAssetMenu(menuName = "Rendering/CustomRenderPipelineAsset")]
 public class CustomRenderPipelineAsset : RenderPipelineAsset
 {
     protected override RenderPipeline CreatePipeline()
@@ -3101,12 +3152,12 @@ public class CustomRenderPipeline : RenderPipeline
     Tags
     {
         // LightMode 태그는 라이팅 파이프 라인에서 패스의 역할을 정의.
-        &quot;LightMode&quot; = &quot;CustomLightMode&quot;
+        "LightMode" = "CustomLightMode"
     }
 }
 
 </code></pre>
-<pre><code class="language-cs">[CreateAssetMenu(menuName = &quot;Rendering/CustomRenderPipelineAsset&quot;)]
+<pre><code class="language-cs">[CreateAssetMenu(menuName = "Rendering/CustomRenderPipelineAsset")]
 public class CustomRenderPipelineAsset : RenderPipelineAsset
 {
     protected override RenderPipeline CreatePipeline()
@@ -3132,7 +3183,7 @@ public class CustomRenderPipeline : RenderPipeline
 // ==========================================================================
 public class CustomRenderer
 {
-    readonly static ShaderTagId unlitShaderTagId = new ShaderTagId(&quot;CustomLightMode&quot;);
+    readonly static ShaderTagId unlitShaderTagId = new ShaderTagId("CustomLightMode");
 
     public void Render(ref ScriptableRenderContext context, Camera cam)
     {
@@ -3169,7 +3220,7 @@ context.DrawSkybox(camera)        // Skybox
 </code></pre>
 <pre><code class="language-cs">// cs
 var cmd = new CommandBuffer();
-cmd.SetGlobalVector(&quot;_LightDir&quot;, new Vector4(0, 1, 0, 0));
+cmd.SetGlobalVector("_LightDir", new Vector4(0, 1, 0, 0));
 context.ExecuteCommandBuffer(cmd);
 cmd.Release();
 
@@ -3186,7 +3237,7 @@ CBUFFER_END
 <pre><code class="language-cs">/// Render Texture 사용.
 
 // RenderTarget Id가 필요
-int _TmpShaderProperty = Shader.PropertyToID(&quot;_TmpShaderProperty&quot;);
+int _TmpShaderProperty = Shader.PropertyToID("_TmpShaderProperty");
 
 {
     var cmd = new CommandBuffer();
@@ -3238,7 +3289,7 @@ RenderingData
 RenderPassEvent
 RenderTargetHandle
 </code></pre>
-<h2 id="ref-21"><a class="header" href="#ref-21">Ref</a></h2>
+<h2 id="ref-22"><a class="header" href="#ref-22">Ref</a></h2>
 <ul>
 <li>
 <p><a href="https://github.com/cinight/CustomSRP/tree/master/Assets">https://github.com/cinight/CustomSRP/tree/master/Assets</a></p>
@@ -3292,7 +3343,7 @@ Shader &lt;shader-name&gt;
     // http://docs.unity3d.com/Manual/SL-Properties.html
     Properties
     {
-        _PropertyName (&quot;displayed name&quot;, &lt;property-type&gt;) = &lt;property-default-value&gt;
+        _PropertyName ("displayed name", &lt;property-type&gt;) = &lt;property-default-value&gt;
     }
 
     // http://docs.unity3d.com/Manual/SL-SubShader.html
@@ -3309,13 +3360,13 @@ Shader &lt;shader-name&gt;
         LOD &lt;lod-number&gt;
             
         // http://docs.unity3d.com/Manual/SL-UsePass.html
-        UsePass &quot;Shader/Name&quot;
+        UsePass "Shader/Name"
         
         
         // http://docs.unity3d.com/Manual/SL-Pass.html
         Pass
         {
-            Name &quot;PassName&quot;
+            Name "PassName"
             
             // https://docs.unity3d.com/Manual/SL-PassTags.html
             Tags
@@ -3364,10 +3415,10 @@ Range(min, max) | float  |
 Vector          | float4 | (x, y, z, w)
 Color           | float4 | (r, g, b, a)
 
-2D              | float4 | &quot;&quot;, &quot;white&quot;, &quot;black&quot;, &quot;gray&quot;, &quot;bump&quot; // for     power of 2 size
-Rect            | float4 | &quot;&quot;, &quot;white&quot;, &quot;black&quot;, &quot;gray&quot;, &quot;bump&quot; // for non-power of 2 size
+2D              | float4 | "", "white", "black", "gray", "bump" // for     power of 2 size
+Rect            | float4 | "", "white", "black", "gray", "bump" // for non-power of 2 size
 
-Cube            | float4 | &quot;&quot;, &quot;white&quot;, &quot;black&quot;, &quot;gray&quot;, &quot;bump&quot;
+Cube            | float4 | "", "white", "black", "gray", "bump"
 
 // 주의해야할게 2D/Rect/Cube는 linear설정 관계없이 sRGB로 된다.
 // ex) pow(gray, 2.2);
@@ -3419,19 +3470,19 @@ unity_SpecCube1
     Tags
     {
         // 주의. Pass의 Tag랑 다름
-        &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-        &quot;RenderType&quot; = &quot;Opaque&quot;
-        &quot;Queue&quot; = &quot;Geometry&quot;
+        "RenderPipeline" = "UniversalRenderPipeline"
+        "RenderType" = "Opaque"
+        "Queue" = "Geometry"
     }
 }
 </code></pre>
 <pre><code class="language-hlsl">// ex) cutout() 셰이더
 Tags
 {
-    &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-    &quot;Queue&quot; = &quot;AlphaTest&quot;
-    &quot;RenderType&quot; = &quot;TransparentCutout&quot;
-    &quot;IgnoreProjector&quot; = &quot;True&quot;
+    "RenderPipeline" = "UniversalRenderPipeline"
+    "Queue" = "AlphaTest"
+    "RenderType" = "TransparentCutout"
+    "IgnoreProjector" = "True"
 }
 </code></pre>
 <h3 id="renderpipeline-1"><a class="header" href="#renderpipeline-1">RenderPipeline</a></h3>
@@ -3454,7 +3505,7 @@ Tags
 <ul>
 <li>그룹을 짓는것. 해당 그룹의 셰이더를 바꿔 랜더링 할 수 있음.
 <ul>
-<li>예를들어 Opaque의 노말버퍼를 만들고 싶을때 <code>RenderWithShader(Shader shader, &quot;Opaque&quot;)</code> 이런 식으로.. </li>
+<li>예를들어 Opaque의 노말버퍼를 만들고 싶을때 <code>RenderWithShader(Shader shader, "Opaque")</code> 이런 식으로..</li>
 </ul>
 </li>
 <li><a href="https://docs.unity3d.com/2021.1/Documentation/Manual/SL-ShaderReplacement.html">https://docs.unity3d.com/2021.1/Documentation/Manual/SL-ShaderReplacement.html</a></li>
@@ -3485,7 +3536,7 @@ Tags
     Tags
     {
         // 주의. SubShader의 Tag랑 다름
-        &quot;LightMode&quot; = &quot;UniversalForward&quot;
+        "LightMode" = "UniversalForward"
     }
 }
 </code></pre>
@@ -3527,7 +3578,7 @@ Tags
 <h2 id="offset"><a class="header" href="#offset">Offset</a></h2>
 <pre><code class="language-hlsl">Offset Factor, Units
 </code></pre>
-<p>Factor 및 units 파라미터 2개를 사용하여 뎁스 오프셋을 지정. Factor 는 폴리곤의 X 또는 Y를 기준으로 최대 Z 기울기를 스케일하고 units 는 최소 분석 가능 뎁스 버퍼 값을 스케일 하게된다.이를 통해 두개의 오브젝트가 겹칠경우 특정 오브젝트를 앞에 그리게 조절할 수 있다. </p>
+<p>Factor 및 units 파라미터 2개를 사용하여 뎁스 오프셋을 지정. Factor 는 폴리곤의 X 또는 Y를 기준으로 최대 Z 기울기를 스케일하고 units 는 최소 분석 가능 뎁스 버퍼 값을 스케일 하게된다.이를 통해 두개의 오브젝트가 겹칠경우 특정 오브젝트를 앞에 그리게 조절할 수 있다.</p>
 <h2 id="alphatomask"><a class="header" href="#alphatomask">AlphaToMask</a></h2>
 <pre><code class="language-hlsl">AlphaToMask On
 </code></pre>
@@ -3589,7 +3640,7 @@ Pass
     SetTexture textureProperty { combine options }
 
     GrabPass { } // _GrabTexture 
-    GrabPass { &quot;TextureName&quot; } 
+    GrabPass { "TextureName" } 
 
     CGPROGRAM
     #pragma surface surfaceFunction lightModel [optionalparams]
@@ -3706,7 +3757,7 @@ half4 frag(Varyings IN) : SV_Target
 <pre><code class="language-hlsl">// com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl
 
 #elif defined(SHADER_API_D3D11)
-#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/API/D3D11.hlsl&quot;
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/API/D3D11.hlsl"
 </code></pre>
 <h2 id="macroshlsl"><a class="header" href="#macroshlsl">Macros.hlsl</a></h2>
 <pre><code class="language-hlsl">// com.unity.render-pipelines.core/ShaderLibrary/Macros.hlsl
@@ -3789,7 +3840,7 @@ real3 UnpackNormal(real4 packedNormal)
 </code></pre>
 <h2 id="comunityrender-pipelinesuniversalshaderlibrary"><a class="header" href="#comunityrender-pipelinesuniversalshaderlibrary">com.unity.render-pipelines.universal/ShaderLibrary/</a></h2>
 <h3 id="universalshaderlibrarycorehlsl"><a class="header" href="#universalshaderlibrarycorehlsl">universal/ShaderLibrary/Core.hlsl</a></h3>
-<pre><code class="language-hlsl">#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl&quot;
+<pre><code class="language-hlsl">#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
 
 struct VertexPositionInputs
 {
@@ -3807,7 +3858,7 @@ struct VertexNormalInputs
     float3 normalWS;
 };
 
-#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl&quot;
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl"
 </code></pre>
 <h3 id="shadervariablesfunctionshlsl"><a class="header" href="#shadervariablesfunctionshlsl">ShaderVariablesFunctions.hlsl</a></h3>
 <pre><code class="language-hlsl">// com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl
@@ -3897,7 +3948,7 @@ float3 TransformObjectToWorldDir(float3 dirOS, bool doNormalize = true) // norma
 <pre><code class="language-hlsl">// Cheetsheet for URP
 
 // ref: https://docs.unity3d.com/Manual/SL-Shader.html
-Shader &quot;Name&quot;
+Shader "Name"
 {
     HLSLINCLUDE
     // ...
@@ -3906,16 +3957,16 @@ Shader &quot;Name&quot;
     // ref: https://docs.unity3d.com/Manual/SL-Properties.html
     Properties
     {
-        _Name (&quot;display name&quot;, Float)               = number
-        _Name (&quot;display name&quot;, Int)                 = number
-        _Name (&quot;display name&quot;, Range (min, max))    = number
-        _Name (&quot;display name&quot;, Color)               = (number,number,number,number)
-        _Name (&quot;display name&quot;, Vector)              = (number,number,number,number)
+        _Name ("display name", Float)               = number
+        _Name ("display name", Int)                 = number
+        _Name ("display name", Range (min, max))    = number
+        _Name ("display name", Color)               = (number,number,number,number)
+        _Name ("display name", Vector)              = (number,number,number,number)
 
-        _Name (&quot;display name&quot;, 2D)      = &quot;default-ColorString&quot; {} // power of 2
-        _Name (&quot;display name&quot;, Rect)    = &quot;default-ColorString&quot; {} // non-power of 2
-        _Name (&quot;display name&quot;, Cube)    = &quot;default-ColorString&quot; {}
-        _Name (&quot;display name&quot;, 3D)      = &quot;default-ColorString&quot; {}
+        _Name ("display name", 2D)      = "default-ColorString" {} // power of 2
+        _Name ("display name", Rect)    = "default-ColorString" {} // non-power of 2
+        _Name ("display name", Cube)    = "default-ColorString" {}
+        _Name ("display name", 3D)      = "default-ColorString" {}
 
         // ## Property Attribute
         // ref: https://docs.unity3d.com/ScriptReference/MaterialPropertyDrawer.html
@@ -3928,13 +3979,13 @@ Shader &quot;Name&quot;
         // | [Gamma]                                                                  | indicates that a float/vector property is specified as sRGB value in the UI (just like colors are), and possibly needs conversion according to color space used. See Properties in Shader Programs. |
         // | [PerRendererData]                                                        | indicates that a texture property will be coming from per-renderer data in the form of a MaterialPropertyBlock. Material inspector changes the texture slot UI for these properties.                |
         // | [Toggle]                                                                 |                                                                                                                                                                                                     |
-        // | [Toggle(ENABLE_FANCY)] _Fancy (&quot;Fancy?&quot;, Float) = 0                      | Will set &quot;ENABLE_FANCY&quot; shader keyword when set.                                                                                                                                                    |
+        // | [Toggle(ENABLE_FANCY)] _Fancy ("Fancy?", Float) = 0                      | Will set "ENABLE_FANCY" shader keyword when set.                                                                                                                                                    |
         // | [ToggleOff]                                                              |                                                                                                                                                                                                     |
         // | [ToggleOff(DISABLE_EXAMPLE_FEATURE)]                                     |                                                                                                                                                                                                     |
-        // | [Enum(UnityEngine.Rendering.BlendMode)] _Blend (&quot;Blend mode&quot;, Float) = 1 | blend modes selection.                                                                                                                                                                              |
-        // | [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest(&quot;ZTest&quot;, Float) = 0 |                                                                                                                                                                                                     |
-        // | [Enum(UnityEngine.Rendering.CullMode)] _CullMode(&quot;Cull Mode&quot;, Int) = 0   |                                                                                                                                                                                                     |
-        // | [KeywordEnum(None, Add, Multiply)] _Overlay (&quot;Overlay mode&quot;, Float) = 0  | Display a popup with None,Add,Multiply choices. Each option will set _OVERLAY_NONE, _OVERLAY_ADD, _OVERLAY_MULTIPLY shader keywords.                                                                |
+        // | [Enum(UnityEngine.Rendering.BlendMode)] _Blend ("Blend mode", Float) = 1 | blend modes selection.                                                                                                                                                                              |
+        // | [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0 |                                                                                                                                                                                                     |
+        // | [Enum(UnityEngine.Rendering.CullMode)] _CullMode("Cull Mode", Int) = 0   |                                                                                                                                                                                                     |
+        // | [KeywordEnum(None, Add, Multiply)] _Overlay ("Overlay mode", Float) = 0  | Display a popup with None,Add,Multiply choices. Each option will set _OVERLAY_NONE, _OVERLAY_ADD, _OVERLAY_MULTIPLY shader keywords.                                                                |
         // | [MainTexture]                                                            |                                                                                                                                                                                                     |
         // | [MainColor]                                                              |                                                                                                                                                                                                     |
         // | [Header(A group of things)]                                              |                                                                                                                                                                                                     |
@@ -3944,28 +3995,28 @@ Shader &quot;Name&quot;
         // Later on in the shader’s fixed function parts, property values can be accessed using property name in square brackets: [name] e.g. Blend [_SrcBlend] [_DstBlend].
 
         // ## ColorString
-        // &quot;red&quot;
-        // &quot;black&quot;         &quot;&quot;
-        // &quot;white&quot;
-        // &quot;gray&quot;          &quot;grey&quot;
-        // &quot;linearGray&quot;    &quot;linearGrey&quot;
-        // &quot;grayscaleRamp&quot; &quot;greyscaleRamp&quot;
-        // &quot;bump&quot;
-        // &quot;blackCube&quot;
-        // &quot;lightmap&quot;
-        // &quot;unity_Lightmap&quot;
-        // &quot;unity_LightmapInd&quot;
-        // &quot;unity_ShadowMask&quot;
-        // &quot;unity_DynamicLightmap&quot;
-        // &quot;unity_DynamicDirectionality&quot;
-        // &quot;unity_DynamicNormal&quot;
-        // &quot;unity_DitherMask&quot;
-        // &quot;_DitherMaskLOD&quot;
-        // &quot;_DitherMaskLOD2D&quot;
-        // &quot;unity_RandomRotation16&quot;
-        // &quot;unity_NHxRoughness&quot;
-        // &quot;unity_SpecCube0&quot;
-        // &quot;unity_SpecCube1&quot;
+        // "red"
+        // "black"         ""
+        // "white"
+        // "gray"          "grey"
+        // "linearGray"    "linearGrey"
+        // "grayscaleRamp" "greyscaleRamp"
+        // "bump"
+        // "blackCube"
+        // "lightmap"
+        // "unity_Lightmap"
+        // "unity_LightmapInd"
+        // "unity_ShadowMask"
+        // "unity_DynamicLightmap"
+        // "unity_DynamicDirectionality"
+        // "unity_DynamicNormal"
+        // "unity_DitherMask"
+        // "_DitherMaskLOD"
+        // "_DitherMaskLOD2D"
+        // "unity_RandomRotation16"
+        // "unity_NHxRoughness"
+        // "unity_SpecCube0"
+        // "unity_SpecCube1"
     }
 
     // ref: https://docs.unity3d.com/Manual/SL-SubShader.html
@@ -3974,8 +4025,8 @@ Shader &quot;Name&quot;
         // ref: https://docs.unity3d.com/Manual/SL-SubShaderTags.html
         Tags
         {
-            &quot;TagName1&quot; = &quot;Value1&quot;
-            &quot;TagName2&quot; = &quot;Value2&quot;
+            "TagName1" = "Value1"
+            "TagName2" = "Value2"
         }
 
         // Queue tag: 렌더링 순서 지정. `Geometry+1`, `Geometry-1` 과 같이 가중치 적용가능
@@ -3998,29 +4049,29 @@ Shader &quot;Name&quot;
         // | Overlay           | 후광(Halo), 플레어(Flare)                  |
 
         // 기타 SubShader의 Tags
-        // &quot;DisableBatching&quot;      = &quot;(True | &lt;False&gt; | LODFading)&quot;
-        // &quot;ForceNoShadowCasting&quot; = &quot;(True | &lt;False&gt;)&quot;
-        // &quot;CanUseSpriteAtlas&quot;    = &quot;(&lt;True&gt; | False)&quot;
-        // &quot;PreviewType&quot;          = &quot;(&lt;Sphere&gt; | Plane | Skybox)&quot;
+        // "DisableBatching"      = "(True | &lt;False&gt; | LODFading)"
+        // "ForceNoShadowCasting" = "(True | &lt;False&gt;)"
+        // "CanUseSpriteAtlas"    = "(&lt;True&gt; | False)"
+        // "PreviewType"          = "(&lt;Sphere&gt; | Plane | Skybox)"
 
         // ref: https://docs.unity3d.com/Manual/SL-ShaderLOD.html
         LOD &lt;lod-number&gt;
 
         // ref: https://docs.unity3d.com/Manual/SL-UsePass.html
         // 주어진 이름의 셰이더의 (첫번째 SubShader의) 모든 패스들이 삽입됨.
-        UsePass &quot;Shader/Name&quot;
+        UsePass "Shader/Name"
 
         // ref: https://docs.unity3d.com/Manual/SL-Pass.html
         Pass
         {
-            Name &quot;Pass Name&quot;
+            Name "Pass Name"
 
             // ref: https://docs.unity3d.com/Manual/SL-PassTags.html
             // 주의. `Pass의 Tag`는 `SubShader의 Tag`랑 다름
             Tags
             {
-                &quot;TagName1&quot; = &quot;Value1&quot;
-                &quot;TagName2&quot; = &quot;Value2&quot;
+                "TagName1" = "Value1"
+                "TagName2" = "Value2"
             }
 
             // LightMode tag : 
@@ -4139,7 +4190,7 @@ Shader &quot;Name&quot;
     }
 
     // ref : https://docs.unity3d.com/Manual/SL-Fallback.html
-    Fallback &quot;Diffuse&quot;
+    Fallback "Diffuse"
 
     // ref: https://docs.unity3d.com/Manual/SL-CustomEditor.html
     // ref: https://docs.unity3d.com/Manual/SL-CustomMaterialEditors.html
@@ -4264,7 +4315,7 @@ unity_WorldToShadow	float4x4 _MainLightWorldToShadow[MAX_SHADOW_CASCADES + 1] or
 </div>
 <ul>
 <li>ComputeScreenPos deprecated - <a href="https://github.com/Unity-Technologies/Graphics/pull/2529">https://github.com/Unity-Technologies/Graphics/pull/2529</a></li>
-<li>GetVertexPositionInputs().positionNDC </li>
+<li>GetVertexPositionInputs().positionNDC</li>
 </ul>
 <h2 id="camera-texture"><a class="header" href="#camera-texture">Camera Texture</a></h2>
 <div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
@@ -4275,7 +4326,7 @@ unity_WorldToShadow	float4x4 _MainLightWorldToShadow[MAX_SHADOW_CASCADES + 1] or
 <p>fixed depth = SAMPLE_DEPTH_TEXTURE(texture, sampler, uv);</p>
 <pre><code class="language-shader">GrabPass
 {
-    &quot;_GrabPass&quot;
+    "_GrabPass"
 }
 sampler2D _GrabPass
 fixed4 fGrapPass = tex2Dproj(_GrabPass, i.screenPosition + 0.5f);
@@ -4317,7 +4368,7 @@ https://www.cyanilux.com/recent/2/</li>
 <li>
 <p>툰쉐이더</p>
 <ul>
-<li>https://musoucrow.github.io/2020/07/05/urp_outline/ </li>
+<li>https://musoucrow.github.io/2020/07/05/urp_outline/</li>
 <li>https://kink3d.github.io/blog/2017/10/04/Physically-Based-Toon-Shading-In-Unity
 <ul>
 <li>https://github.com/Kink3d/kShading/blob/master/Shaders/ToonLit.shader</li>
@@ -4377,7 +4428,7 @@ https://www.cyanilux.com/recent/2/</li>
 <li>1984 - Frank</li>
 <li>GDC2003 - Simon</li>
 </ul>
-<h2 id="ref-22"><a class="header" href="#ref-22">Ref</a></h2>
+<h2 id="ref-23"><a class="header" href="#ref-23">Ref</a></h2>
 <ul>
 <li><a href="https://github.com/QianMo/X-PostProcessing-Library">https://github.com/QianMo/X-PostProcessing-Library</a></li>
 <li><a href="https://github.com/UWA-MakeItSimple/Course-PostProcessingEffect">https://github.com/UWA-MakeItSimple/Course-PostProcessingEffect</a></li>
@@ -4602,15 +4653,15 @@ float3 CalcLUT3D( sampler InLUT, float3 InColor )
     return tex3D( InLUT, InColor * 15.f / 16.f + 0.5f / 16.f ).rgb;
 }
 </code></pre>
-<h2 id="ref-23"><a class="header" href="#ref-23">Ref</a></h2>
+<h2 id="ref-24"><a class="header" href="#ref-24">Ref</a></h2>
 <ul>
 <li><a href="https://nellfamily.tistory.com/51">DirectX Shader LUT 필터 코드 구현</a></li>
-<li><a href="https://youtu.be/0LwlNVS3FJo?t=1087">[Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : &quot;애니메이션의 감성을 그대로＂와 “개발 최적화&quot;</a></li>
+<li><a href="https://youtu.be/0LwlNVS3FJo?t=1087">[Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : "애니메이션의 감성을 그대로＂와 “개발 최적화"</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="color-space"><a class="header" href="#color-space">Color Space</a></h1>
 <ul>
 <li>RGB</li>
-<li>HSL (for hue, saturation, lightness) and HSV (for hue, saturation, value; also known as HSB, for hue, saturation, brightness) </li>
+<li>HSL (for hue, saturation, lightness) and HSV (for hue, saturation, value; also known as HSB, for hue, saturation, brightness)</li>
 <li>HCL (Hue-Chroma-Luminance)</li>
 <li>YUV</li>
 <li>..</li>
@@ -4644,7 +4695,7 @@ float3 CalcLUT3D( sampler InLUT, float3 InColor )
 </div>
 <p>ICtCp : ICtCp has near constant luminance, which improves chroma subsampling versus YCBCR
 YCgCo : 색평면 사이에 상관성이 매우 낮음</p>
-<p>ACES - Academy Color Encoding System 
+<p>ACES - Academy Color Encoding System
 https://en.wikipedia.org/wiki/Academy_Color_Encoding_System
 https://github.com/ampas/aces-dev
 https://www.slideshare.net/hpduiker/acescg-a-common-color-encoding-for-visual-effects-applications</p>
@@ -4792,7 +4843,7 @@ const static half3x3 MAT_YUV_TO_RGB = {
   +1.0, +2.029, +0.000
 };
 </code></pre>
-<h2 id="ref-24"><a class="header" href="#ref-24">Ref</a></h2>
+<h2 id="ref-25"><a class="header" href="#ref-25">Ref</a></h2>
 <ul>
 <li><a href="https://raphlinus.github.io/color/2021/01/18/oklab-critique.html">https://raphlinus.github.io/color/2021/01/18/oklab-critique.html</a></li>
 <li><a href="https://bottosson.github.io/posts/oklab/">https://bottosson.github.io/posts/oklab/</a></li>
@@ -4883,7 +4934,7 @@ Color = Key
 lumaToned = ToneMap(luma);
 rgbL = rgb * (lumaToned * (1 - s)) / luma + (1.05, 0.97, 1.27) * lumaToned * s;
 </code></pre>
-<h2 id="ref-25"><a class="header" href="#ref-25">Ref</a></h2>
+<h2 id="ref-26"><a class="header" href="#ref-26">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/fcarucci/HDR-Meets-Black-And-White-2-2006">GDC2006 - Hdr Meets Black And White 2</a></li>
 <li><a href="https://github.com/walbourn/directx-sdk-samples/tree/master/HDRToneMappingCS11">HDRToneMappingCS11</a></li>
@@ -4953,7 +5004,7 @@ float FxaaLuma(float3 rgb)
 }
 
 </code></pre>
-<h2 id="ref-26"><a class="header" href="#ref-26">Ref</a></h2>
+<h2 id="ref-27"><a class="header" href="#ref-27">Ref</a></h2>
 <ul>
 <li><a href="https://developer.download.nvidia.com/assets/gamedev/files/sdk/11/FXAA_WhitePaper.pdf">FXAA WhitePaper - Nvidia - Timothy Lottes</a></li>
 <li><a href="https://catlikecoding.com/unity/tutorials/advanced-rendering/fxaa/">https://catlikecoding.com/unity/tutorials/advanced-rendering/fxaa/</a></li>
@@ -5059,7 +5110,7 @@ h = TextureUtil.ToPow2RoundUp( topBloomHeight),
 brightnessOffsetX = (w - topBloomWidth) / 2;
 brightnessOffsetY = (h - topBloomHeight) / 2;
 </code></pre>
-<h2 id="ref-27"><a class="header" href="#ref-27">Ref</a></h2>
+<h2 id="ref-28"><a class="header" href="#ref-28">Ref</a></h2>
 <ul>
 <li><a href="https://www.hanbit.co.kr/store/books/look.php?p_code=B9447539340">2004 - Directx 9 셰이더 프로그래밍 - 타카시 이마기레</a></li>
 <li><a href="Postprocess/www.daionet.gr.jp/~masa/archives/GDC2003_DSTEAL.ppt">GDC2003 - Frame Buffer Postprocessing Effects in DOUBLE-S.T.E.A.L (Wreckless)</a></li>
@@ -5334,7 +5385,7 @@ void main(void)
     gl_FragColor = vec4(0.3+finalAO*0.7,1.0); 
 }
 </code></pre>
-<h2 id="ref-28"><a class="header" href="#ref-28">Ref</a></h2>
+<h2 id="ref-29"><a class="header" href="#ref-29">Ref</a></h2>
 <ul>
 <li>Game Engine Gems, Volume 1 - 18. Fast Screen-space Ambient Occlusion and Indirect Lighting</li>
 <li>https://babytook.tistory.com/171</li>
@@ -5506,7 +5557,7 @@ float3 ACES_Fitted(float3 color)
 <ul>
 <li>Practical HDR and Wide Color Techniques inGran TurismoSPORT</li>
 <li>linear to gamma</li>
-<li>CEDEC2017 &quot;HDR, Theory and Practice&quot;</li>
+<li>CEDEC2017 "HDR, Theory and Practice"</li>
 <li><a href="https://www.slideshare.net/nikuque/hdr-theory-and-practicce-jp">https://www.slideshare.net/nikuque/hdr-theory-and-practicce-jp</a></li>
 </ul>
 <h2 id="others"><a class="header" href="#others">Others</a></h2>
@@ -5523,7 +5574,7 @@ float3 ACES_Fitted(float3 color)
 </ul>
 </li>
 </ul>
-<h2 id="ref-29"><a class="header" href="#ref-29">Ref</a></h2>
+<h2 id="ref-30"><a class="header" href="#ref-30">Ref</a></h2>
 <ul>
 <li><a href="https://danielilett.com/2019-05-01-tut1-1-smo-greyscale/">https://danielilett.com/2019-05-01-tut1-1-smo-greyscale/</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Grayscale">https://en.wikipedia.org/wiki/Grayscale</a></li>
@@ -5611,7 +5662,7 @@ half b = SAMPLE_TEXTURE2D_X(_SourceTex, sampler_LinearClamp, DistortUV(delta * 2
 
 color = half3(r, g, b);
 </code></pre>
-<pre><code class="language-hlsl">// ref: [2019 - [Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : &quot;애니메이션의 감성을 그대로&quot;와 &quot;개발 최적화.&quot;](https://youtu.be/0LwlNVS3FJo?t=1988)
+<pre><code class="language-hlsl">// ref: [2019 - [Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : "애니메이션의 감성을 그대로"와 "개발 최적화."](https://youtu.be/0LwlNVS3FJo?t=1988)
 half3 mainTex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv).rgb;
 half k = _ParamK;
 half kcube = _ParamKcube;
@@ -5631,7 +5682,7 @@ else
 float2 chromaticUV = 0.5 + centerUV * f;
 half3 final_chromatic = half3(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, chromaticUV).rg, mainTex.b);
 </code></pre>
-<h2 id="ref-30"><a class="header" href="#ref-30">Ref</a></h2>
+<h2 id="ref-31"><a class="header" href="#ref-31">Ref</a></h2>
 <ul>
 <li><a href="https://www.nvidia.com/en-us/geforce/news/the-witcher-3-wild-hunt-graphics-performance-and-tweaking-guide/#the-witcher-3-wild-hunt-chromatic-aberration">The Witcher 3 - Chromatic Aberration</a></li>
 <li><a href="https://mgun.tistory.com/3253">Chromatic Aberration 1 (색수차)</a></li>
@@ -5693,7 +5744,7 @@ half3 final_chromatic = half3(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, chroma
 <li>FlimGrain 필름 표면 미세한 입자(노이즈)</li>
 <li>DITHERING</li>
 </ul>
-<h2 id="ref-31"><a class="header" href="#ref-31">Ref</a></h2>
+<h2 id="ref-32"><a class="header" href="#ref-32">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/agebreak/ndc12-hdr">[Ndc12] 누구나 알기쉬운 hdr과 톤맵핑 박민근</a></li>
 <li><a href="https://www.slideshare.net/cagetu/ndc11-hdr">Ndc11 이창희_hdr</a></li>
@@ -5731,8 +5782,8 @@ half3 final_chromatic = half3(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, chroma
 </ul>
 </li>
 </ul>
-<pre><code class="language-cs">_materia_LightShaft.SetVector(&quot;_CameraPositionWS&quot;, camera.transform.position);
-_materia_LightShaft.SetMatrix(&quot;_Matrix_CameraFrustum&quot;, FrustumCorners(camera));
+<pre><code class="language-cs">_materia_LightShaft.SetVector("_CameraPositionWS", camera.transform.position);
+_materia_LightShaft.SetMatrix("_Matrix_CameraFrustum", FrustumCorners(camera));
 
 
 private Matrix4x4 FrustumCorners(Camera cam)
@@ -5838,8 +5889,8 @@ half3 frustumPositionCamera = _Matrix_CameraFrustum[frustumIndex].xyz;
 <p><img src="Postprocess/../res/fragment_normalize_frustum.jpg" alt="fragment_normalize_frustum.jpg" /></p>
 <h2 id="예-2"><a class="header" href="#예-2">예</a></h2>
 <pre><code class="language-hlsl">// 1. shadow맵과 depth 맵을 이용하여 마스크 맵을 만든다
-#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl&quot;
-#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl&quot;
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
 
 // 카메라의 Frustum의 각 꼭지점을 구하고, normalize하여 해당 방향으로 ray를 쏜다
 
@@ -5856,7 +5907,7 @@ color = lerp(mainTex, _MainLightColor.rgb, lightShaftMask);
 <li>Polygonal Volume [ James 2003 Based On Radomir Mech 2001]</li>
 <li>Volumetric Light Scattering [ Hoffman &amp; Preetham 2003 ]</li>
 </ul>
-<h2 id="ref-32"><a class="header" href="#ref-32">Ref</a></h2>
+<h2 id="ref-33"><a class="header" href="#ref-33">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/TiagoAlexSousa/crysis-nextgen-effects-gdc-2008">GDC2008 - Crysis Next-Gen Effects</a></li>
 <li><a href="https://developer.nvidia.com/gpugems/gpugems3/part-ii-light-and-shadows/chapter-13-volumetric-light-scattering-post-process">https://developer.nvidia.com/gpugems/gpugems3/part-ii-light-and-shadows/chapter-13-volumetric-light-scattering-post-process</a>
@@ -5989,7 +6040,7 @@ void main(void)
     gl_FragColor = vec4(readColor(gl_TexCoord[0])*finalAO+finalGI,1.0); 
 }  
 </code></pre>
-<h2 id="ref-33"><a class="header" href="#ref-33">Ref</a></h2>
+<h2 id="ref-34"><a class="header" href="#ref-34">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/jangho/real-time-global-illumination-techniques">https://www.slideshare.net/jangho/real-time-global-illumination-techniques</a></li>
 <li><a href="https://forum.unity.com/threads/my-ssao-ssgi-prototype.78566/#post-521710">https://forum.unity.com/threads/my-ssao-ssgi-prototype.78566/#post-521710</a></li>
@@ -6043,7 +6094,7 @@ void main(void)
 </tbody></table>
 </div>
 <h2 id="코드-예"><a class="header" href="#코드-예">코드 예</a></h2>
-<pre><code class="language-cs">_material_SSR.SetMatrix( &quot;_MATRIX_InverseCameraProjection&quot;, _camera.projectionMatrix.inverse);
+<pre><code class="language-cs">_material_SSR.SetMatrix( "_MATRIX_InverseCameraProjection", _camera.projectionMatrix.inverse);
 </code></pre>
 <pre><code class="language-hlsl">// vert =====================
 // 카메라레이
@@ -6150,7 +6201,7 @@ for (_MaxRayStep)
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/278793984">https://zhuanlan.zhihu.com/p/278793984</a></li>
 </ul>
-<h2 id="ref-34"><a class="header" href="#ref-34">Ref</a></h2>
+<h2 id="ref-35"><a class="header" href="#ref-35">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/xtozero/screen-space-reflection">https://www.slideshare.net/xtozero/screen-space-reflection</a></li>
 <li><a href="http://www.kode80.com/blog/2015/03/11/screen-space-reflections-in-unity-5/">http://www.kode80.com/blog/2015/03/11/screen-space-reflections-in-unity-5/</a>
@@ -6315,7 +6366,7 @@ float fade = unity_LODFade.x;
 float2 fadeMaskSeed = IN.positionCS.xy;
 LODDitheringTransition(fadeMaskSeed, fade);
 </code></pre>
-<h2 id="ref-35"><a class="header" href="#ref-35">Ref</a></h2>
+<h2 id="ref-36"><a class="header" href="#ref-36">Ref</a></h2>
 <ul>
 <li><a href="https://docs.unity3d.com/Manual/class-LODGroup.html">https://docs.unity3d.com/Manual/class-LODGroup.html</a></li>
 <li><a href="https://github.com/keijiro/CrossFadingLod">https://github.com/keijiro/CrossFadingLod</a></li>
@@ -6458,7 +6509,7 @@ return half4(cross, cross, cross, 1);
 </ul>
 </li>
 </ul>
-<h2 id="ref-36"><a class="header" href="#ref-36">Ref</a></h2>
+<h2 id="ref-37"><a class="header" href="#ref-37">Ref</a></h2>
 <ul>
 <li><a href="https://www.naughtydog.com/blog/naughty_dog_at_siggraph_2020">https://www.naughtydog.com/blog/naughty_dog_at_siggraph_2020</a></li>
 <li><a href="https://youtu.be/tvBIqPHaExQ?t=2729">SIGGRAPH 2020 - Fake Thickness - The Technical Art of The Last of Us Part II by Waylon Brinck and Steven Tang</a></li>
@@ -6625,7 +6676,7 @@ OutColor *= (1.f - max(4 * positionOS_decal.y - 1, 0.f));
   return float4(shadow, 0.0f, shadow * aoIntensity, 0);
 }
 </code></pre>
-<h2 id="ref-37"><a class="header" href="#ref-37">Ref</a></h2>
+<h2 id="ref-38"><a class="header" href="#ref-38">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/blindrendererkr/40000">KGC2012 - 스크린 스페이스 데칼에 대해 자세히 알아보자(워햄머 40,000: 스페이스 마린)</a>
 <ul>
@@ -6661,7 +6712,7 @@ OutColor *= (1.f - max(4 * positionOS_decal.y - 1, 0.f));
 </ul>
 </li>
 </ul>
-<h2 id="ref-38"><a class="header" href="#ref-38">Ref</a></h2>
+<h2 id="ref-39"><a class="header" href="#ref-39">Ref</a></h2>
 <ul>
 <li><a href="https://github.com/tsugi/exampleunityangrybots/tree/master/Assets/Scripts/Rain">https://github.com/tsugi/exampleunityangrybots/tree/master/Assets/Scripts/Rain</a></li>
 <li><a href="https://blog-api.unity.com/sites/default/files/2011/08/FastMobileShaders_siggraph2011.pdf">SIGGRAPH2011-FastMobileShaders</a></li>
@@ -6719,7 +6770,7 @@ OutColor *= (1.f - max(4 * positionOS_decal.y - 1, 0.f));
 <li><code>unity_SpecCube0</code>가 위에서 설정된 메테리얼로 스카이박스를 렌더링함.(<code>Camera &gt; Background Type</code>과는 상관없음)</li>
 </ul>
 </li>
-<li>URP 환경이라도 Built-in(legacy)의 기본 Pass의 태그값 <code>&quot;LightMode&quot; = &quot;ForwardBase&quot;</code>로 하여야만 동작한다.</li>
+<li>URP 환경이라도 Built-in(legacy)의 기본 Pass의 태그값 <code>"LightMode" = "ForwardBase"</code>로 하여야만 동작한다.</li>
 </ul>
 <h2 id="유니티의-skybox"><a class="header" href="#유니티의-skybox">유니티의 Skybox</a></h2>
 <ul>
@@ -6822,7 +6873,7 @@ half4 SampleSun(in half3 viewDir, in half alpha)
 }
 </code></pre>
 <pre><code class="language-hlsl">// ['Infinite' sky shader for Unity](https://aras-p.info/blog/2019/02/01/Infinite-sky-shader-for-Unity/)
-// 유니티는 &quot;reversed-Z projection&quot;을 이용하지만, &quot;infinite projection&quot;은 아니다
+// 유니티는 "reversed-Z projection"을 이용하지만, "infinite projection"은 아니다
 
 #if defined(UNITY_REVERSED_Z)
 // when using reversed-Z, make the Z be just a tiny
@@ -6842,7 +6893,7 @@ OUT.positionCS.z = o.positionCS.w - 1.0e-6f;
 </ul>
 </li>
 </ul>
-<h2 id="ref-39"><a class="header" href="#ref-39">Ref</a></h2>
+<h2 id="ref-40"><a class="header" href="#ref-40">Ref</a></h2>
 <ul>
 <li><a href="https://github.com/TwoTailsGames/Unity-Built-in-Shaders/blob/master/DefaultResourcesExtra/Skybox-Procedural.shader">Unity's built-in Skybox-Procedural.shader</a></li>
 <li><a href="https://www.slideshare.net/ajinkim/ss-58266584">마른 하늘에 날구름 넣기</a></li>
@@ -6920,7 +6971,7 @@ add Fresnel</p>
 <li><a href="https://www.youtube.com/watch?v=dfWxshvTo60">youtube: Overwatch: фейковое окно на King's Row (fake window)</a></li>
 </ul>
 <p>잘 모르겠다...</p>
-<h2 id="ref-40"><a class="header" href="#ref-40">Ref</a></h2>
+<h2 id="ref-41"><a class="header" href="#ref-41">Ref</a></h2>
 <ul>
 <li><a href="https://chulin28ho.tistory.com/521">AABB(Axis Aligned Bounding Box) 방식의 레이 충돌공식</a></li>
 <li>coposuke 설명(일본어)
@@ -6970,7 +7021,7 @@ add Fresnel</p>
 <tr><td>a</td><td>precomputed ambient occlusion</td></tr>
 </tbody></table>
 </div>
-<h2 id="ref-41"><a class="header" href="#ref-41">Ref</a></h2>
+<h2 id="ref-42"><a class="header" href="#ref-42">Ref</a></h2>
 <ul>
 <li><a href="https://developer.nvidia.com/gpugems/gpugems3/part-iii-rendering/chapter-16-vegetation-procedural-animation-and-shading-crysis">https://developer.nvidia.com/gpugems/gpugems3/part-iii-rendering/chapter-16-vegetation-procedural-animation-and-shading-crysis</a></li>
 <li>https://docs.unity3d.com/Packages/com.unity.polybrush@1.0/manual/modes_color.html
@@ -7020,7 +7071,7 @@ float3 positionOS;
 positionOS.xz = mul(ROTATE_Y_AXIS_M, IN.positionOS.xz);
 positionOS.y = IN.positionOS.y;
 </code></pre>
-<h2 id="ref-42"><a class="header" href="#ref-42">Ref</a></h2>
+<h2 id="ref-43"><a class="header" href="#ref-43">Ref</a></h2>
 <ul>
 <li><a href="https://www.sysnet.pe.kr/2/0/11641">https://www.sysnet.pe.kr/2/0/11641</a></li>
 <li><a href="https://en.wikibooks.org/wiki/Cg_Programming/Unity/Billboards">https://en.wikibooks.org/wiki/Cg_Programming/Unity/Billboards</a></li>
@@ -7163,7 +7214,7 @@ half4 finalColor = lerp(mainTex0, mainTex1, interval);
 <ul>
 <li>TAM / Tonal Art Maps</li>
 </ul>
-<h2 id="ref-43"><a class="header" href="#ref-43">Ref</a></h2>
+<h2 id="ref-44"><a class="header" href="#ref-44">Ref</a></h2>
 <ul>
 <li><a href="http://gfx.cs.princeton.edu/proj/hatching/hatching.pdf">SIGGRAPH2001 - Real-Time Hatching</a></li>
 <li><a href="https://github.com/OskarSigvardsson/tonal-art-map">https://github.com/OskarSigvardsson/tonal-art-map</a></li>
@@ -7239,7 +7290,7 @@ normalVS = mul(rot, normalVS);
 </ul>
 <pre><code class="language-hlsl">OUT.uv_Matcap = normalWS.xy * 0.5 + 0.5;
 </code></pre>
-<h2 id="ref-44"><a class="header" href="#ref-44">Ref</a></h2>
+<h2 id="ref-45"><a class="header" href="#ref-45">Ref</a></h2>
 <ul>
 <li>MaCrea(MatCap 생성 도구) <a href="http://www.taron.de/">http://www.taron.de/</a>
 <ul>
@@ -7249,7 +7300,7 @@ normalVS = mul(rot, normalVS);
 <li><a href="https://en.wikipedia.org/wiki/Sphere_mapping">https://en.wikipedia.org/wiki/Sphere_mapping</a></li>
 <li><a href="http://wiki.polycount.com/wiki/Spherical_environment_map">http://wiki.polycount.com/wiki/Spherical_environment_map</a></li>
 <li><a href="https://docs.microsoft.com/en-us/windows/win32/direct3d9/spherical-environment-mapping">https://docs.microsoft.com/en-us/windows/win32/direct3d9/spherical-environment-mapping</a></li>
-<li><a href="https://youtu.be/0LwlNVS3FJo?t=530">[Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : &quot;애니메이션의 감성을 그대로＂와 “개발 최적화&quot;</a></li>
+<li><a href="https://youtu.be/0LwlNVS3FJo?t=530">[Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : "애니메이션의 감성을 그대로＂와 “개발 최적화"</a></li>
 <li><a href="https://github.com/nidorx/matcaps">https://github.com/nidorx/matcaps</a> : MatCap Textures</li>
 <li><a href="https://www.clicktorelease.com/blog/creating-spherical-environment-mapping-shader/">https://www.clicktorelease.com/blog/creating-spherical-environment-mapping-shader/</a></li>
 <li><a href="https://www.youtube.com/watch?v=ZB9bKhXPR74">에픽 라이브 | 언리얼 엔진 카툰 렌더링 | PART 1</a></li>
@@ -7268,17 +7319,17 @@ normalVS = mul(rot, normalVS);
 <h2 id="2-pass"><a class="header" href="#2-pass">2-pass</a></h2>
 <pre><code class="language-hlsl">Tags
 {
-    &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
+    "RenderPipeline" = "UniversalRenderPipeline"
 }
 
 Pass
 {
-    Name &quot;Outline&quot;
+    Name "Outline"
     Tags
     {
-        &quot;LightMode&quot; = &quot;SRPDefaultUnlit&quot;
-        &quot;Queue&quot; = &quot;Geometry&quot;
-        &quot;RenderType&quot; = &quot;Opaque&quot;
+        "LightMode" = "SRPDefaultUnlit"
+        "Queue" = "Geometry"
+        "RenderType" = "Opaque"
     }
     Cull Front
     
@@ -7289,12 +7340,12 @@ Pass
 
 Pass
 {
-    Name &quot;Front&quot;
+    Name "Front"
     Tags
     {
-        &quot;LightMode&quot; = &quot;UniversalForward&quot;
-        &quot;Queue&quot; = &quot;Geometry&quot;
-        &quot;RenderType&quot; = &quot;Opaque&quot;
+        "LightMode" = "UniversalForward"
+        "Queue" = "Geometry"
+        "RenderType" = "Opaque"
     }
     Cull Back
 
@@ -7385,7 +7436,7 @@ final.rgb *= pow(rim, 3);
 <tr><td>확대 모델 엣지</td><td>셰이더 2패스</td></tr>
 </tbody></table>
 </div>
-<h2 id="ref-45"><a class="header" href="#ref-45">Ref</a></h2>
+<h2 id="ref-46"><a class="header" href="#ref-46">Ref</a></h2>
 <ul>
 <li><a href="https://roystan.net/articles/outline-shader.html">https://roystan.net/articles/outline-shader.html</a></li>
 <li><a href="https://alexanderameye.github.io/outlineshader.html">https://alexanderameye.github.io/outlineshader.html</a></li>
@@ -7481,7 +7532,7 @@ half NdotL = saturate(dot(N, L));
 <li>Parallax Occlusion Mapping (POM)</li>
 <li>....</li>
 </ul>
-<h2 id="ref-46"><a class="header" href="#ref-46">Ref</a></h2>
+<h2 id="ref-47"><a class="header" href="#ref-47">Ref</a></h2>
 <ul>
 <li><a href="https://learnopengl.com/Advanced-Lighting/Parallax-Mapping">https://learnopengl.com/Advanced-Lighting/Parallax-Mapping</a>
 <ul>
@@ -7557,7 +7608,7 @@ Stencil
 <li><a href="http://www-sop.inria.fr/reves/Marc.Stamminger/psm/">http://www-sop.inria.fr/reves/Marc.Stamminger/psm/</a></li>
 <li><a href="http://x66vx.egloos.com/3808794">http://x66vx.egloos.com/3808794</a></li>
 </ul>
-<h2 id="ref-47"><a class="header" href="#ref-47">Ref</a></h2>
+<h2 id="ref-48"><a class="header" href="#ref-48">Ref</a></h2>
 <ul>
 <li><a href="https://gamedevforever.com/326">게임 개발 포에버: 실시간 그림자를 싸게 그리자! 평면상의 그림자 ( Planar Shadow)</a></li>
 <li><a href="https://www.slideshare.net/MoonLightMS/1023-1">[1023 박민수] 깊이_버퍼_그림자_1</a></li>
@@ -7640,7 +7691,7 @@ rampUV.y = LdotV * 0.8;
 half3 rampTex = SAMPLE_TEXTURE2D(_RampTex, sampler_RampTex, rampUV).rgb;
 </code></pre>
 <p>아니면 Albedo맵 / Normal맵 자체에 Blur(rgb에 가중치를 주어서)를 적용한다.</p>
-<h2 id="ref-48"><a class="header" href="#ref-48">Ref</a></h2>
+<h2 id="ref-49"><a class="header" href="#ref-49">Ref</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/leemwymw/cheap-realisticskinshading-kor">Cheap realisticskinshading kor </a></li>
 <li><a href="https://advances.realtimerendering.com/s2010/index.html">SIGGRAPH2010 - Uncharted 2: Character Lighting and Shading</a></li>
@@ -7734,7 +7785,7 @@ float3 projOnCrossSection = normalize(cameraPositionOS - (DIR_UP * dotWithYAxis)
 float dotProd           = abs(dot(projOnCrossSection, input.normal));
 output.overallIntensity = pow(dotProd, _FadingEdgePower) * _CurrLightShaftIntensity;
 </code></pre>
-<h2 id="ref-49"><a class="header" href="#ref-49">Ref</a></h2>
+<h2 id="ref-50"><a class="header" href="#ref-50">Ref</a></h2>
 <ul>
 <li><a href="https://assetstore.unity.com/packages/vfx/shaders/volumetric-light-beam-99888">https://assetstore.unity.com/packages/vfx/shaders/volumetric-light-beam-99888</a></li>
 <li><a href="https://assetstore.unity.com/packages/tools/particles-effects/as-lightshafts-2-13196">https://assetstore.unity.com/packages/tools/particles-effects/as-lightshafts-2-13196</a></li>
@@ -7748,7 +7799,7 @@ output.overallIntensity = pow(dotProd, _FadingEdgePower) * _CurrLightShaftIntens
 <pre><code class="language-hlsl">half rim = 1 - NdotV;
 half steppedRim = smoothstep(1.0 - _RimWidth, 1.0, rim);
 </code></pre>
-<h1 id="ref-50"><a class="header" href="#ref-50">Ref</a></h1>
+<h1 id="ref-51"><a class="header" href="#ref-51">Ref</a></h1>
 <ul>
 <li><a href="https://youtu.be/9B3BDsFxP6I?t=1074">Unite '17 Seoul - 모바일 하드웨어에서 퀄리티있는 유니티 셰이더 구현</a></li>
 <li><a href="https://www.slideshare.net/agebreak/0806-rim-lighting">[0806 박민근] 림 라이팅(rim lighting)</a></li>
@@ -7837,7 +7888,7 @@ half3 afterSssColor = lerp(sssColor, mainTex, diffuse);
 <tr><td>a</td><td>윤곽두께</td></tr>
 </tbody></table>
 </div>
-<h2 id="ref-51"><a class="header" href="#ref-51">Ref</a></h2>
+<h2 id="ref-52"><a class="header" href="#ref-52">Ref</a></h2>
 <ul>
 <li><a href="https://alexanderameye.github.io/simple-toon.html">https://alexanderameye.github.io/simple-toon.html</a></li>
 <li><a href="https://roystan.net/articles/toon-shader.html">https://roystan.net/articles/toon-shader.html</a>
@@ -7865,7 +7916,7 @@ https://www.youtube.com/watch?v=x2AlfAON5F8</p>
 <ul>
 <li><a href="http://walkingfat.com/unity-urpmicro-gbuffer%e8%87%aa%e5%ae%9a%e4%b9%89%e5%bb%b6%e8%bf%9f%e7%ae%a1%e7%ba%bf/">Unity URP+Micro Gbuffer自定义延迟管线</a></li>
 </ul>
-<h2 id="ref-52"><a class="header" href="#ref-52">Ref</a></h2>
+<h2 id="ref-53"><a class="header" href="#ref-53">Ref</a></h2>
 <ul>
 <li>SIGGRAPH2018 - Maximizing Rendering Efficiency</li>
 <li>SIGGRAPH2020 - Deferred Shading in Unity URP
@@ -7934,32 +7985,32 @@ RdotV = dot(R, -V);
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="코딩-스타일"><a class="header" href="#코딩-스타일">코딩 스타일</a></h1>
 <pre><code class="language-hlsl">// 괄호: BSD스타일 - 새행에서 괄호를 열자.
-Shader &quot;example/03_texture_uv&quot;
+Shader "example/03_texture_uv"
 {
     Properties
     {
         // Texture변수는 뒤에 Tex를 붙이자.
-        _MainTex(&quot;_MainTex&quot;,     2D) = &quot;white&quot; {}
-        _HeightTex(&quot;_HeightTex&quot;, 2D) = &quot;gray&quot; {}
+        _MainTex("_MainTex",     2D) = "white" {}
+        _HeightTex("_HeightTex", 2D) = "gray" {}
     }
 
     SubShader
     {
         Tags
         {
-            &quot;RenderPipeline&quot; = &quot;UniversalRenderPipeline&quot;
-            &quot;Queue&quot; = &quot;Geometry&quot;
-            &quot;RenderType&quot; = &quot;Opaque&quot;
+            "RenderPipeline" = "UniversalRenderPipeline"
+            "Queue" = "Geometry"
+            "RenderType" = "Opaque"
         }
 
         Pass
         {
             // Name: 내부적으로 대문자로 처리되니, 처음부터 대문자로 쓰자.
-            Name &quot;HELLO_WORLD&quot;
+            Name "HELLO_WORLD"
             
             Tags
             {
-                &quot;LightMode&quot; = &quot;UniversalForward&quot;
+                "LightMode" = "UniversalForward"
             }
 
             HLSLPROGRAM
@@ -7977,7 +8028,7 @@ Shader &quot;example/03_texture_uv&quot;
             #pragma vertex vert
             #pragma fragment frag
 
-            #include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl&quot;
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             // Texture와 sampler는 동일한 라인에 선언해주고, 중간엔 Tab으로 맞추어주자.
             TEXTURE2D(_MainTex);        SAMPLER(sampler_MainTex);
@@ -8196,7 +8247,7 @@ float3 GetCurrentViewPosition()
 </li>
 </ul>
 <p><img src="Optimize/../res/ChromaPack.png" alt="ChromaPack.png" /></p>
-<h2 id="ref-53"><a class="header" href="#ref-53">Ref</a></h2>
+<h2 id="ref-54"><a class="header" href="#ref-54">Ref</a></h2>
 <ul>
 <li><a href="https://blog.uwa4d.com/archives/TechSharing_186.html">https://blog.uwa4d.com/archives/TechSharing_186.html</a></li>
 <li><a href="https://techblog.kayac.com/texture-compression-in-yuv">https://techblog.kayac.com/texture-compression-in-yuv</a>
@@ -8304,7 +8355,7 @@ real3 UnpackNormalmapRGorAG(real4 packedNormal, real scale = 1.0)
 <h2 id="fast-srgb"><a class="header" href="#fast-srgb">FAST SRGB</a></h2>
 <ul>
 <li>pow에 계산되는 비용을 줄이기 위한 방법</li>
-<li>ShaderFeatures.UseFastSRGBLinearConversion </li>
+<li>ShaderFeatures.UseFastSRGBLinearConversion</li>
 <li><a href="http://chilliant.blogspot.com/2012/08/srgb-approximations-for-hlsl.html">sRGB Approximations for HLSL</a></li>
 </ul>
 <pre><code class="language-hlsl">// com.unity.postprocessing/PostProcessing/Shaders/Colors.hlsl
@@ -8353,10 +8404,10 @@ float3 PositivePow(float3 base, float3 power)
 </ul>
 <pre><code class="language-hlsl">#pragma multi_compile_local_fragment _ _KEY_A
 </code></pre>
-<pre><code class="language-cs">material.EnableKeyword(&quot;_KEY_A&quot;);
-material.DisableKeyword(&quot;_KEY_A&quot;);
+<pre><code class="language-cs">material.EnableKeyword("_KEY_A");
+material.DisableKeyword("_KEY_A");
 </code></pre>
-<h2 id="ref-54"><a class="header" href="#ref-54">Ref</a></h2>
+<h2 id="ref-55"><a class="header" href="#ref-55">Ref</a></h2>
 <ul>
 <li><a href="https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.universal/Shaders/PostProcessing/UberPost.shader">https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.universal/Shaders/PostProcessing/UberPost.shader</a></li>
 </ul>
@@ -8394,7 +8445,7 @@ max(0, Ax + B)^m // 단,  x &lt; pow(256, -1/n )은 0으로 취급
 
 half3 specularColor = n18Approximation(max(0, dot(R, V)));
 </code></pre>
-<h2 id="ref-55"><a class="header" href="#ref-55">Ref</a></h2>
+<h2 id="ref-56"><a class="header" href="#ref-56">Ref</a></h2>
 <ul>
 <li><a href="https://www.gamasutra.com/view/feature/131381/a_noninteger_power_function_on_.php?page=2">A Non-Integer Power Function on the Pixel Shader - by Juan Guardado, Phillippe Beaudoin</a></li>
 <li><a href="https://gamedevforever.com/36">Fast Specular 계산</a></li>
@@ -8468,7 +8519,7 @@ half4 frag(in VStoFS IN) : SV_Target
     half3 result = diffuse + specular;
 }
 </code></pre>
-<h2 id="ref-56"><a class="header" href="#ref-56">Ref</a></h2>
+<h2 id="ref-57"><a class="header" href="#ref-57">Ref</a></h2>
 <ul>
 <li><a href="https://advances.realtimerendering.com/s2011/index.html">SIGGRAPH2011 - Dynamic lighting in God of War 3</a>
 <ul>
@@ -8477,7 +8528,7 @@ half4 frag(in VStoFS IN) : SV_Target
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="animationtexture"><a class="header" href="#animationtexture">AnimationTexture</a></h1>
-<h2 id="ref-57"><a class="header" href="#ref-57">Ref</a></h2>
+<h2 id="ref-58"><a class="header" href="#ref-58">Ref</a></h2>
 <ul>
 <li><a href="https://github.com/sugi-cho/Animation-Texture-Baker">https://github.com/sugi-cho/Animation-Texture-Baker</a></li>
 </ul>
@@ -8549,7 +8600,7 @@ CBUFFER_END
 <pre><code class="language-hlsl">#pragma multi_compile_instancing
 
 // ref: https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl
-#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl&quot;
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
 
 UNITY_INSTANCING_BUFFER_START(UnityPerMaterial)
     UNITY_DEFINE_INSTANCED_PROP(float4, _BaseColor)
@@ -8583,7 +8634,7 @@ half4 frag(in VStoFS IN)
 }
 
 </code></pre>
-<pre><code class="language-cs">static readonly int _BaseColor = Shader.PropertyToID(&quot;_BaseColor&quot;);
+<pre><code class="language-cs">static readonly int _BaseColor = Shader.PropertyToID("_BaseColor");
 
 Mesh _mesh;
 Material _material;
@@ -8667,7 +8718,7 @@ Graphics.DrawMeshInstanced(_mesh, 0, _material, _matrices, _matrices.Length, blo
 <h2 id="국내"><a class="header" href="#국내">국내</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/valhashi/2011-03-gametechtadptforpdf">2011 - [TA] 2011. 03. 테라에 사용된 렌더링 테크닉 - 임신형 (valhashi)</a></li>
-<li><a href="https://www.slideshare.net/jpcorp/kgc2012-multi-plaformmmo">2012 - [kgc2012] multi plaform Full3D MMO 만들기 &quot;삼국지를 품다&quot;의 테크니컬 아트</a></li>
+<li><a href="https://www.slideshare.net/jpcorp/kgc2012-multi-plaformmmo">2012 - [kgc2012] multi plaform Full3D MMO 만들기 "삼국지를 품다"의 테크니컬 아트</a></li>
 <li><a href="https://www.slideshare.net/jalnaga/ndc13ndc-2013-udk-19999169">2013 - [NDC2013] 김동석:UDK로 물리기반 셰이더 만들기</a></li>
 <li><a href="https://www.slideshare.net/kokyoungseok/2-20009459">2013 - [NDC2013] 구세대 엔진 신데렐라 만들기 최종본</a></li>
 <li><a href="https://www.slideshare.net/hyurichel/kgc2014-41150275">2014 - [KGC2014] 울프나이츠 엔진 프로그래밍 기록</a></li>

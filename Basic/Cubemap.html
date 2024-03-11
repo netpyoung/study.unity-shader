@@ -212,11 +212,11 @@ using UnityEngine;
 
 public class BakeStaticCubemap : ScriptableWizard
 {
-    static string imageDirectory = &quot;Assets/CubemapImages&quot;;
+    static string imageDirectory = "Assets/CubemapImages";
     static string[] cubemapImage = new string[6] {
-        &quot;top+Y&quot;, &quot;bottom-Y&quot;,
-        &quot;left-X&quot;, &quot;right+X&quot;,
-        &quot;front+Z&quot;,&quot;back-Z&quot;,
+        "top+Y", "bottom-Y",
+        "left-X", "right+X",
+        "front+Z","back-Z",
     };
     static Vector3[] eulerAngles = new Vector3[6] {
         new Vector3(-90.0f, 0.0f, 0.0f), new Vector3(90.0f, 0.0f, 0.0f),
@@ -241,15 +241,15 @@ public class BakeStaticCubemap : ScriptableWizard
 
     public bool IsCreateIndividualImages = false;
 
-    [MenuItem(&quot;GameObject/Bake Cubemap&quot;)]
+    [MenuItem("GameObject/Bake Cubemap")]
     static void RenderCubemap()
     {
-        DisplayWizard(&quot;Bake CubeMap&quot;, typeof(BakeStaticCubemap), &quot;Bake!&quot;);
+        DisplayWizard("Bake CubeMap", typeof(BakeStaticCubemap), "Bake!");
     }
 
     void OnWizardUpdate()
     {
-        helpString = &quot;Set the position to render from and the cubemap to bake.&quot;;
+        helpString = "Set the position to render from and the cubemap to bake.";
         if (renderPosition != null &amp;&amp; cubemap != null)
         {
             isValid = true;
@@ -265,7 +265,7 @@ public class BakeStaticCubemap : ScriptableWizard
         QualitySettings.antiAliasing = antiAliasing;
         cubemap.filterMode = cubemapFilterMode;
 
-        GameObject go = new GameObject(&quot;CubemapCam&quot;, typeof(Camera));
+        GameObject go = new GameObject("CubemapCam", typeof(Camera));
         go.transform.position = renderPosition.position;
         go.transform.rotation = Quaternion.identity;
 
@@ -299,7 +299,7 @@ public class BakeStaticCubemap : ScriptableWizard
 
         for (int camOrientation = 0; camOrientation &lt; eulerAngles.Length; camOrientation++)
         {
-            string imageName = Path.Combine(imageDirectory, cubemap.name + &quot;_&quot; + cubemapImage[camOrientation] + &quot;.png&quot;);
+            string imageName = Path.Combine(imageDirectory, cubemap.name + "_" + cubemapImage[camOrientation] + ".png");
             camera.transform.eulerAngles = eulerAngles[camOrientation];
             RenderTexture renderTex = new RenderTexture(cubemap.height, cubemap.height, cameraDepth);
             camera.targetTexture = renderTex;

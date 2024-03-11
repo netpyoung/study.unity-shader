@@ -280,7 +280,7 @@ half4 frag(Varyings IN) : SV_Target
 <pre><code class="language-hlsl">// com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl
 
 #elif defined(SHADER_API_D3D11)
-#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/API/D3D11.hlsl&quot;
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/API/D3D11.hlsl"
 </code></pre>
 <h2 id="macroshlsl"><a class="header" href="#macroshlsl">Macros.hlsl</a></h2>
 <pre><code class="language-hlsl">// com.unity.render-pipelines.core/ShaderLibrary/Macros.hlsl
@@ -363,7 +363,7 @@ real3 UnpackNormal(real4 packedNormal)
 </code></pre>
 <h2 id="comunityrender-pipelinesuniversalshaderlibrary"><a class="header" href="#comunityrender-pipelinesuniversalshaderlibrary">com.unity.render-pipelines.universal/ShaderLibrary/</a></h2>
 <h3 id="universalshaderlibrarycorehlsl"><a class="header" href="#universalshaderlibrarycorehlsl">universal/ShaderLibrary/Core.hlsl</a></h3>
-<pre><code class="language-hlsl">#include &quot;Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl&quot;
+<pre><code class="language-hlsl">#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
 
 struct VertexPositionInputs
 {
@@ -381,7 +381,7 @@ struct VertexNormalInputs
     float3 normalWS;
 };
 
-#include &quot;Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl&quot;
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl"
 </code></pre>
 <h3 id="shadervariablesfunctionshlsl"><a class="header" href="#shadervariablesfunctionshlsl">ShaderVariablesFunctions.hlsl</a></h3>
 <pre><code class="language-hlsl">// com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl
