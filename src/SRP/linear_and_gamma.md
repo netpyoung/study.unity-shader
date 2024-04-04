@@ -8,12 +8,16 @@ Unity에는 Gamma와 Linear를 선택할 수 있는 Color Space항목이 있다.
 
 ## Gamma / Linear Color Space 결과물 차이
 
+일단 차이부터 알아보자.
+
 - [unity: Linear or gamma workflow](https://docs.unity3d.com/2021.1/Documentation/Manual/LinearRendering-LinearOrGammaWorkflow.html)
 
 ![./lineargammahead.png](../res/URP/lineargammahead.png)
 ![./LinearLighting-2.jpg](../res/URP/LinearLighting-2.jpg)
 
-이러한 조명 강도, 블렌딩 차이는 어디서 오는 것일까?
+- 감마 색 공간에서의 블렌딩은 결과적으로 채도와 밝기가 과도하게 높습니다
+
+이러한 조명 강도, 블렌딩 차이는 **왜** 생기는 것일까?
 
 ## Gamma와 Linear의 관계
 
@@ -23,46 +27,90 @@ Unity에는 Gamma와 Linear를 선택할 수 있는 Color Space항목이 있다.
 
 - 감마 보정([wiki: Gamma correction](https://en.wikipedia.org/w/index.php?title=Gamma_correction))
 
-가운데 45도 선이 Linear(Gamma: 1.0)이며, 나머지는 감마 보정이다(위로는 Encode(0.45), 아레로는 Decode(2.2))
+## Gamma Encode/Decode
+
+Linear는 무엇이고 Gamma는 무엇인가? 
 
 ![../res/URP/gammacurves.png](../res/URP/gammacurves.png)
 
-| Gamma correction | Gamma value  | 공간        |
-|------------------|--------------|-------------|
-| encode           | 0.45 (1/2.2) | sRGB        |
-| -                | 1.0          | Linear      |
-| decode           | 2.2          | Gamma / CRT |
+| 선          | Gamma Correction | Gamma Value                  | 공간        |
+| ----------- | ---------------- | ---------------------------- | ----------- |
+| 초록-위     | encode           | pow(x, 0.45) (0.45 == 1/2.2) | sRGB        |
+| 검정-가운데 | -                | pow(x, 1.0 )                 | Linear      |
+| 빨강-아래   | decode           | pow(x, 2.2 )                 | Gamma / CRT |
 
 - [wiki: sRGB](https://en.wikipedia.org/wiki/SRGB) : standard RGB color space.
 
 ## Gamma / Linear Color Space 작업 환경
 
+Linear와 Gamma가 **왜** 작업 결과물에 영향을 주는가?
+
 ![../res/URP/An+image+comparing+gamma+and+linear+pipelines.png](../res/URP/An+image+comparing+gamma+and+linear+pipelines.png)
 
-### 감마 보정 환경
+### 이미지 제작 환경(감마 보정 환경)
 
-| 환경   | Gamma correction            | 설명                                     |
-|--------|-----------------------------|------------------------------------------|
-| 포토샵 | decode(2.2) -> encode(0.45) | 포토샵 기본셋팅: 편집(Gamma), 저장(sRGB) |
-| 셰이더 | 1                           | 셰이더 계산은 Linear 환경이다            |
+| 환경   | Gamma correction                | 설명                                                                                  |
+| ------ | ------------------------------- | ------------------------------------------------------------------------------------- |
+| 포토샵 | 편집시 decode(2.2) / 저장시 (1) | 포토샵 기본셋팅시: 편집(모니터 Gamma환경) / 저장(모니터 Gamma환경이 아닌 원래 그대로) |
+| 셰이더 | 1                               | 셰이더 계산은 Linear 환경이다                                                         |
+| 모니터 | decode(2.2)                     |                                                                                       |
 
 ### Rendering - Gamma Color Space
 
-| 환경   | 공간      | 설명                       |
-|--------|-----------|----------------------------|
-| 저장   | sRGB      | 포토샵 이미지 파일         |
-| 셰이더 | Linear    | `sRGB`상태의 이미지 데이터 |
-| 출력   | __Gamma__ | decode되어서 모니터에 출력 |
+| 연산   | pow(0.5, x)    | 값                       |
+| ------ | -------------- | ------------------------ |
+| encode | pow(0.5, 0.45) | 0.7 (0.7320428479728127) |
+| -      | pow(0.5, 1)    | 0.5                      |
+| decode | pow(0.5, 2.2)  | 0.2 (0.217637640824031)  |
+
+| 환경           | 설명                       | 연산   | 텍스쳐 | 셰이딩 |                               |
+| -------------- | -------------------------- | ------ | ------ | ------ | ----------------------------- |
+| 모니터(포토샵) |                            | decode | 0.2    |        |                               |
+| 저장           | 포토샵 이미지 파일         | encode | 0.5    |        | 포토샵 컬러 이미지 파일       |
+| 셰이더(모델)   | 선형 연산 shading          | -      | 0.5    | 0.5    | 이미지가 밝아진 상태에서 연산 |
+| 모니터(게임)   | decode되어서 모니터에 출력 | decode | 0.2    | 0.2    |                               |
+
+- 문제점
+  - 광원 감쇠
+    - 감마 파이프라인에서는 셰이더 연산이 어둡게 보임.(셰이딩 값 참조)
+  - 광원 강도 반응
+    - 광원의 강도에 따라 선형적이 아닌 비 선형적으로 밝아지거나 어두워진다.
+  - 블렌딩
+    - 채도와 밝기가 과도하게 높아질 수 있음.
 
 ### Rendering - Linear Color Space
 
-| 환경           | 공간       | 설명                         |
-|----------------|------------|------------------------------|
-| 저장           | sRGB       | 포토샵 이미지 파일           |
-| __이미지옵션__ | -          | sRGB Check(Gamma decode적용) |
-| 셰이더         | Linear     | `Gamma`상태의 이미지 데이터  |
-| __변환__       | sRGB       | sRGB로 한번 변환이 된다      |
-| 출력           | __Linear__ | decode되어서 모니터에 출력   |
+- 리니어 파이프라인에서는 후처리로 셰이더 연산을 보정함.
+
+#### sRGB 보정
+
+- sRGB 체크시 RGB채널에 대한 Gamma Decode을 수행시(단, A채널은 그대로).
+
+| 환경                   | 연산   | 텍스쳐 | 셰이딩 |                                           |
+| ---------------------- | ------ | ------ | ------ | ----------------------------------------- |
+| 모니터(포토샵)         | decode | 0.2    |        |                                           |
+| 저장                   | encode | 0.5    |        | 포토샵 컬러 이미지 파일                   |
+| __sRGB옵션__           | decode | 0.2    |        | sRGB Check시 (Gamma decode적용)           |
+| 셰이더(모델)           | -      | 0.2    | 0.5    | 이미지가 작업 환경과 동일한 환경에서 연산 |
+| 셰이더(포스트프로세스) | encode | 0.5    | 0.7    | 디스플레이에 보여주기 전에 최종 후처리    |
+| 모니터(게임)           | decode | 0.2    | 0.5    |                                           |
+
+#### sRGB 미보정
+
+- 컬러 텍스쳐를 sRGB 체크를 하지 않으면, 색이 떠보이게됨.
+- ORM
+  - Normal 텍스쳐는 수치 그 자체이므로 sRGB옵션 자체가 없음.
+  - Roughness/Occlusion는 sRGB 체크를 해지해야함.
+- 기타 수치 텍스쳐
+  - flowmap 등등...
+
+| 환경                   | 연산   | 텍스쳐 | 셰이딩 |                                        |
+| ---------------------- | ------ | ------ | ------ | -------------------------------------- |
+| 저장                   | encode | 0.5    |        | 이미지 파일                            |
+| 셰이더(모델)           | -      | 0.5    | 0.5    |                                        |
+| 셰이더(포스트프로세스) | encode | 0.7    | 0.7    | 디스플레이에 보여주기 전에 최종 후처리 |
+| 모니터(게임)           | decode | 0.5    | 0.5    |                                        |
+
 
 ## Linear Color Space에서 작업시 주의할 점
 
@@ -79,23 +127,25 @@ Unity에는 Gamma와 Linear를 선택할 수 있는 Color Space항목이 있다.
 - Linear를 위한 모바일 최소 사양
 
 | platform | version                                 | API                    |
-|----------|-----------------------------------------|------------------------|
+| -------- | --------------------------------------- | ---------------------- |
 | Android  | Android 4.3 / API level 18 / Jelly Bean | OpenGL ES 3.0 / Vulkan |
 | iOS      | 8.0                                     | Metal                  |
 
+
 ### sRGB로 보정이 필요한 텍스쳐 구분
 
-![../res/URP/sRGB_ColorTexture.JPG](./sRGB_ColorTexture.JPG)
+![../res/URP/sRGB_ColorTexture.JPG](../res/URP/sRGB_ColorTexture.JPG)
 
 1. 데이터를 그대로 다루는것은 Linear로
 2. 나머지 Albedo / Emmission는 sRGB 체크로 Gamma Decode 하도록
 
-| Image                      | sRGB     |                                        |
-|----------------------------|----------|----------------------------------------|
-| Albedo                     | O        | Gamma Decode 적용                      |
-| Albedo + Smoothness(alpha) | O        | sRGB는 RGB값에만 적용. Alpha는 미적용. |
-| DataTexture                | X        | 데이터 그대로 사용                     |
-| NormalMap                  | 옵션없음 | 데이터 그대로 사용                     |
+| Image                      | sRGB 체크 |                                        |
+| -------------------------- | --------- | -------------------------------------- |
+| Albedo                     | O         | Gamma Decode 적용                      |
+| Albedo + Smoothness(alpha) | O         | sRGB는 RGB값에만 적용. Alpha는 미적용. |
+| DataTexture                | X         | 데이터 그대로 사용                     |
+| NormalMap                  | 옵션없음  | 데이터 그대로 사용                     |
+
 
 ### UI 텍스쳐의 Alpha값
 
@@ -113,8 +163,10 @@ Unity에는 Gamma와 Linear를 선택할 수 있는 Color Space항목이 있다.
 #### Photoshop 설정
 
 - 처음부터 Linear로 저장시켜버리자
-- Color Settings: Blend RPG Colors Using Gamma: 1.00
-- 공수가 많이 든다... 디자이너들이 작업하기 불편...
+- 포토샵 Color Settings > Advanced > Blend RPG Colors Using Gamma: 1.00
+- 작업비용
+  - 디자이너들은 작업하기 불편...
+  - 프로그래머의 추가 작업 불필요.
 
 #### UI카메라 + SRP
 
@@ -165,9 +217,11 @@ finalColor.a = 1;
 
 ## Ref
 
-- [정종필 - Gamma Color space와 Linear Color space란?](https://www.youtube.com/watch?v=Xwlm5V-bnBc)
-- [정종필 - 라이팅과 셰이더에서 연산을 위한 선형 파이프라인](https://www.youtube.com/watch?v=oVyqLhVrjhY)
-- [정종필 - 유니티 셰이더에서 sRGB/Linear 사용 및 응용](https://www.youtube.com/watch?v=lUvsEfqOkUo)
+- 정종필 linear/gamma 설명
+  - [정종필 - Gamma Color space와 Linear Color space란?](https://www.youtube.com/watch?v=Xwlm5V-bnBc)
+    - [텍스쳐 저장 공간 설명 View/HDD/Display](https://youtu.be/Xwlm5V-bnBc?si=JFxHE64X-08uOG3W&t=629)
+  - [정종필 - 라이팅과 셰이더에서 연산을 위한 선형 파이프라인](https://www.youtube.com/watch?v=oVyqLhVrjhY)
+  - [정종필 - 유니티 셰이더에서 sRGB/Linear 사용 및 응용](https://www.youtube.com/watch?v=lUvsEfqOkUo)
 - [GDCValue: Uncharted-2-HDR](https://www.gdcvault.com/play/1012351/Uncharted-2-HDR)
 - [Lighting Shading by John Hable](https://www.slideshare.net/naughty_dog/lighting-shading-by-john-hable)
 - [Article - Gamma and Linear Spaces](http://www.codinglabs.net/article_gamma_vs_linear.aspx)
