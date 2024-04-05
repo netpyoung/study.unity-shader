@@ -68,3 +68,4 @@ Stencil
 - [게임 개발 포에버: 실시간 그림자를 싸게 그리자! 평면상의 그림자 ( Planar Shadow)](https://gamedevforever.com/326)
 - [[1023 박민수] 깊이_버퍼_그림자_1](https://www.slideshare.net/MoonLightMS/1023-1)
 - [타카시 이마기레 - DirectX 9 셰이더 프로그래밍](https://www.hanbit.co.kr/store/books/look.php?p_code=B9447539340)
+- <https://www.slideshare.net/slideshow/ss-13541521/13541521>

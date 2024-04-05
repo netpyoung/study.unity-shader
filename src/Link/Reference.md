@@ -17,6 +17,16 @@
 - [2017 - Physically Based Shader Development for Unity 2017 - Zignaigo, Claudia](https://www.apress.com/kr/book/9781484233085)
   - Built-in(Legacy)
   - [log](https://github.com/netpyoung/bs.physically_based_shader_develop_for_unity)
+- Become a Unity Shaders Guru
+  - https://github.com/PacktPublishing/Become-a-Unity-Shaders-Guru
+- Building Quality Shaders for Unity 
+  - 12장
+  - 14장
+    - [GraphicsBuffer](https://docs.unity3d.com/ScriptReference/GraphicsBuffer.html)
+  - https://github.com/Apress/building-quality-shaders-unity
+- Unity Shaders Bible
+  - built-in(Legacy), 기초
+  - compute, ray tracing and sphere tracing
 
 ## Video
 

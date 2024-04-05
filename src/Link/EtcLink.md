@@ -4,6 +4,7 @@
 
 - <https://kesen.realtimerendering.com/>
 - <http://trowley.org/>
+- https://cgworld.jp/
 
 ## 리서치
 
@@ -23,3 +24,4 @@
 - <https://www.ronja-tutorials.com/>
 - <https://guru/unity-cpu-performance/mesh-baker-interview-ian-deane/>
 - <https://www.gamedevpensieve.com/graphics/3d/3d_lighting>
+- [게임 아티스트를 위한 CG 최적화이론](https://www.youtube.com/playlist?list=PLyuV91SJJre7DeREVCzx8VG599PCGTtL2)

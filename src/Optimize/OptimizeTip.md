@@ -82,3 +82,8 @@ float3 PositivePow(float3 base, float3 power)
     return pow(max(abs(base), float3(FLT_EPSILON, FLT_EPSILON, FLT_EPSILON)), power);
 }
 ```
+
+
+## Etc
+
+- <https://www.slideshare.net/LeeJungpyo/unite17-shanghailee-jungpyoneteasepangufull-chinese>

@@ -24,8 +24,24 @@
 - MERL BRDF Database - <https://www.merl.com/brdf/>
 
 
+## Texture maker
+
+- https://github.com/njbrown/texturelab
+  - Free, Cross-Platform, GPU-Accelerated Procedural Texture Generator
+- https://github.com/alelievr/Mixture
+  - on unity
+- https://www.materialmaker.org/
+- 유료
+  - substance designer
+
 ## 모델
 
 - <https://www.mixamo.com/>
 - <https://www.models-resource.com/>
 - <https://en.wikipedia.org/wiki/List_of_common_3D_test_models>
+
+
+## Etc
+
+- FumeFX
+  - https://www.afterworks.com/FumeFX.asp

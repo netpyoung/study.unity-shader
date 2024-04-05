@@ -10,7 +10,7 @@ URP
 ## include
 
 | Content         | Built-in        | URP                                                              |
-|-----------------|-----------------|------------------------------------------------------------------|
+| --------------- | --------------- | ---------------------------------------------------------------- |
 | Core            | Unity.cginc     | com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl     |
 | Light           | AutoLight.cginc | com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl |
 | Shadows         | AutoLight.cginc | com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl  |
@@ -20,21 +20,21 @@ URP
 
 - <https://blogs.unity3d.com/2018/05/14/stripping-scriptable-shader-variants/>
 
-|                             |  |
-|-----------------------------|--|
-| _MAIN_LIGHT_SHADOWS         |  |
-| _MAIN_LIGHT_SHADOWS_CASCADE |  |
-| _ADDITIONAL_LIGHTS_VERTEX   |  |
-| _ADDITIONAL_LIGHTS          |  |
-| _ADDITIONAL_LIGHT_SHADOWS   |  |
-| _SHADOWS_SOFT               |  |
-| _MIXED_LIGHTING_SUBTRACTIVE |  |
+|                             |     |
+| --------------------------- | --- |
+| _MAIN_LIGHT_SHADOWS         |     |
+| _MAIN_LIGHT_SHADOWS_CASCADE |     |
+| _ADDITIONAL_LIGHTS_VERTEX   |     |
+| _ADDITIONAL_LIGHTS          |     |
+| _ADDITIONAL_LIGHT_SHADOWS   |     |
+| _SHADOWS_SOFT               |     |
+| _MIXED_LIGHTING_SUBTRACTIVE |     |
 
 ## Macro
 
 | built-in                            | URP                          |
-|-------------------------------------|------------------------------|
-| UNITY_PROJ_COORD (a)                | 없음, 대신 a.xy / aw 사용    |
+| ----------------------------------- | ---------------------------- |
+| UNITY_PROJ_COORD (a)                | 없음, 대신 a.xy / a.w 사용   |
 | UNITY_INITIALIZE_OUTPUT(type, name) | ZERO_INITIALIZE (type, name) |
 
 ## Shadow
@@ -42,7 +42,7 @@ URP
 Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl
 
 | Built-in                          | URP                                                                    |
-|-----------------------------------|------------------------------------------------------------------------|
+| --------------------------------- | ---------------------------------------------------------------------- |
 | UNITY_DECLARE_SHADOWMAP(tex)      | TEXTURE2D_SHADOW_PARAM(textureName, samplerName)                       |
 | UNITY_SAMPLE_SHADOW(tex, uv)      | SAMPLE_TEXTURE2D_SHADOW(textureName, samplerName, coord3)              |
 | UNITY_SAMPLE_SHADOW_PROJ(tex, uv) | SAMPLE_TEXTURE2D_SHADOW(textureName, samplerName, coord4.xyz/coord4.w) |
@@ -56,7 +56,7 @@ Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl
 com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl
 
 | Built-in                      | URP                                                 |
-|-------------------------------|-----------------------------------------------------|
+| ----------------------------- | --------------------------------------------------- |
 | UNITY_TRANSFER_FOG(o, outpos) | o.fogCoord = ComputeFogFactor(clipSpacePosition.z); |
 | UNITY_APPLY_FOG(coord, col)   | color = MixFog(color, i.fogCoord);                  |
 | UNITY_FOG_COORDS(x)           | x                                                   |
@@ -64,7 +64,7 @@ com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl
 ## Texture/Sampler Declaration Macros
 
 | Built-in                                          | URP                                                                      |
-|---------------------------------------------------|--------------------------------------------------------------------------|
+| ------------------------------------------------- | ------------------------------------------------------------------------ |
 | UNITY_DECLARE_TEX2D(name)                         | TEXTURE2D(textureName); SAMPLER(samplerName);                            |
 | UNITY_DECLARE_TEX2D_NOSAMPLER(name)               | TEXTURE2D(textureName);                                                  |
 | UNITY_DECLARE_TEX2DARRAY(name)                    | TEXTURE2D_ARRAY(textureName); SAMPLER(samplerName);                      |
@@ -78,7 +78,7 @@ Important to note that SCREENSPACE_TEXTURE has become TEXTURE2D_X. If you are wo
 ## Helper
 
 | Built-in                                    | URP            |                                                                   |
-|---------------------------------------------|----------------|-------------------------------------------------------------------|
+| ------------------------------------------- | -------------- | ----------------------------------------------------------------- |
 | fixed Luminance (fixed3 c)                  | Luminance      | com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl          |
 | fixed3 DecodeLightmap (fixed4 color)        | DecodeLightmap | com.unity.render-pipelines.core/ShaderLibrary/EntityLighting.hlsl |
 | float4 EncodeFloatRGBA (float v)            | X              |                                                                   |
@@ -93,7 +93,7 @@ decodeInstructions is used as half4(LIGHTMAP_HDR_MULTIPLIER, LIGHTMAP_HDR_EXPONE
 ## Lighting
 
 | Built-in                 | URP                                            |                                                               |
-|--------------------------|------------------------------------------------|---------------------------------------------------------------|
+| ------------------------ | ---------------------------------------------- | ------------------------------------------------------------- |
 | WorldSpaceLightDir       | TransformObjectToWorld(objectSpacePosition)    | com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl |
 | ObjSpaceLightDir         | TransformWorldToObject(_MainLightPosition.xyz) | com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl |
 | float3 Shade4PointLights | x                                              |                                                               |
@@ -119,8 +119,8 @@ unity_WorldToShadow	float4x4 _MainLightWorldToShadow[MAX_SHADOW_CASCADES + 1] or
 
 ## Vertex-lit Helper Functions
 
-| Built-in                                                | URP                                                                                                                                                                                    |
-|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Built-in                                                | URP                                                                                                                                                                                     |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | float3 ShadeVertexLights (float4 vertex, float3 normal) | Gone. You can try to use UNITY_LIGHTMODEL_AMBIENT.xyz + VertexLighting(...)	For VertexLighting(...) include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl” |
 
 A bunch of utilities can be found in “Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl”.
@@ -128,7 +128,7 @@ A bunch of utilities can be found in “Packages/com.unity.render-pipelines.core
 ## Screen-space Helper Functions
 
 | Built-in                                     | URP                                                                                                                                            |
-|----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | float4 ComputeScreenPos (float4 clipPos)     | float4 ComputeScreenPos(float4 positionCS) Include “Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl” |
 | float4 ComputeGrabScreenPos (float4 clipPos) | Gone.                                                                                                                                          |
 
@@ -139,7 +139,7 @@ A bunch of utilities can be found in “Packages/com.unity.render-pipelines.core
 ## Camera Texture
 
 |                      |                         |
-|----------------------|-------------------------|
+| -------------------- | ----------------------- |
 | _CameraDepthTexture  | Camera.depthTextureMode |
 | _CameraOpaqueTexture | GrabPass                |
 
@@ -168,15 +168,15 @@ To use the camera depth texture, include “Packages/com.unity.render-pipelines.
 - unity_ColorSpaceLuminance	Gone. Use Luminance()	Include “Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl”
 
 
-| Built-in                                |   |                     |
-|-----------------------------------------|---|---------------------|
-| PerceptualRoughnessToSpecPower          | x |                     |
-| FresnelTerm                             | x |                     |
-| _SpecColor                              | x |                     |
-| BlendNormals                            | x | CommonMaterial.hlsl |
-| DotClamped                              | x |                     |
-| unity_LightGammaCorrectionConsts_PIDiv4 | x |                     |
-| UnityGlobalIllumiation                  | x |                     |
+| Built-in                                |     |                     |
+| --------------------------------------- | --- | ------------------- |
+| PerceptualRoughnessToSpecPower          | x   |                     |
+| FresnelTerm                             | x   |                     |
+| _SpecColor                              | x   |                     |
+| BlendNormals                            | x   | CommonMaterial.hlsl |
+| DotClamped                              | x   |                     |
+| unity_LightGammaCorrectionConsts_PIDiv4 | x   |                     |
+| UnityGlobalIllumiation                  | x   |                     |
 
 ---------------------------------------------------------------------
 여깃는건 쓰지말것

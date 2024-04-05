@@ -56,8 +56,25 @@
 
 ## 레퍼런스 디바이스
 
+### Android
+
+- 모바일 디바이스는 PC와는 다르게 GPU전용 VRAM없이 그냥 shared memory임.
+
+|          |      |         |                   |       |                                                     |
+| -------- | ---- | ------- | ----------------- | ----- | --------------------------------------------------- |
+| RTX 4090 | 24GB | GDDR6X  | Graphics DDR      | SGRAM | Synchronous Graphics (Dynamic) Random Access Memory |
+| S24      | 8 GB | LPDDR5X | LP(LOW Power) DDR | SDRAM | Synchronous Dynamic Random Access Memory            |
+| A17 Pro  | 8 GB | LPDDR5  |                   |       |                                                     |
+
+AI때문에 HBM(High Bandwidth Memory)이 모바일에 들어올 정도가 된다면....
+
 | 년도 | 디바이스 | 안드로이드 버전        | 지원           | android api |
 | ---- | -------- | ---------------------- | -------------- | ----------- |
+| 2024 | S24      | 14                     |                | 34          |
+| 2023 | S23      | 13 → 14                |                | 33          |
+| 2022 | S22      | 12 → 13 → 14           |                | 31          |
+| 2021 | S21      | 11 → 12 → 13 → 14      |                | 30          |
+| 2020 | S20      | 10 → 11 → 12 → 13      |                | 29          |
 | 2020 | 노트 20  | 10 → 11                | es3.1 / Vlukan | 29          |
 | 2019 | 노트 10  | 9  → 10 → 11           | es3.1 / Vlukan | 28          |
 | 2018 | 노트 9   | 8.1  → 9  → 10         | es3.1 / Vlukan | 27          |
@@ -65,6 +82,12 @@
 | 2016 | 노트 7   | 6.0  // 베터리폭탄     | es3.1          | 23          |
 | 2015 | 노트 5   | 5.1 → 6.0  → 7.0       | es3.1          | 22          |
 | 2014 | 노트 4   | 4.4 → 5.0 → 5.1  → 6.0 | es3.0          | 19          |
+
+
+### ios
+
+- <https://iosref.com/ios>
+- <https://en.wikipedia.org/wiki/IOS_version_history>
 
 ## Ref
 

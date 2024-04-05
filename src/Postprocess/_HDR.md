@@ -1,5 +1,7 @@
 # HDR
 
+High Dynamic Range
+
 - 컴퓨터 모니터와 같은 LDR 매체에서 볼 수 있지만 HDR 이미지의 선명도와 톤 범위를 갖는 결과 이미지를 생성
 - Bloom(빛발산)/Eye Adaptation(광적응)/ToneMapping/감마보정
 
@@ -46,3 +48,4 @@ TODO
 - [KGC2014 - 울프나이츠 엔진 프로그래밍 기록](https://www.slideshare.net/hyurichel/kgc2014-41150275)
 - <https://www.ea.com/frostbite/news/high-dynamic-range-color-grading-and-display-in-frostbite>
 - <https://research.activision.com/publications/archives/hdr-in-call-of-duty>
+- <http://diaryofagraphicsprogrammer.blogspot.com/2013/09/call-for-new-post-processing-pipeline.html>

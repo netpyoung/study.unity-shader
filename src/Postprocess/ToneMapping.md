@@ -183,6 +183,7 @@ float3 ACES_Fitted(float3 color)
 - <https://www.slideshare.net/nikuque/hdr-theory-and-practicce-jp>
 - Color Control : <https://www.slideshare.net/cagetu/928501785227148871>
 - [SIGGRAPH2016 - Technical Art of Uncharted 4](http://advances.realtimerendering.com/other/2016/naughty_dog/index.html)
+  - <https://www.slideshare.net/DaeHyekKIM/naughty-dog-techartfinalpart1tonemappingamphdrcolorgrading>
 - [GDC2017 - High Dynamic Range Color Grading and Display in Frostbite](https://www.youtube.com/watch?v=7z_EIjNG0pQ)
 - https://mynameismjp.wordpress.com/2010/04/30/a-closer-look-at-tone-mapping/
 - http://renderwonk.com/publications/s2010-color-course/

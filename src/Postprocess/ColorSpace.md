@@ -210,3 +210,6 @@ const static half3x3 MAT_YUV_TO_RGB = {
 
 - <https://raphlinus.github.io/color/2021/01/18/oklab-critique.html>
 - <https://bottosson.github.io/posts/oklab/>
+- The Dimensions of Colour
+  - <http://www.huevaluechroma.com/index.php>
+  - <https://sites.google.com/site/djcbriggs/1-basic-colour-attributes#h.p_QpXoaFjHTppK>

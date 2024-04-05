@@ -29,6 +29,8 @@ half toonSpecular = smoothstep(0.005, 0.01, blinnphongSpecular);
 
 ## 아웃라인
 
+- https://github.com/DumoeDss/AquaSmoothNormals
+
 - 버텍스 확장
   - 단순 확장
   - 버텍스 칼라이용 세부 조절
@@ -60,6 +62,47 @@ half3 afterSssColor = lerp(sssColor, mainTex, diffuse);
 | g    | 카메라와의 거리                         |
 | b    | 카메라의 zoffset. 헤어에서 storoke 조절 |
 | a    | 윤곽두께                                |
+
+
+## 원신
+
+
+- ref: [[번역]원신 셰이더 렌더링 복원 해석](https://techartnomad.tistory.com/120)
+- [[번역/정리]만화 얼굴 그림자 매핑 생성 렌더링 원리](https://techartnomad.tistory.com/124)
+  - https://github.com/mattdesl/image-sdf
+  - https://github.com/xudxud/Unity-SDF-Generator
+  - https://github.com/Weesals/UnitySDF
+  - https://github.com/zeroruka/GI-Assets
+  - https://github.com/JMargevics/Unity-Texture-Packer
+  - https://github.com/andydbc/unity-texture-packer
+  - https://github.com/rstecca/ColorBands
+
+
+Diffuse
+RampColor
+Glossiness
+Specular
+LightMap
+RampRange
+MetalMap
+FaceShadow
+
+
+### Ramp
+
+- layer
+  - 낮x5
+  - 밤x5
+
+| layer |                                                  |
+| ----- | ------------------------------------------------ |
+| 0.0   | 단단한 물체                                      |
+| 0.3   | 부드러운 물체                                    |
+| 0.5   | 금속/금속 투영                                   |
+| 0.7   | 실크/스타킹                                      |
+| 1.0   | 피부 텍스처/헤어 텍스처(헤어 부분은 피부가 없음) |
+
+
 
 ## Ref
 

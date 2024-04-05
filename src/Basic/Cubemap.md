@@ -140,6 +140,25 @@ public class BakeStaticCubemap : ScriptableWizard
 }
 ```
 
+## Etc
+
+- 좋은 큐브맵
+  - https://youtu.be/mnuKwAV-MBA?si=g-NaYv2cyln2jQes&t=239
+  - 밝고 어둠/ 중간명도 /반사광이 충분히 포함
+  - GI가 표현될 수 있는 밝음
+  - 태양 반대편에 빛을 받는 물체가 있어야 함
+- 라이팅셋팅
+  - https://youtu.be/mnuKwAV-MBA?si=HZsut7AbGQ0C-OPE&t=576
+  - albedo 명도 벨런스 필수
+    - 팔레트준비
+  - 색온도 조절이 편함
+    - 하지만, 노을질때든지 라이트가 너무 진하면
+      - directional light색온도 대신 postprocess 색온도 활용
+- 대기
+  - https://youtu.be/mnuKwAV-MBA?si=JGrQpz3kCFf7M3i1&t=747
+  - atmospheric fog - 하늘,대기
+  - exponential
+
 ## Ref
 
 - <https://developer.arm.com/documentation/102179/0100/Implement-reflections-with-a-local-cubemap>

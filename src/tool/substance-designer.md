@@ -133,14 +133,4 @@ https://color.adobe.com/
 
 
 
-Oh, Good. That approval came out quickly than what I expacted.
-Yes, that address is correct.
-
-And Here is additional information about postal code and phone number.
-
-  Postal code: 05028
-  Phone number: +82)010-9315-2848
-  
-Okay I also search my room to enter Japan on January as possible.
-
-Thank you.
+https://www.slideshare.net/LeeJungpyo/kgc2014-jplee-allegorithmic
