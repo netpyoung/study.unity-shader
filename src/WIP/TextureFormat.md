@@ -4,15 +4,15 @@
 
 |       |                                       | NPOT |
 | ----- | ------------------------------------- | ---- |
-| ETC   | Ericsson Texture Compression          | X    |
-| PVRTC | PowerVR Texture Compression           | X    |
 | ASTC  | Adaptive Scalable Texture Compression | O    |
+| PVRTC | PowerVR Texture Compression           | X    |
+| ETC   | Ericsson Texture Compression          | X    |
 
 |           | Graphic Library | Android API | version | 코드명     | Linear지원 |
 | --------- | --------------- | ----------- | ------- | ---------- | ---------- |
-| ETC1      | es2.0           | 8           | 2.2.x   | Froyo      | x          |
-| ETC2 /EAC | es3.0           | 18          | 4.3.x   | Jelly Bean | O          |
 | ASTC      | es3.1+AEP       | 21          | 5.0     | Lollipop   | O          |
+| ETC2 /EAC | es3.0           | 18          | 4.3.x   | Jelly Bean | O          |
+| ETC1      | es2.0           | 8           | 2.2.x   | Froyo      | x          |
 
 |      |              |                       |
 | ---- | ------------ | --------------------- |
