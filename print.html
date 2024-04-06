@@ -2940,9 +2940,9 @@ https://blog.csdn.net/qq_38275140/article/details/96859384</p>
 <p>Linear는 무엇이고 Gamma는 무엇인가?</p>
 <p><img src="SRP/../res/URP/gammacurves.png" alt="../res/URP/gammacurves.png" /></p>
 <div class="table-wrapper"><table><thead><tr><th>선</th><th>Gamma</th><th>Gamma Value</th><th>공간</th></tr></thead><tbody>
-<tr><td>초록-위</td><td>encode</td><td>pow(x, 0.45) (0.45 == 1/2.2)</td><td>sRGB</td></tr>
+<tr><td>초록-위</td><td>encode</td><td>pow(x, 0.45) (0.45 == 1/2.2)</td><td></td></tr>
 <tr><td>검정-가운데</td><td>-</td><td>pow(x, 1.0 )</td><td>Linear</td></tr>
-<tr><td>빨강-아래</td><td>decode</td><td>pow(x, 2.2 )</td><td>Gamma / CRT</td></tr>
+<tr><td>빨강-아래</td><td>decode</td><td>pow(x, 2.2 )</td><td>Gamma / sRGB / CRT</td></tr>
 </tbody></table>
 </div>
 <ul>
@@ -2951,6 +2951,10 @@ https://blog.csdn.net/qq_38275140/article/details/96859384</p>
 <h2 id="gamma--linear-color-space-작업-환경"><a class="header" href="#gamma--linear-color-space-작업-환경">Gamma / Linear Color Space 작업 환경</a></h2>
 <p>Linear와 Gamma가 <strong>왜</strong> 작업 결과물에 영향을 주는가?</p>
 <p><img src="SRP/../res/URP/An+image+comparing+gamma+and+linear+pipelines.png" alt="../res/URP/An+image+comparing+gamma+and+linear+pipelines.png" /></p>
+<ul>
+<li>Gamma Pipeline에서는 빛의 연산 결과가 Linear환경에서 연산되고 모니터에는 Gamam가 적용된 상태로 표시된다.</li>
+<li>빛의 연산 결과도 Linear환경으로 표시하려면, 모니터에 Gamma가 적용되어 어두워지기전에, 미리 밝게해두면 Linear한 빛의 연산 결과를 모니터에서 확인할 수 있게 된다.</li>
+</ul>
 <h3 id="이미지-제작-환경감마-보정-환경"><a class="header" href="#이미지-제작-환경감마-보정-환경">이미지 제작 환경(감마 보정 환경)</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>환경</th><th>Gamma correction</th><th>설명</th></tr></thead><tbody>
 <tr><td>포토샵</td><td>편집시 decode(2.2) / 저장시 (1)</td><td>포토샵 기본셋팅시: 편집(모니터 Gamma환경) / 저장(모니터 Gamma환경이 아닌 원래 그대로)</td></tr>
@@ -3051,6 +3055,27 @@ https://blog.csdn.net/qq_38275140/article/details/96859384</p>
 <tr><td>모니터(게임)</td><td>decode</td><td>0.5</td><td>0.5</td><td></td></tr>
 </tbody></table>
 </div>
+<h2 id="종합"><a class="header" href="#종합">종합</a></h2>
+<p><img src="SRP/../res/URP/lighting-shading-by-john-hable-31-2048.webp" alt="../res/URP/lighting-shading-by-john-hable-31-2048.webp" /></p>
+<div class="table-wrapper"><table><thead><tr><th>step</th><th>환경</th><th>텍스쳐</th><th>셰이딩</th></tr></thead><tbody>
+<tr><td></td><td>모니터(포토샵)</td><td>0.2</td><td></td></tr>
+<tr><td>Hard Drive</td><td>저장</td><td>0.5</td><td></td></tr>
+<tr><td>Lighting</td><td>셰이더(모델)</td><td>0.5</td><td>0.5</td></tr>
+<tr><td>Screen</td><td>모니터(게임)</td><td>0.2</td><td>0.2</td></tr>
+</tbody></table>
+</div>
+<p><img src="SRP/../res/URP/lighting-shading-by-john-hable-33-2048.webp" alt="../res/URP/lighting-shading-by-john-hable-33-2048.webp" /></p>
+<div class="table-wrapper"><table><thead><tr><th>Step</th><th>환경</th><th>텍스쳐</th><th>셰이딩</th></tr></thead><tbody>
+<tr><td></td><td>모니터(포토샵)</td><td>0.2</td><td></td></tr>
+<tr><td>Hard Drive</td><td>저장</td><td>0.5</td><td></td></tr>
+<tr><td>Gamma</td><td><strong>sRGB옵션</strong></td><td>0.2</td><td></td></tr>
+<tr><td>Lighting</td><td>셰이더(모델)</td><td>0.2</td><td>0.5</td></tr>
+<tr><td>Shader Correct</td><td>셰이더(포스트프로세스)</td><td>0.5</td><td>0.7</td></tr>
+<tr><td>Monitor Adjust</td><td>모니터(게임)</td><td>0.2</td><td>0.5</td></tr>
+</tbody></table>
+</div>
+<p><img src="SRP/../res/URP/lighting-shading-by-john-hable-34-2048.webp" alt="../res/URP/lighting-shading-by-john-hable-34-2048.webp" /></p>
+<p>좌 감마 // 우 리니어</p>
 <h2 id="linear-color-space에서-작업시-주의할-점"><a class="header" href="#linear-color-space에서-작업시-주의할-점">Linear Color Space에서 작업시 주의할 점</a></h2>
 <ul>
 <li>플렛폼 지원</li>
@@ -3182,8 +3207,20 @@ finalColor.a = 1;
 </code></pre>
 <h2 id="ref-20"><a class="header" href="#ref-20">Ref</a></h2>
 <ul>
+<li><a href="https://www.gdcvault.com/play/1012351/Uncharted-2-HDR">[GDC2010] GDCValue: Uncharted-2-HDR</a>
+<ul>
+<li>slideshare: <a href="https://www.slideshare.net/naughty_dog/lighting-shading-by-john-hable">Lighting Shading by John Hable</a></li>
+</ul>
+</li>
 <li>정종필 linear/gamma 설명
 <ul>
+<li>정종필님의 설명 볼때 주의점
+<ul>
+<li>텍스쳐와 빛의 연산을 뚜렸히 분리하여 설명하지 않고, 리니어라는 것을 강조하기 위해 그래프를 옆에두고 설명함</li>
+<li>처음에는 이미지가 다른 걸 보고 아 그렇구나 해서 이해한것으로 착각하기 쉬운데, 텍스쳐와 빛의 연산을 분리하지 않고 설명해서 나중에 더 햇갈릴 수 있음.</li>
+<li>Uncharted-2-HDR를 확인 할것.</li>
+</ul>
+</li>
 <li><a href="https://www.youtube.com/watch?v=Xwlm5V-bnBc">정종필 - Gamma Color space와 Linear Color space란?</a>
 <ul>
 <li><a href="https://youtu.be/Xwlm5V-bnBc?si=JFxHE64X-08uOG3W&amp;t=629">텍스쳐 저장 공간 설명 View/HDD/Display</a></li>
@@ -3193,15 +3230,12 @@ finalColor.a = 1;
 <li><a href="https://www.youtube.com/watch?v=lUvsEfqOkUo">정종필 - 유니티 셰이더에서 sRGB/Linear 사용 및 응용</a></li>
 </ul>
 </li>
-<li><a href="https://www.gdcvault.com/play/1012351/Uncharted-2-HDR">GDCValue: Uncharted-2-HDR</a></li>
-<li><a href="https://www.slideshare.net/naughty_dog/lighting-shading-by-john-hable">Lighting Shading by John Hable</a></li>
+<li><a href="https://developer.nvidia.com/gpugems/gpugems3/part-iv-image-effects/chapter-24-importance-being-linear">GPU Gems 3 - Chapter 24. The Importance of Being Linear</a></li>
 <li><a href="http://www.codinglabs.net/article_gamma_vs_linear.aspx">Article - Gamma and Linear Spaces</a></li>
 <li><a href="https://www.slideshare.net/agebreak/color-space-gamma-correction">[데브루키] Color space gamma correction</a></li>
 <li><a href="https://chulin28ho.tistory.com/476">선형(Linear) 렌더링에서의 UI 작업할때 요령</a></li>
 <li><a href="https://illu.tistory.com/1430">201205 Unity Linear color space에서 UI의 alpha 값이 바뀌는 문제에 대하여..</a></li>
 <li><a href="https://cmwdexint.com/2019/05/30/3d-scene-need-linear-but-ui-need-gamma/">3D scene need Linear but UI need Gamma</a></li>
-<li><a href="https://forum.reallusion.com/308094/1-PBR-Linear-Workflow">1 - PBR Linear Workflow</a></li>
-<li><a href="https://medium.com/@abdulla.aldandarawy/unity-always-be-linear-1a30db4765db">[Unity] Always Be Linear: Shader-Based Gamma Correction</a></li>
 <li><a href="https://nbertoa.wordpress.com/2016/06/20/gamma-correction/">https://nbertoa.wordpress.com/2016/06/20/gamma-correction/</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="셰이더-모델과-플렛폼-관계"><a class="header" href="#셰이더-모델과-플렛폼-관계">셰이더 모델과 플렛폼 관계</a></h1>
