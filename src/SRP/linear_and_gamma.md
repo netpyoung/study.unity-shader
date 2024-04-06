@@ -33,11 +33,11 @@ Linear는 무엇이고 Gamma는 무엇인가?
 
 ![../res/URP/gammacurves.png](../res/URP/gammacurves.png)
 
-| 선          | Gamma  | Gamma Value                  | 공간        |
-| ----------- | ------ | ---------------------------- | ----------- |
-| 초록-위     | encode | pow(x, 0.45) (0.45 == 1/2.2) | sRGB        |
-| 검정-가운데 | -      | pow(x, 1.0 )                 | Linear      |
-| 빨강-아래   | decode | pow(x, 2.2 )                 | Gamma / CRT |
+| 선          | Gamma  | Gamma Value                  | 공간               |
+| ----------- | ------ | ---------------------------- | ------------------ |
+| 초록-위     | encode | pow(x, 0.45) (0.45 == 1/2.2) |                    |
+| 검정-가운데 | -      | pow(x, 1.0 )                 | Linear             |
+| 빨강-아래   | decode | pow(x, 2.2 )                 | Gamma / sRGB / CRT |
 
 - [wiki: sRGB](https://en.wikipedia.org/wiki/SRGB) : standard RGB color space.
 
@@ -47,6 +47,9 @@ Linear는 무엇이고 Gamma는 무엇인가?
 Linear와 Gamma가 **왜** 작업 결과물에 영향을 주는가?
 
 ![../res/URP/An+image+comparing+gamma+and+linear+pipelines.png](../res/URP/An+image+comparing+gamma+and+linear+pipelines.png)
+
+- Gamma Pipeline에서는 빛의 연산 결과가 Linear환경에서 연산되고 모니터에는 Gamam가 적용된 상태로 표시된다.
+- 빛의 연산 결과도 Linear환경으로 표시하려면, 모니터에 Gamma가 적용되어 어두워지기전에, 미리 밝게해두면 Linear한 빛의 연산 결과를 모니터에서 확인할 수 있게 된다.
 
 ### 이미지 제작 환경(감마 보정 환경)
 
@@ -85,7 +88,7 @@ Linear와 Gamma가 **왜** 작업 결과물에 영향을 주는가?
   - Gamma를 1.0으로 하는게 Gamma Correction이라고 하는 인터넷 문서들이 있는데, 그렇게 이해하면 안됨.
   - [Wiki](https://en.wikipedia.org/wiki/Gamma_correction)에는 Gamma Correction 자체가 Gamma 연산을 하는 걸로 정의되어 있음.
   - 게임에서는 출력장치로 출력하기 좋게 Gamma를 보정하는 작업을 Gamma Correction이라 칭하는게 좀 더 게임개발에 알맞음.
-      - 모니터로 출력시 어둡게 출력되는데, 출력 전에 밝게 후보정하는 작업.
+    - 모니터로 출력시 어둡게 출력되는데, 출력 전에 밝게 후보정하는 작업.
 
 #### sRGB 보정
 
@@ -120,6 +123,32 @@ Linear와 Gamma가 **왜** 작업 결과물에 영향을 주는가?
 | 셰이더(포스트프로세스) | encode | 0.7    | 0.7    | 디스플레이에 보여주기 전에 최종 후처리 |
 | 모니터(게임)           | decode | 0.5    | 0.5    |                                        |
 
+
+## 종합
+
+![../res/URP/lighting-shading-by-john-hable-31-2048.webp](../res/URP/lighting-shading-by-john-hable-31-2048.webp)
+
+| step       | 환경           | 텍스쳐 | 셰이딩 |
+| ---------- | -------------- | ------ | ------ |
+|            | 모니터(포토샵) | 0.2    |        |
+| Hard Drive | 저장           | 0.5    |        |
+| Lighting   | 셰이더(모델)   | 0.5    | 0.5    |
+| Screen     | 모니터(게임)   | 0.2    | 0.2    |
+
+![../res/URP/lighting-shading-by-john-hable-33-2048.webp](../res/URP/lighting-shading-by-john-hable-33-2048.webp)
+
+| Step           | 환경                   | 텍스쳐 | 셰이딩 |
+| -------------- | ---------------------- | ------ | ------ |
+|                | 모니터(포토샵)         | 0.2    |        |
+| Hard Drive     | 저장                   | 0.5    |        |
+| Gamma          | __sRGB옵션__           | 0.2    |        |
+| Lighting       | 셰이더(모델)           | 0.2    | 0.5    |
+| Shader Correct | 셰이더(포스트프로세스) | 0.5    | 0.7    |
+| Monitor Adjust | 모니터(게임)           | 0.2    | 0.5    |
+
+![../res/URP/lighting-shading-by-john-hable-34-2048.webp](../res/URP/lighting-shading-by-john-hable-34-2048.webp)
+
+좌 감마 // 우 리니어
 
 ## Linear Color Space에서 작업시 주의할 점
 
@@ -226,18 +255,21 @@ finalColor.a = 1;
 
 ## Ref
 
+- [[GDC2010] GDCValue: Uncharted-2-HDR](https://www.gdcvault.com/play/1012351/Uncharted-2-HDR)
+  - slideshare: [Lighting Shading by John Hable](https://www.slideshare.net/naughty_dog/lighting-shading-by-john-hable)
 - 정종필 linear/gamma 설명
+  - 정종필님의 설명 볼때 주의점
+    - 텍스쳐와 빛의 연산을 뚜렸히 분리하여 설명하지 않고, 리니어라는 것을 강조하기 위해 그래프를 옆에두고 설명함
+    - 처음에는 이미지가 다른 걸 보고 아 그렇구나 해서 이해한것으로 착각하기 쉬운데, 텍스쳐와 빛의 연산을 분리하지 않고 설명해서 나중에 더 햇갈릴 수 있음.
+    - Uncharted-2-HDR를 확인 할것.
   - [정종필 - Gamma Color space와 Linear Color space란?](https://www.youtube.com/watch?v=Xwlm5V-bnBc)
     - [텍스쳐 저장 공간 설명 View/HDD/Display](https://youtu.be/Xwlm5V-bnBc?si=JFxHE64X-08uOG3W&t=629)
   - [정종필 - 라이팅과 셰이더에서 연산을 위한 선형 파이프라인](https://www.youtube.com/watch?v=oVyqLhVrjhY)
   - [정종필 - 유니티 셰이더에서 sRGB/Linear 사용 및 응용](https://www.youtube.com/watch?v=lUvsEfqOkUo)
-- [GDCValue: Uncharted-2-HDR](https://www.gdcvault.com/play/1012351/Uncharted-2-HDR)
-- [Lighting Shading by John Hable](https://www.slideshare.net/naughty_dog/lighting-shading-by-john-hable)
+- [GPU Gems 3 - Chapter 24. The Importance of Being Linear](https://developer.nvidia.com/gpugems/gpugems3/part-iv-image-effects/chapter-24-importance-being-linear)
 - [Article - Gamma and Linear Spaces](http://www.codinglabs.net/article_gamma_vs_linear.aspx)
 - [[데브루키] Color space gamma correction](https://www.slideshare.net/agebreak/color-space-gamma-correction)
 - [선형(Linear) 렌더링에서의 UI 작업할때 요령](https://chulin28ho.tistory.com/476)
 - [201205 Unity Linear color space에서 UI의 alpha 값이 바뀌는 문제에 대하여..](https://illu.tistory.com/1430)
 - [3D scene need Linear but UI need Gamma](https://cmwdexint.com/2019/05/30/3d-scene-need-linear-but-ui-need-gamma/)
-- [1 - PBR Linear Workflow](https://forum.reallusion.com/308094/1-PBR-Linear-Workflow)
-- [[Unity] Always Be Linear: Shader-Based Gamma Correction](https://medium.com/@abdulla.aldandarawy/unity-always-be-linear-1a30db4765db)
 - <https://nbertoa.wordpress.com/2016/06/20/gamma-correction/>
