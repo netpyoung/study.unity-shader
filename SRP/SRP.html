@@ -219,6 +219,37 @@ public class CustomRenderPipeline : RenderPipeline
 <ul>
 <li><a href="https://github.com/cinight/CustomSRP/tree/master/Assets/SRP0802_RenderGraph">https://github.com/cinight/CustomSRP/tree/master/Assets/SRP0802_RenderGraph</a></li>
 </ul>
+<h2 id="rendergraph---cont"><a class="header" href="#rendergraph---cont">RenderGraph - cont</a></h2>
+<ul>
+<li>https://github.com/alexuhui/MySRP/blob/main/Assets/Custom%20RP/ShaderLibrary/Common.hlsl</li>
+<li>https://catlikecoding.com/unity/custom-srp/2-0-0/</li>
+</ul>
+<pre><code class="language-cs">using UnityEngine.Experimental.Rendering.RenderGraphModule;
+
+readonly RenderGraph renderGraph = new("Custom SRP Render Graph");
+
+protected override void Dispose(bool disposing)
+{
+    …
+    renderGraph.Cleanup();
+}
+
+var renderGraphParameters = new RenderGraphParameters
+{
+    commandBuffer = CommandBufferPool.Get(),
+    currentFrameIndex = Time.frameCount,
+    executionName = "Render Camera",
+    scriptableRenderContext = context
+};
+
+using (renderGraph.RecordAndExecute(renderGraphParameters))
+{
+
+}
+CommandBufferPool.Release(renderGraphParameters.commandBuffer);
+renderGraph.EndFrame();
+
+</code></pre>
 <h2 id="example"><a class="header" href="#example">Example</a></h2>
 <h3 id="renderpipeline"><a class="header" href="#renderpipeline">RenderPipeline</a></h3>
 <pre><code class="language-hlsl">Pass

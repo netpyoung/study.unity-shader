@@ -180,10 +180,26 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="color-grading-lut"><a class="header" href="#color-grading-lut">Color Grading LUT</a></h1>
+<p>색 보정(Color Grading)에는 여러 수치 보정 수식들이 들어가게 되는데, 이걸 실시간 계산이 아닌 텍스쳐에 구어 연산 부하를 낮출 수 있다.</p>
+<ul>
+<li>unity: 32x32 가 옆으로 32개 =&gt; 1024 × 32
+<ul>
+<li><a href="https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.postprocessing/PostProcessing/Textures/LUTs/NeutralLdrLut.png">NeutralLdrLut.png</a></li>
+<li>ldr(Low Dynamic Range)</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-hlsl">// (r,g,b)
+// (0,1,0) +----+ (1,1,0)          (0,1,n) +----+ (1,1,n)
+//         |    |           ......         |    |        
+// (0,0,0) +----+ (1,0,0)          (0,0,n) +----+ (1,0,n)
+</code></pre>
 <ul>
 <li><a href="https://web.archive.org/web/20120213004214/http://ttmayrin.tistory.com/34">http://ttmayrin.tistory.com/34</a></li>
 </ul>
-<pre><code class="language-hlsl">float3 CalcLUT2D( sampler InLUT, float3 InColor )
+<pre><code class="language-hlsl">// 16 기준
+
+float3 CalcLUT2D( sampler InLUT, float3 InColor )
 {
     // requires a volume texture 16x16x16 unwrapped in a 2d texture 256x16
     // can be optimized by using a volume texture
@@ -208,10 +224,25 @@ float3 CalcLUT3D( sampler InLUT, float3 InColor )
     return tex3D( InLUT, InColor * 15.f / 16.f + 0.5f / 16.f ).rgb;
 }
 </code></pre>
+<h2 id="색보정-방법"><a class="header" href="#색보정-방법">색보정 방법</a></h2>
+<p>채도/대비/샤픈
+마젠타/사이언/그린</p>
+<ul>
+<li><a href="https://youtu.be/ll3HrF4y27w?si=addpL3anqHu0FGep">영화같은 색보정을 위한 가장 중요한 이것</a></li>
+<li>하이비드 HYVID STUDIO
+<ul>
+<li><a href="https://youtu.be/8V_FoVPR9lg?si=iOobuvMnPO3m1YcP">눈대중으로 색보정 그만! 기준을 갖고 하는 색보정 (feat 피부톤)</a></li>
+<li><a href="https://youtu.be/H84KGpryPU0?si=4NC9Pudu1jOti1lE">매드맥스 DI 작업자 에릭의 헐리웃 색보정 팁</a></li>
+<li><a href="https://youtu.be/H_RhJocZWzE?si=SnCBe8kzJHeUjQhF">존윅 4 개봉!! 시선을 사로잡는 존윅의 색보정 비밀! / DI 작업자 질 보그다노비치 색보정 작업방식</a></li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Zone_System">https://en.wikipedia.org/wiki/Zone_System</a></li>
+</ul>
 <h2 id="ref"><a class="header" href="#ref">Ref</a></h2>
 <ul>
 <li><a href="https://nellfamily.tistory.com/51">DirectX Shader LUT 필터 코드 구현</a></li>
 <li><a href="https://youtu.be/0LwlNVS3FJo?t=1087">[Unite Seoul 2019] 최재영 류재성 - 일곱개의 대죄 : "애니메이션의 감성을 그대로＂와 “개발 최적화"</a></li>
+<li><a href="https://developer.nvidia.com/gpugems/gpugems2/part-iii-high-quality-rendering/chapter-24-using-lookup-tables-accelerate-color">[GPU Gems 2] Chapter 24. Using Lookup Tables to Accelerate Color Transformations</a></li>
 </ul>
 
                     </main>
