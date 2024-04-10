@@ -84,6 +84,12 @@ float3 PositivePow(float3 base, float3 power)
 ```
 
 
+## Anaylize
+
+- <https://developer.android.com/agi/frame-trace/shader-performance>
+- ALU(arithmetic logic unit)
+
+
 ## Etc
 
 - <https://www.slideshare.net/LeeJungpyo/unite17-shanghailee-jungpyoneteasepangufull-chinese>

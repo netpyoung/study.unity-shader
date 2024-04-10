@@ -33,3 +33,12 @@
 - Paul Ambrosiussen
   - https://www.youtube.com/@paulambrosiussen7709/
   - https://ambrosiussen.gumroad.com/
+
+
+- Omid Saadat 
+  - https://www.omid-saadat.com/
+  - https://github.com/omid3098
+  - https://github.com/QuVery
+
+- Stoyan Dimitrov
+  - https://github.com/stoyan3d

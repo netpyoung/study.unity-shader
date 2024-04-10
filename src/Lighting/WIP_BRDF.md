@@ -90,3 +90,5 @@ half3 color = ambient + brdfTex;
 - [Multi-Textured BRDF-based Lighting - Chris Wynn](https://developer.download.nvidia.com/assets/gamedev/docs/BRDFs.pdf)
 - http://www.mentalwarp.com/~brice/brdf.php
 - http://wiki.polycount.com/wiki/BDRF_map
+- [Stoyan Dimitrov: How Space Ape uses Uber Shaders in Unity for Mobile Games](https://youtu.be/WJHMV--CNdU?si=mzvIRGYGVlMVyQf7)
+  - <https://stoyan3d.wordpress.com/2018/11/21/uber-shaders-for-mobile-games/>

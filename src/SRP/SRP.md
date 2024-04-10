@@ -46,6 +46,40 @@ TODO
 - <https://github.com/cinight/CustomSRP/tree/master/Assets/SRP0802_RenderGraph>
 
 
+
+## RenderGraph - cont
+
+- https://github.com/alexuhui/MySRP/blob/main/Assets/Custom%20RP/ShaderLibrary/Common.hlsl
+- https://catlikecoding.com/unity/custom-srp/2-0-0/
+
+``` cs
+using UnityEngine.Experimental.Rendering.RenderGraphModule;
+
+readonly RenderGraph renderGraph = new("Custom SRP Render Graph");
+
+protected override void Dispose(bool disposing)
+{
+    …
+    renderGraph.Cleanup();
+}
+
+var renderGraphParameters = new RenderGraphParameters
+{
+    commandBuffer = CommandBufferPool.Get(),
+    currentFrameIndex = Time.frameCount,
+    executionName = "Render Camera",
+    scriptableRenderContext = context
+};
+
+using (renderGraph.RecordAndExecute(renderGraphParameters))
+{
+
+}
+CommandBufferPool.Release(renderGraphParameters.commandBuffer);
+renderGraph.EndFrame();
+
+```
+
 ## Example
 
 ### RenderPipeline

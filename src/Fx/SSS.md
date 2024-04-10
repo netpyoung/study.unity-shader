@@ -94,8 +94,8 @@ half3 rampTex = SAMPLE_TEXTURE2D(_RampTex, sampler_RampTex, rampUV).rgb;
 - <https://therealmjp.github.io/posts/sss-intro/>
 - <https://mgun.tistory.com/1600>
 - NVIDIA
-  - <https://developer.download.nvidia.com/books/HTML/gpugems/gpugems_ch16.html>
-  - <https://developer.nvidia.com/gpugems/gpugems3/part-iii-rendering/chapter-14-advanced-techniques-realistic-real-time-skin>
+  - [[GPU Gems 1] Chapter 16. Real-Time Approximations to Subsurface Scattering](https://developer.nvidia.com/gpugems/gpugems/part-iii-materials/chapter-16-real-time-approximations-subsurface-scattering)
+  - [[GPU Gems 3] Chapter 14. Advanced Techniques for Realistic Real-Time Skin Rendering](https://developer.nvidia.com/gpugems/gpugems3/part-iii-rendering/chapter-14-advanced-techniques-realistic-real-time-skin)
   - <https://github.com/NVIDIAGameWorks/FaceWorks>
 - 기법별
   - using Half lambert
