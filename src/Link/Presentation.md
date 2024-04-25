@@ -36,13 +36,20 @@
 
 - [2018 - 【Unite Tokyo 2018】『崩壊3rd』開発者が語るアニメ風レンダリングの極意](https://www.youtube.com/watch?v=ZpWsinhPFLM)
   - <https://www.youtube.com/watch?v=egHSE0dpWRw>
+- [2021 - [SIGGRAPH Asia 2021] 劇場クオリティのアニメをリアルタイムエンジンで実現するには - Unityステーション](https://youtu.be/Ay45tmdqyws?si=4qBxPqVyQ7BFAI_X)
 
 ## 중국
 
-- [유나이트 서울 2020 - 원신 콘솔 플랫폼 개발 경험 및 렌더링 파이프라인 기술 소개 Track3-1](https://www.youtube.com/watch?v=00QugD5u1CU)
-  - [Unite Seoul 2020 세션 다시보기 - 원신 콘솔 플랫폼 개발 및 렌더링 파이프라인 기술 소개](https://www.youtube.com/watch?v=t0rOOs1701o)
+- [2022 - 유나이트 서울 2020 - 원신 콘솔 플랫폼 개발 경험 및 렌더링 파이프라인 기술 소개 Track3-1](https://www.youtube.com/watch?v=00QugD5u1CU)
+  - [2022 - Unite Seoul 2020 세션 다시보기 - 원신 콘솔 플랫폼 개발 및 렌더링 파이프라인 기술 소개](https://www.youtube.com/watch?v=t0rOOs1701o)
 
 ## 해외
+
+- [2013 - [GDC2013] Technical Artist Bootcamp: The VFX of Diablo](https://www.gdcvault.com/play/1017660/Technical-Artist-Bootcamp-The-VFX)
+- [2016 - [Unite2016] - A Guide for Achieving World-Class Visuals on Mobile Devices](https://youtu.be/oatF8e_PPh0?si=cGRE1lHZYaiKR9IE)
+- [2016 - [GDC2016] Delivering Console Car Visuals on Mobile With 'CSR Racing 2'](https://www.gdcvault.com/play/1023299/Delivering-Console-Car-Visuals-on)
+- [2016 - [GDC2016] The Environment Pipeline of 'CSR Racing 2'](https://www.gdcvault.com/play/1023301/The-Environment-Pipeline-of-CSR)
+  - <https://archive.org/details/GDC2016Harber/>
 
 - RIME
   - [ADDON2017 - GAT #65: Stylized VFX in RIME](https://www.youtube.com/watch?v=fwKQyDZ4ark)

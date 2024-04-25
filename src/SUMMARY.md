@@ -111,7 +111,6 @@
 - [MatCap](./Fx/MatCap.md)
 - [Outline](./Fx/Outline.md)
 - [ParallaxMapping](./Fx/ParallaxMapping.md)
-- [Shadow](./Fx/Shadow.md)
 - [SSS](./Fx/SSS.md)
 - [WIP]()
   - [_ForceFieldShield](./Fx/_ForceFieldShield.md)

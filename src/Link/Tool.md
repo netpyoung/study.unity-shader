@@ -26,11 +26,11 @@
 
 ## Texture maker
 
-- https://github.com/njbrown/texturelab
+- <https://github.com/njbrown/texturelab>
   - Free, Cross-Platform, GPU-Accelerated Procedural Texture Generator
-- https://github.com/alelievr/Mixture
+- <https://github.com/alelievr/Mixture>
   - on unity
-- https://www.materialmaker.org/
+- <https://www.materialmaker.org/>
 - 유료
   - substance designer
 
@@ -43,5 +43,4 @@
 
 ## Etc
 
-- FumeFX
-  - https://www.afterworks.com/FumeFX.asp
+- [FumeFX](https://www.afterworks.com/FumeFX.asp)

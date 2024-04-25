@@ -9,6 +9,8 @@
 - <https://www.e2gamedev.com/water-buoyancy>
 - [Acerola - Rendering Water With Sine Waves](https://www.youtube.com/watch?v=PH9q0HNBjT4)
 - [Acerola - I Tried Simulating The Entire Ocean](https://youtu.be/yPfagLeUa7k?si=n9owb07c8P-rgG8c)
+- [Ocean waves simulation with Fast Fourier transform](https://youtu.be/kGEqaX4Y4bQ?si=IyHfueQ_X_CiNIrN)
+
 
  
 - 위치

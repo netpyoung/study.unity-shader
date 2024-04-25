@@ -42,3 +42,32 @@
 
 - Stoyan Dimitrov
   - https://github.com/stoyan3d
+  - https://stoyan3d.wordpress.com/
+
+- Waldo Bronchart
+  - https://github.com/waldobronchart
+  - https://waldobronchart.com/
+
+- Scott Harbor
+  - [10 - Tech Artists - Scott Harbor - GDC11](https://youtu.be/rzcrAKC0dyc?si=DQmsT4Jx_GVjpcYV)
+- Liam Murphy
+  - http://www.lfmurphy.com/
+  - https://twitter.com/InvalidBinding
+
+
+- Aaron Aikman
+  - https://guerilla-tactics.com/
+  - https://github.com/AaronAikman
+  - https://www.artstation.com/guerillatactics
+
+
+- David Miranda
+  - https://www.youtube.com/@DavidMirandaDevlog
+  - https://www.davidmiranda.me/
+
+- Michael Short
+  - https://www.linkedin.com/in/mjshort1/
+
+## Ref
+
+- <https://www.youtube.com/playlist?list=PLmGLeHTjF2E6hjMR5pwt9M0mwjIB6hR6T>

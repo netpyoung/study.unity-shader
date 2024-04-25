@@ -48,3 +48,11 @@ TODO
 
 https://leegoonz.blog/2020/01/05/energy-conserved-specular-blinn-phong/
 https://www.rorydriscoll.com/2009/01/25/energy-conservation-in-games/
+
+
+
+
+## 재질
+- https://dev.epicgames.com/documentation/en-us/unreal-engine/physically-based-materials-in-unreal-engine
+- https://creativecloud.adobe.com/learn/substance-3d-designer/web/the-pbr-guide-part-1
+- https://creativecloud.adobe.com/learn/substance-3d-designer/web/the-pbr-guide-part-2

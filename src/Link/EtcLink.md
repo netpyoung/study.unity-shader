@@ -5,6 +5,9 @@
 - <https://kesen.realtimerendering.com/>
 - <http://trowley.org/>
 - https://cgworld.jp/
+- https://discourse.techart.online/
+- https://archive.org/details/gdcextras
+- https://indievisuallab.github.io/
 
 ## 리서치
 
@@ -18,6 +21,10 @@
 - <https://www.desmos.com/calculator>
 - <https://graphtoy.com/>
 - <http://tobyschachman.com/Shadershop/editor/>
+
+## 모델
+
+- https://3dnchu.com/archives/cg-test-models/
 
 ## 튜토리얼
 

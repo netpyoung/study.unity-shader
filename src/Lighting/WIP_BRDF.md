@@ -88,7 +88,7 @@ half3 color = ambient + brdfTex;
 - <https://teodutra.com/unity/shaders/cook-torrance/lookup-texture/2019/03/28/Lookup-The-Cook-Torrance/>
 - [SIGGRAH2017 - Physically-Based Materials: Where Are We?](http://openproblems.realtimerendering.com/s2017/index.html)
 - [Multi-Textured BRDF-based Lighting - Chris Wynn](https://developer.download.nvidia.com/assets/gamedev/docs/BRDFs.pdf)
-- http://www.mentalwarp.com/~brice/brdf.php
-- http://wiki.polycount.com/wiki/BDRF_map
+- <http://www.mentalwarp.com/~brice/brdf.php>
+- <http://wiki.polycount.com/wiki/BDRF_map>
 - [Stoyan Dimitrov: How Space Ape uses Uber Shaders in Unity for Mobile Games](https://youtu.be/WJHMV--CNdU?si=mzvIRGYGVlMVyQf7)
   - <https://stoyan3d.wordpress.com/2018/11/21/uber-shaders-for-mobile-games/>

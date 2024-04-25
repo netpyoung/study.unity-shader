@@ -15,6 +15,16 @@ SSS(Sub-Surface Scattering) (피하산란)
 
 ## SSSSS / Scren-Space Sub-Surface Scattering
 
+- https://www.iryoku.com/sssss/
+  - https://www.iryoku.com/screen-space-subsurface-scattering/
+- https://unityshader.hatenablog.com/entry/2016/12/25/175333
+- https://docs.unrealengine.com/udk/Three/ScreenSpaceSubsurfaceScattering.html
+- [2018 - [Siggraph2018] Efficient screen-space subsurface scattering using Burley’s normalized diffusion in real-time - Evgenii Golubev (Unity Technologies)](https://advances.realtimerendering.com/s2018/Efficient%20screen%20space%20subsurface%20scattering%20Siggraph%202018.pdf)
+
+
+
+
+
 ## PISS / Pre-Integrated Skin Shading
 
 - LookUpTexture 이용
