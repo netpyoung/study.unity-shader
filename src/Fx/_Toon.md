@@ -115,3 +115,4 @@ FaceShadow
 - [SIGGRAPH2006 - Shading In Valve's Source Engine](https://steamcdn-a.akamaihd.net/apps/valve/2006/SIGGRAPH06_Course_ShadingInValvesSourceEngine.pdf)
   - [NPAR07_IllustrativeRenderingInTeamFortress2](https://steamcdn-a.akamaihd.net/apps/valve/2007/NPAR07_IllustrativeRenderingInTeamFortress2.pdf)
   - [Team Fortress 2 Shader for RenderMan RSL](https://vimeo.com/25953235)
+- [[GDC2024] - 3D Toon Rendering in 'Hi-Fi RUSH'](https://youtu.be/gdBACyIOCtc)

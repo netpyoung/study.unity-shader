@@ -88,6 +88,15 @@ float3 PositivePow(float3 base, float3 power)
 
 - <https://developer.android.com/agi/frame-trace/shader-performance>
 - ALU(arithmetic logic unit)
+- [Unity Shader Performance: How to Quickly Measure the GPU Cycles Your Shaders Take](https://www.youtube.com/watch?v=uXO9mPHyj_Q)
+  - [malioc](https://developer.arm.com/documentation/101863/0804/Using-Mali-Offline-Compiler/Compiling-Vulkan-shaders)
+    - https://github.com/Delt06/malioc-unity
+    - https://github.com/Alunice/TaTa/tree/master/com.shac.shaderanalysis
+    - https://github.com/Unity-Technologies/sol-games-unity-samples/tree/main/Graphics/MaliCompilerReport
+    - https://github.com/wotakuro/UnityMaliocPlugin
+    - https://blog.unity.com/games/tackling-profiling-for-mobile-games-with-unity-and-arm
+- https://shader-playground.timjones.io/
+  - https://forum.unity.com/threads/2023-3-heatmap-color-mode.1507490/#post-9425870
 
 
 ## Etc

@@ -3,6 +3,7 @@
 - DrawCall : CPU가 GPU에게 그려라(Draw)라고 명령하는 것
 
 - [Dev Weeks: 성능을 고려한 파이프라인, Universal Render Pipeline](https://youtu.be/UsyvT36vqpU?t=1460)
+- [[유니티 TIPS] 유니티 최적화를 위한 필수 기본기! Batching 방법 소개](https://youtu.be/w14yjBlfNeQ?si=m_G8ru6j69EBit3i)
 
 ![batch.jpg](../res/batch.jpg)
 

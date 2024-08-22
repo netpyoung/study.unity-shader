@@ -56,3 +56,45 @@ https://www.rorydriscoll.com/2009/01/25/energy-conservation-in-games/
 - https://dev.epicgames.com/documentation/en-us/unreal-engine/physically-based-materials-in-unreal-engine
 - https://creativecloud.adobe.com/learn/substance-3d-designer/web/the-pbr-guide-part-1
 - https://creativecloud.adobe.com/learn/substance-3d-designer/web/the-pbr-guide-part-2
+
+## custom
+난반사(Diffuse Reflection)
+정반사(Specluar Reflection)
+
+|        | 정반사 | 난반사 |
+| ------ | ------ | ------ |
+| 비금속 | 흰색   | 기본색 |
+| 금속   | 기본색 | 흰색   |
+
+
+- 방식
+  - ref
+    - [물리기반 머터리얼 상식](https://youtu.be/1biT79BtSkw)
+      - 직접광보다 간접광(Environment map)이 중요.
+        - https://marmoset.co/shop/
+          - Perpetual License $31900one-time fee (USD)
+    - [디퓨즈와 스페큘러](https://youtu.be/T6-OnODMgdE)
+      - [How To Split Specular And Diffuse In Real Images](http://filmicworlds.com/blog/how-to-split-specular-and-diffuse-in-real-images/)
+      - https://lifeisforu.tistory.com/382
+      - https://www.virial.com/reflection-models.html
+  - metal - roughness
+    - base color : brdf color
+    - metallic : reflectance ( specular level, Index of Refelection - 별명이 artistic metallic - 1.6)
+    - roughness: glossiness를 선형화 시켜서 뒤짚은 값.
+      - 사람은 대략 0.5
+  - specular / glossiness
+    - diffuse(albedo (알비도)) / specular / glossiness
+
+base color/metalic / roughness 방식
+- 단점
+  - 텍셀 밀도가 낮을시 metalic edge 현상 발생
+- base color
+  - PBR Safe Color
+    - https://helpx.adobe.com/substance-3d-designer/substance-compositing-graphs/nodes-reference-for-substance-compositing-graphs/node  -library/material-filters/pbr-utilities/pbr-albedo-safe-color.html
+    - https://helpx.adobe.com/substance-3d-designer/substance-compositing-graphs/nodes-reference-for-substance-compositing-graphs/node-library/material-filters/pbr-utilities/pbr-basecolor-metallic-validate.html
+- 메탈릭
+  - albedo : 밝아야함(생각보다 어둡게 나오는 경우가 많음)
+  - 금속/비금속을 나누는 기준임으로 어중간한 값들의 사용은 자제해야한다.
+- 거칠기 : 높을수록 정반사 비율이 낮아짐.
+  - 기울여 봐야 Fresnel의 차이를 확인 할 수 있음.
+

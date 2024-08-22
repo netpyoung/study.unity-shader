@@ -87,8 +87,38 @@
   - 원경 에셋 제작 도구
   - 문서화
 
+## [231224 Com2uS TA Dept R&R](https://illu.tistory.com/1493)
+
+### TA team
+
+- R&D - 기술 트랜드 분석
+- 비쥬얼 이슈
+  - 기술지원
+    - 예제 제작
+  - 프로파일링
+- 문서
+  - 리소스 제작/관리/적용 지원
+- 프로그래머와 아트 의견조율
+- DCC
+  - Houdini
+  - Blender
+
+### Engine Team
+- R&D - 기술 트랜드 분석
+- Unity
+  - URP 개선
+    - SRP Render Pipeline
+- Graphics Programming / Animation
+- C++ / C#
+- Tool Programmer 업무 수행 경험 있는 분도 채용
+
 ## Ref
 
 - 어쩌다 TA
   - [어쩌다 TA(테크니컬 아티스트-Technical Artist), 무엇을 공부해야 할까?](https://www.youtube.com/watch?v=hwvRFAvQ5ww)
   - [어쩌다 TA(테크니컬 아티스트-Technical Artist), 그리고 추천 도서](https://www.youtube.com/watch?v=wtYKz8bsSdg)
+- [231224 Com2uS TA Dept R&R](https://illu.tistory.com/1493)
+- 게임이펙트의 모든것! 게임직군 TA 김용남 인터뷰
+ - [01](https://youtu.be/UCQpnBouMgQ?si=dUl0vpJOC8v3Lm-y) 
+ - [02](https://youtu.be/mSgkK4Lcsvs?si=lueJOt74bqGu28JV)
+ 

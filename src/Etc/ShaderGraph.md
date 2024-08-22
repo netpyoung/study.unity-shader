@@ -1,0 +1,1 @@
+Heatmap Color Mode was added to Shader Graph in Unity 2023.3.0a10

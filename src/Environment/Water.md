@@ -10,6 +10,11 @@
 - [Acerola - Rendering Water With Sine Waves](https://www.youtube.com/watch?v=PH9q0HNBjT4)
 - [Acerola - I Tried Simulating The Entire Ocean](https://youtu.be/yPfagLeUa7k?si=n9owb07c8P-rgG8c)
 - [Ocean waves simulation with Fast Fourier transform](https://youtu.be/kGEqaX4Y4bQ?si=IyHfueQ_X_CiNIrN)
+- [Very fast procedural ocean](https://www.shadertoy.com/view/MdXyzX)
+- http://peerplay.nl/ripple-water-shader/
+- rain
+  - https://tympanus.net/codrops/2015/11/04/rain-water-effect-experiments/
+
 
 
  

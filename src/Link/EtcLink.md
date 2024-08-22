@@ -8,6 +8,9 @@
 - https://discourse.techart.online/
 - https://archive.org/details/gdcextras
 - https://indievisuallab.github.io/
+- [1mafx](https://1mafx.teachable.com/p/about)
+- [Shader Tutorial Series](https://www.youtube.com/playlist?list=PL4neAtv21WOmIrTrkNO3xCyrxg4LKkrF7)
+
 
 ## 리서치
 
