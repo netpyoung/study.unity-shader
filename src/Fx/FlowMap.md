@@ -52,9 +52,9 @@ half2 subUV = GetSubUV(IN.uv, frameNumber, uint2(_ColumnsX, _RowsY));
 - [Graphics Runner: Animating Water Using Flow Maps by Kyle Hayward](http://graphicsrunner.blogspot.com/2010/08/water-using-flow-maps.html)
 - [http://ttmayrin.tistory.com/40](https://web.archive.org/web/20170508024645/http://ttmayrin.tistory.com/40)
 
-![./res/01-uv-256.png](./res/01-uv-256.png)
+![../res/01-uv-256.png](../res/01-uv-256.png)
 
-![./res/flowsheet1.png](./res/flowsheet1.png)
+![../res/flowsheet1.png](../res/flowsheet1.png)
 
 ``` hlsl
 half2 flowTex = SAMPLE_TEXTURE2D(_FlowTex, sampler_FlowTex, IN.uv).rg;
