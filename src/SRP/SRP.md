@@ -1,5 +1,6 @@
 # SRP (Scriptable Render Pipeline)
 
+https://docs.unity3d.com/Manual/render-pipelines-feature-comparison.html
 
 ## RenderPipelineAsset.asset
 
@@ -31,53 +32,6 @@ public class CustomRenderPipeline : RenderPipeline
 {
     protected override void Render(ScriptableRenderContext context, Camera[] cameras);
 }
-```
-
-## RenderGraph
-
-TODO
-
-|                |        |                                            |                                                                                                                                   |
-| -------------- | ------ | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| RTHandles      | class  | RenderTexture API 감싼것                   | <https://docs.unity3d.com/Packages/com.unity.render-pipelines.core@12.0/api/UnityEngine.Rendering.RTHandles.html>                 |
-| ComputeBuffers | class  | Compute Shader를 위한 GPU data buffer      | <https://docs.unity3d.com/ScriptReference/ComputeBuffer.html>                                                                     |
-| RendererLists  | struct | 렌더링에 사용하는 셋팅같은 정보들 모아둔것 | <https://docs.unity3d.com/Packages/com.unity.render-pipelines.core@12.0/api/UnityEngine.Experimental.Rendering.RendererList.html> |
-
-- <https://github.com/cinight/CustomSRP/tree/master/Assets/SRP0802_RenderGraph>
-
-
-
-## RenderGraph - cont
-
-- https://github.com/alexuhui/MySRP/blob/main/Assets/Custom%20RP/ShaderLibrary/Common.hlsl
-- https://catlikecoding.com/unity/custom-srp/2-0-0/
-
-``` cs
-using UnityEngine.Experimental.Rendering.RenderGraphModule;
-
-readonly RenderGraph renderGraph = new("Custom SRP Render Graph");
-
-protected override void Dispose(bool disposing)
-{
-    …
-    renderGraph.Cleanup();
-}
-
-var renderGraphParameters = new RenderGraphParameters
-{
-    commandBuffer = CommandBufferPool.Get(),
-    currentFrameIndex = Time.frameCount,
-    executionName = "Render Camera",
-    scriptableRenderContext = context
-};
-
-using (renderGraph.RecordAndExecute(renderGraphParameters))
-{
-
-}
-CommandBufferPool.Release(renderGraphParameters.commandBuffer);
-renderGraph.EndFrame();
-
 ```
 
 ## Example
@@ -247,6 +201,19 @@ RenderingData
 RenderPassEvent
 RenderTargetHandle
 ```
+
+
+## SubmitRenderRequest
+
+- https://docs.unity3d.com/ScriptReference/Camera.SubmitRenderRequest.html
+- https://docs.unity3d.com/ScriptReference/Rendering.RenderPipeline.SubmitRenderRequest.html
+  - UniversalRenderPipeline은 다음을 지원합니다.
+    - ScriptableRenderer.StandardRequest: 이 요청 유형은 전체 URP 카메라 스택을 렌더링하고 결과를 지정된 대상에 출력합니다. Base Camera에서만 호출할 수 있습니다.
+    - UniversalRenderPipeline.SingleCameraRequest: 이 요청 유형은 단일 URP 카메라를 렌더링하고 그 결과를 지정된 대상에 출력합니다.
+- https://docs.unity3d.com/ScriptReference/Rendering.RenderPipeline.ProcessRenderRequests.html
+
+SubmitRenderRequest하면 파이프라인의 Rendering.RenderPipeline.ProcessRenderRequests 이 실행됨.
+
 
 ## Ref
 

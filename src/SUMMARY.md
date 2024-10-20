@@ -54,9 +54,9 @@
   - [셰이더 모델과 플렛폼](./SRP/shader_model_and_platform.md)
 - [SRP](./SRP/SRP.md)
 - [ShaderLab](./SRP/ShaderLab.md)
-- [URP](./SRP/URP.md)
-  - [CheatSheet_URP](./SRP/CheatSheet_URP.md)
-  - [URP 랑 Built-in](./SRP/urp_and_builtin.md)
+- [URP](./SRP/URP/URP.md)
+  - [CheatSheet_URP](./SRP/URP/CheatSheet_URP.md)
+  - [URP 랑 Built-in](./SRP/URP/urp_and_builtin.md)
 
 -----------
 

@@ -46,6 +46,7 @@ Linear는 무엇이고 Gamma는 무엇인가?
 
 Linear와 Gamma가 **왜** 작업 결과물에 영향을 주는가?
 
+![](../res/010_colorManagement_250_linear_workflow_FHD-scaled.jpg)
 ![../res/URP/An+image+comparing+gamma+and+linear+pipelines.png](../res/URP/An+image+comparing+gamma+and+linear+pipelines.png)
 
 - Gamma Pipeline에서는 빛의 연산 결과가 Linear환경에서 연산되고 모니터에는 Gamam가 적용된 상태로 표시된다.
@@ -273,3 +274,4 @@ finalColor.a = 1;
 - [201205 Unity Linear color space에서 UI의 alpha 값이 바뀌는 문제에 대하여..](https://illu.tistory.com/1430)
 - [3D scene need Linear but UI need Gamma](https://cmwdexint.com/2019/05/30/3d-scene-need-linear-but-ui-need-gamma/)
 - <https://nbertoa.wordpress.com/2016/06/20/gamma-correction/>
+- <https://chrisbrejon.com/cg-cinematography/chapter-1-color-management/>

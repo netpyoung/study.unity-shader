@@ -4,6 +4,9 @@
 - SBR Batcher 사용가능하게 바뀜.
 - 1패스 1라이트방식 => 1패스 16개 라이트 지원
 
+
+https://unity.com/kr/resources/introduction-universal-render-pipeline-for-advanced-unity-creators-2022lts
+
 ## sample
 
 ``` hlsl

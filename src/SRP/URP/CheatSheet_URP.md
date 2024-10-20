@@ -255,3 +255,13 @@ Shader "Name"
     CustomEditor <custom-editor-class-name>
 }
 ```
+
+## Etc
+
+```
+#define UNITY_BRANCH        [branch]
+#define UNITY_FLATTEN       [flatten]
+#define UNITY_UNROLL        [unroll]
+#define UNITY_UNROLLX(_x)   [unroll(_x)]
+#define UNITY_LOOP          [loop]
+```
