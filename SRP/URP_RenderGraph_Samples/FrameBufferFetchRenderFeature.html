@@ -1,0 +1,358 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>FrameBufferFetchRenderFeature - 넷평의 Unity Shader 노트</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/juxtapose.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/SRP/URP_RenderGraph_Samples/FrameBufferFetchRenderFeature.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <ul>
+<li>프레임버퍼 페치는비디오 메모리 대신 GPU의 온칩 메모리에서 프레임버퍼에 액세스할 수 있는 렌더 패스를 허용하는 프로세스
+<ul>
+<li>모바일 기기에서 타일 기반 지연 렌더링(TBDR)을 사용하는 모바일 기기에서 렌더링 속도가 향상</li>
+</ul>
+</li>
+</ul>
+<p>https://docs.unity3d.com/6000.0/Documentation/Manual/urp/render-graph-framebuffer-fetch.html</p>
+<p>FBF( Frame Buffer Fetch)</p>
+<h1 id="setinputattachment"><a class="header" href="#setinputattachment"><code>SetInputAttachment</code></a></h1>
+<ul>
+<li>support API
+<ul>
+<li>Vulkan</li>
+<li>Metal</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-hlsl">Input
+    FRAMEBUFFER_INPUT_X_HALF
+    FRAMEBUFFER_INPUT_X_FLOAT
+    FRAMEBUFFER_INPUT_X_INT
+    FRAMEBUFFER_INPUT_X_UINT
+
+Load
+    LOAD_FRAMEBUFFER_INPUT(idx)
+    LOAD_FRAMEBUFFER_INPUT_MS(idx,sampleIdx)  // 멀티샘플링(MSAA)이 활성화된 텍스처를 처리하기 위해 사용됨.
+</code></pre>
+<pre><code class="language-cs">builder.SetInputAttachment(sourceTextureHandle, 0, AccessFlags.Read);
+</code></pre>
+<pre><code class="language-cs">public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+    TextureHandle source = resourceData.activeColorTexture;
+
+    TextureDesc destinationDesc = renderGraph.GetTextureDesc(source);
+    destinationDesc.name = "FBFetchDestTexture";
+    destinationDesc.clearBuffer = false;
+
+    if (destinationDesc.msaaSamples == MSAASamples.None || RenderGraphUtils.CanAddCopyPassMSAA())
+    {
+        bool isUseMSAA = destinationDesc.msaaSamples != MSAASamples.None;
+
+        TextureHandle fbFetchDestination = renderGraph.CreateTexture(destinationDesc);
+
+        FBFetchPass(renderGraph, frameData, srcHandle: source, dstHandle: fbFetchDestination, isUseMSAA);
+
+        renderGraph.AddCopyPass(fbFetchDestination, source, passName: "Copy Back FF Destination (also using FBF)");
+    }
+    else
+    {
+        Debug.Log("Can't add the FBF pass and the copy pass due to MSAA");
+    }
+}
+
+private void FBFetchPass(RenderGraph renderGraph, ContextContainer frameData, TextureHandle srcHandle, TextureHandle dstHandle, bool isUseMSAA)
+{
+    string passName = "FrameBufferFetchPass";
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass(passName, out PassData passData))
+    {
+        passData.material = m_FBFetchMaterial;
+        passData.isUseMSAA = isUseMSAA;
+
+        builder.SetInputAttachment(tex: srcHandle, index: 0, AccessFlags.Read);
+        builder.SetRenderAttachment(tex: dstHandle, index: 0); // Output
+        builder.AllowPassCulling(false);
+        builder.SetRenderFunc((PassData data, RasterGraphContext context) =&gt; ExecuteFBFetchPass(data, context));
+    }
+}
+
+static void ExecuteFBFetchPass(PassData data, RasterGraphContext context)
+{
+    context.cmd.DrawProcedural(Matrix4x4.identity, data.material, data.useMSAA ? 1 : 0, MeshTopology.Triangles, 3, 1, null);
+}
+</code></pre>
+<pre><code class="language-hlsl">Shader "FrameBufferFetch"
+{
+   SubShader
+   {
+       Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline"}
+       ZWrite Off Cull Off
+       Pass
+       {
+           Name "FrameBufferFetch"
+
+           HLSLPROGRAM
+           #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+           #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+
+           #pragma vertex Vert
+           #pragma fragment Frag
+
+           FRAMEBUFFER_INPUT_HALF(0);
+
+           // Out frag function takes as input a struct that contains the screen space coordinate we are going to use to sample our texture. It also writes to SV_Target0, this has to match the index set in the UseTextureFragment(sourceTexture, 0, …) we defined in our render pass script.   
+           float4 Frag(Varyings input) : SV_Target0
+           {
+               UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input); // for XR platform
+
+               float2 uv = input.texcoord.xy;
+               half4 color = LOAD_FRAMEBUFFER_INPUT(0, input.positionCS.xy);
+
+               return half4(0,0,1,1) * color;
+           }
+
+           ENDHLSL
+       }
+
+       Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline"}
+       ZWrite Off Cull Off
+       Pass
+       {
+           Name "FrameBufferFetchMS"
+
+           HLSLPROGRAM
+           #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+           #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+
+           #pragma vertex Vert
+           #pragma fragment Frag
+           #pragma target 4.5
+           #pragma require msaatex
+
+           FRAMEBUFFER_INPUT_HALF_MS(0);
+
+           // Out frag function takes as input a struct that contains the screen space coordinate we are going to use to sample our texture. It also writes to SV_Target0, this has to match the index set in the UseTextureFragment(sourceTexture, 0, …) we defined in our render pass script.   
+           float4 Frag(Varyings input, uint sampleID : SV_SampleIndex) : SV_Target0
+           {
+               UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input); // for XR platform
+
+               float2 uv = input.texcoord.xy;
+               half4 color = LOAD_FRAMEBUFFER_INPUT_MS(0, sampleID, input.positionCS.xy);
+               
+               // Modify the sampled color
+               return half4(0,0,1,1) * color;
+           }
+
+           ENDHLSL
+       }
+   }
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../SRP/URP_RenderGraph_Samples/UnsafePass.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../SRP/URP_RenderGraph_Samples/RendererListRenderFeature.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../SRP/URP_RenderGraph_Samples/UnsafePass.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../SRP/URP_RenderGraph_Samples/RendererListRenderFeature.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../theme/hlsl.min.js"></script>
+        <script src="../../theme/juxtapose.min.js"></script>
+
+
+    </div>
+    </body>
+</html>

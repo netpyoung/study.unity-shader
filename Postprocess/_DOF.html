@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="kr" class="light" dir="ltr">
+<html lang="kr" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="study.unity-shader">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -30,15 +30,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../theme/juxtapose.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
+
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
-
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -60,19 +62,16 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
@@ -82,45 +81,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html">둘러보기</a></li><li class="chapter-item expanded "><a href="../Pipeline.html">파이프라인</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">기본</li><li class="chapter-item expanded "><a href="../Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="../Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="../Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="../Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="../Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="../Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="../Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="../Basic/Depth.html">Depth</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">라이팅</li><li class="chapter-item expanded "><a href="../Lighting/LightingModel.html">LightingModel</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/LightingModel-NPR.html">LightingModel-NPR</a></li><li class="chapter-item expanded "><a href="../Lighting/LightingModel-PBR.html">LightingModel-PBR</a></li></ol></li><li class="chapter-item expanded "><a href="../Lighting/HemisphereLight.html">HemisphereLight</a></li><li class="chapter-item expanded "><a href="../Lighting/HairAnisotropic.html">HairAnisotropic</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Lighting/WIP_BRDF.html">WIP_BRDF</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_PBR.html">WIP_PBR</a></li><li class="chapter-item expanded "><a href="../Lighting/WIP_FlatShader.html">WIP_FlatShader</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">심화</li><li class="chapter-item expanded "><a href="../Advanced/LOD.html">LOD</a></li><li class="chapter-item expanded "><a href="../Advanced/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Advanced/_Dithering.html">wip_Dithering</a></li><li class="chapter-item expanded "><a href="../Advanced/_Geometry.html">wip_Geometry</a></li><li class="chapter-item expanded "><a href="../Advanced/_Lightmap.html">wip_Lightmap</a></li><li class="chapter-item expanded "><a href="../Advanced/_LPV.html">wip_LPV</a></li><li class="chapter-item expanded "><a href="../Advanced/_Noise.html">wip_Noise</a></li><li class="chapter-item expanded "><a href="../Advanced/_Ray.html">wip_Ray</a></li><li class="chapter-item expanded "><a href="../Advanced/_SDF.html">wip_SDF</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">SRP</li><li class="chapter-item expanded "><a href="../SRP/SRP_Overview.html">SRP_Overview</a></li><li class="chapter-item expanded "><a href="../SRP/linear_and_gamma.html">Linear And Gamma</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/shader_model_and_platform.html">셰이더 모델과 플렛폼</a></li></ol></li><li class="chapter-item expanded "><a href="../SRP/SRP.html">SRP</a></li><li class="chapter-item expanded "><a href="../SRP/ShaderLab.html">ShaderLab</a></li><li class="chapter-item expanded "><a href="../SRP/URP/URP.html">URP</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../SRP/URP/CheatSheet_URP.html">CheatSheet_URP</a></li><li class="chapter-item expanded "><a href="../SRP/URP/urp_and_builtin.html">URP 랑 Built-in</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">포스트프로세스</li><li class="chapter-item expanded "><a href="../Postprocess/PostProcess.html">PostProcess</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/Filter.html">Filter</a></li><li class="chapter-item expanded "><a href="../Postprocess/Bloom.html">Bloom</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorGradingLUT.html">ColorGradingLUT</a></li><li class="chapter-item expanded "><a href="../Postprocess/ColorSpace.html">ColorSpace</a></li><li class="chapter-item expanded "><a href="../Postprocess/EyeAdaptation.html">EyeAdaptation</a></li><li class="chapter-item expanded "><a href="../Postprocess/FXAA.html">FXAA</a></li><li class="chapter-item expanded "><a href="../Postprocess/LightStreak.html">LightStreak</a></li><li class="chapter-item expanded "><a href="../Postprocess/SSAO.html">SSAO</a></li><li class="chapter-item expanded "><a href="../Postprocess/ToneMapping.html">ToneMapping</a></li></ol></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Postprocess/_ChromaticAberration.html">wip_ChromaticAberration</a></li><li class="chapter-item expanded "><a href="../Postprocess/_DOF.html" class="active">wip_DOF</a></li><li class="chapter-item expanded "><a href="../Postprocess/_HDR.html">wip_HDR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LensFlare.html">wip_LensFlare</a></li><li class="chapter-item expanded "><a href="../Postprocess/_LightShaft_postprocess.html">wip_LightShaft_postprocess</a></li><li class="chapter-item expanded "><a href="../Postprocess/_MotionBlur.html">wip_MotionBlur</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSGI.html">wip_SSGI</a></li><li class="chapter-item expanded "><a href="../Postprocess/_SSR.html">wip_SSR</a></li><li class="chapter-item expanded "><a href="../Postprocess/_TAA.html">wip_TAA</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">환경</li><li class="chapter-item expanded "><a href="../Environment/CrossFadeShader.html">CrossFadeShader</a></li><li class="chapter-item expanded "><a href="../Environment/CrackedIce.html">CrackedIce</a></li><li class="chapter-item expanded "><a href="../Environment/FakeThicknessWindow.html">FakeThicknessWindow</a></li><li class="chapter-item expanded "><a href="../Environment/ScreenSpaceDecal.html">ScreenSpaceDecal.md</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Environment/_Rain.html">_Rain</a></li><li class="chapter-item expanded "><a href="../Environment/_Sky.html">_Sky</a></li><li class="chapter-item expanded "><a href="../Environment/_Grass.html">_Grass</a></li><li class="chapter-item expanded "><a href="../Environment/Water.html">Water</a></li><li class="chapter-item expanded "><a href="../Environment/_Ice.html">_Ice</a></li><li class="chapter-item expanded "><a href="../Environment/_InteriorMapping.html">_InteriorMapping</a></li><li class="chapter-item expanded "><a href="../Environment/_Vegetation.html">_Vegetation</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Fx</li><li class="chapter-item expanded "><a href="../Fx/Billboard.html">Billboard</a></li><li class="chapter-item expanded "><a href="../Fx/Dissolve.html">Dissolve</a></li><li class="chapter-item expanded "><a href="../Fx/FlowMap.html">FlowMap</a></li><li class="chapter-item expanded "><a href="../Fx/Hatching.html">Hatching</a></li><li class="chapter-item expanded "><a href="../Fx/MatCap.html">MatCap</a></li><li class="chapter-item expanded "><a href="../Fx/Outline.html">Outline</a></li><li class="chapter-item expanded "><a href="../Fx/ParallaxMapping.html">ParallaxMapping</a></li><li class="chapter-item expanded "><a href="../Fx/SSS.html">SSS</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Fx/_ForceFieldShield.html">_ForceFieldShield</a></li><li class="chapter-item expanded "><a href="../Fx/_LightShaft_Mesh.html">_LightShaft_Mesh</a></li><li class="chapter-item expanded "><a href="../Fx/_RimLight.html">_RimLight</a></li><li class="chapter-item expanded "><a href="../Fx/_SnowStick.html">_SnowStick</a></li><li class="chapter-item expanded "><a href="../Fx/_Toon.html">_Toon</a></li><li class="chapter-item expanded "><a href="../Fx/_ToonFire.html">_ToonFire</a></li><li class="chapter-item expanded "><a href="../Fx/_Imposter.html">_Imposter</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">디퍼드 렌더링</li><li class="chapter-item expanded "><a href="../DeferredRendering/_Deferred.html">_Deferred</a></li><li class="chapter-item expanded affix "><li class="part-title">기타</li><li class="chapter-item expanded "><a href="../Etc/Direction.html">Direction</a></li><li class="chapter-item expanded "><a href="../Etc/CodingStandard.html">CodingStandard</a></li><li class="chapter-item expanded "><a href="../Etc/TroubleShooting.html">TroubleShooting</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Etc/_CommandBuffer.html">_CommandBuffer</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">최적화</li><li class="chapter-item expanded "><a href="../Optimize/ChromaSubsampling.html">ChromaSubsampling</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeCombineTexture.html">OptimizeCombineTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/OptimizeTip.html">OptimizeTip</a></li><li class="chapter-item expanded "><a href="../Optimize/PostProcessUberShader.html">PostProcessUberShader</a></li><li class="chapter-item expanded "><a href="../Optimize/SpecularPowApproximation.html">SpecularPowApproximation</a></li><li class="chapter-item expanded "><a href="../Optimize/VertexMultipleLight.html">VertexMultipleLight</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Optimize/_AnimationTexture.html">WIP_AnimationTexture</a></li><li class="chapter-item expanded "><a href="../Optimize/_DrawCall.html">WIP_DrawCall</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">참고</li><li class="chapter-item expanded "><a href="../Link/Tool.html">Tool</a></li><li class="chapter-item expanded "><a href="../Link/Presentation.html">Presentation</a></li><li class="chapter-item expanded "><a href="../Link/Reference.html">Reference</a></li><li class="chapter-item expanded "><a href="../Link/EtcLink.html">EtcLink</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">

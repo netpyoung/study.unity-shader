@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="kr" class="light" dir="ltr">
+<html lang="kr" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="study.unity-shader">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -31,15 +31,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="theme/juxtapose.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
+
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
-
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -61,19 +63,16 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
@@ -83,45 +82,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html">둘러보기</a></li><li class="chapter-item expanded "><a href="Pipeline.html">파이프라인</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">기본</li><li class="chapter-item expanded "><a href="Basic/Vector.html">Vector</a></li><li class="chapter-item expanded "><a href="Basic/Mesh.html">Mesh</a></li><li class="chapter-item expanded "><a href="Basic/Coordinate.html">Coordinate</a></li><li class="chapter-item expanded "><a href="Basic/Alpha.html">Alpha</a></li><li class="chapter-item expanded "><a href="Basic/NormalMap.html">NormalMap</a></li><li class="chapter-item expanded "><a href="Basic/Cubemap.html">Cubemap</a></li><li class="chapter-item expanded "><a href="Basic/Stencil.html">Stencil</a></li><li class="chapter-item expanded "><a href="Basic/Depth.html">Depth</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">라이팅</li><li class="chapter-item expanded "><a href="Lighting/LightingModel.html">LightingModel</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Lighting/LightingModel-NPR.html">LightingModel-NPR</a></li><li class="chapter-item expanded "><a href="Lighting/LightingModel-PBR.html">LightingModel-PBR</a></li></ol></li><li class="chapter-item expanded "><a href="Lighting/HemisphereLight.html">HemisphereLight</a></li><li class="chapter-item expanded "><a href="Lighting/HairAnisotropic.html">HairAnisotropic</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Lighting/WIP_BRDF.html">WIP_BRDF</a></li><li class="chapter-item expanded "><a href="Lighting/WIP_PBR.html">WIP_PBR</a></li><li class="chapter-item expanded "><a href="Lighting/WIP_FlatShader.html">WIP_FlatShader</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">심화</li><li class="chapter-item expanded "><a href="Advanced/LOD.html">LOD</a></li><li class="chapter-item expanded "><a href="Advanced/Shadow.html">Shadow</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Advanced/_Dithering.html">wip_Dithering</a></li><li class="chapter-item expanded "><a href="Advanced/_Geometry.html">wip_Geometry</a></li><li class="chapter-item expanded "><a href="Advanced/_Lightmap.html">wip_Lightmap</a></li><li class="chapter-item expanded "><a href="Advanced/_LPV.html">wip_LPV</a></li><li class="chapter-item expanded "><a href="Advanced/_Noise.html">wip_Noise</a></li><li class="chapter-item expanded "><a href="Advanced/_Ray.html">wip_Ray</a></li><li class="chapter-item expanded "><a href="Advanced/_SDF.html">wip_SDF</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">SRP</li><li class="chapter-item expanded "><a href="SRP/SRP_Overview.html">SRP_Overview</a></li><li class="chapter-item expanded "><a href="SRP/linear_and_gamma.html">Linear And Gamma</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="SRP/shader_model_and_platform.html">셰이더 모델과 플렛폼</a></li></ol></li><li class="chapter-item expanded "><a href="SRP/SRP.html">SRP</a></li><li class="chapter-item expanded "><a href="SRP/ShaderLab.html">ShaderLab</a></li><li class="chapter-item expanded "><a href="SRP/URP/URP.html">URP</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="SRP/URP/CheatSheet_URP.html">CheatSheet_URP</a></li><li class="chapter-item expanded "><a href="SRP/URP/urp_and_builtin.html">URP 랑 Built-in</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">포스트프로세스</li><li class="chapter-item expanded "><a href="Postprocess/PostProcess.html">PostProcess</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Postprocess/Filter.html">Filter</a></li><li class="chapter-item expanded "><a href="Postprocess/Bloom.html">Bloom</a></li><li class="chapter-item expanded "><a href="Postprocess/ColorGradingLUT.html">ColorGradingLUT</a></li><li class="chapter-item expanded "><a href="Postprocess/ColorSpace.html">ColorSpace</a></li><li class="chapter-item expanded "><a href="Postprocess/EyeAdaptation.html">EyeAdaptation</a></li><li class="chapter-item expanded "><a href="Postprocess/FXAA.html">FXAA</a></li><li class="chapter-item expanded "><a href="Postprocess/LightStreak.html">LightStreak</a></li><li class="chapter-item expanded "><a href="Postprocess/SSAO.html">SSAO</a></li><li class="chapter-item expanded "><a href="Postprocess/ToneMapping.html">ToneMapping</a></li></ol></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Postprocess/_ChromaticAberration.html">wip_ChromaticAberration</a></li><li class="chapter-item expanded "><a href="Postprocess/_DOF.html">wip_DOF</a></li><li class="chapter-item expanded "><a href="Postprocess/_HDR.html">wip_HDR</a></li><li class="chapter-item expanded "><a href="Postprocess/_LensFlare.html">wip_LensFlare</a></li><li class="chapter-item expanded "><a href="Postprocess/_LightShaft_postprocess.html">wip_LightShaft_postprocess</a></li><li class="chapter-item expanded "><a href="Postprocess/_MotionBlur.html">wip_MotionBlur</a></li><li class="chapter-item expanded "><a href="Postprocess/_SSGI.html">wip_SSGI</a></li><li class="chapter-item expanded "><a href="Postprocess/_SSR.html">wip_SSR</a></li><li class="chapter-item expanded "><a href="Postprocess/_TAA.html">wip_TAA</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">환경</li><li class="chapter-item expanded "><a href="Environment/CrossFadeShader.html">CrossFadeShader</a></li><li class="chapter-item expanded "><a href="Environment/CrackedIce.html">CrackedIce</a></li><li class="chapter-item expanded "><a href="Environment/FakeThicknessWindow.html">FakeThicknessWindow</a></li><li class="chapter-item expanded "><a href="Environment/ScreenSpaceDecal.html">ScreenSpaceDecal.md</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Environment/_Rain.html">_Rain</a></li><li class="chapter-item expanded "><a href="Environment/_Sky.html">_Sky</a></li><li class="chapter-item expanded "><a href="Environment/_Grass.html">_Grass</a></li><li class="chapter-item expanded "><a href="Environment/Water.html">Water</a></li><li class="chapter-item expanded "><a href="Environment/_Ice.html">_Ice</a></li><li class="chapter-item expanded "><a href="Environment/_InteriorMapping.html">_InteriorMapping</a></li><li class="chapter-item expanded "><a href="Environment/_Vegetation.html">_Vegetation</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Fx</li><li class="chapter-item expanded "><a href="Fx/Billboard.html">Billboard</a></li><li class="chapter-item expanded "><a href="Fx/Dissolve.html">Dissolve</a></li><li class="chapter-item expanded "><a href="Fx/FlowMap.html">FlowMap</a></li><li class="chapter-item expanded "><a href="Fx/Hatching.html">Hatching</a></li><li class="chapter-item expanded "><a href="Fx/MatCap.html">MatCap</a></li><li class="chapter-item expanded "><a href="Fx/Outline.html">Outline</a></li><li class="chapter-item expanded "><a href="Fx/ParallaxMapping.html">ParallaxMapping</a></li><li class="chapter-item expanded "><a href="Fx/SSS.html">SSS</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Fx/_ForceFieldShield.html">_ForceFieldShield</a></li><li class="chapter-item expanded "><a href="Fx/_LightShaft_Mesh.html">_LightShaft_Mesh</a></li><li class="chapter-item expanded "><a href="Fx/_RimLight.html">_RimLight</a></li><li class="chapter-item expanded "><a href="Fx/_SnowStick.html">_SnowStick</a></li><li class="chapter-item expanded "><a href="Fx/_Toon.html">_Toon</a></li><li class="chapter-item expanded "><a href="Fx/_ToonFire.html">_ToonFire</a></li><li class="chapter-item expanded "><a href="Fx/_Imposter.html">_Imposter</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">디퍼드 렌더링</li><li class="chapter-item expanded "><a href="DeferredRendering/_Deferred.html">_Deferred</a></li><li class="chapter-item expanded affix "><li class="part-title">기타</li><li class="chapter-item expanded "><a href="Etc/Direction.html">Direction</a></li><li class="chapter-item expanded "><a href="Etc/CodingStandard.html">CodingStandard</a></li><li class="chapter-item expanded "><a href="Etc/TroubleShooting.html">TroubleShooting</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Etc/_CommandBuffer.html">_CommandBuffer</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">최적화</li><li class="chapter-item expanded "><a href="Optimize/ChromaSubsampling.html">ChromaSubsampling</a></li><li class="chapter-item expanded "><a href="Optimize/OptimizeCombineTexture.html">OptimizeCombineTexture</a></li><li class="chapter-item expanded "><a href="Optimize/OptimizeTip.html">OptimizeTip</a></li><li class="chapter-item expanded "><a href="Optimize/PostProcessUberShader.html">PostProcessUberShader</a></li><li class="chapter-item expanded "><a href="Optimize/SpecularPowApproximation.html">SpecularPowApproximation</a></li><li class="chapter-item expanded "><a href="Optimize/VertexMultipleLight.html">VertexMultipleLight</a></li><li class="chapter-item expanded "><div>WIP</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Optimize/_AnimationTexture.html">WIP_AnimationTexture</a></li><li class="chapter-item expanded "><a href="Optimize/_DrawCall.html">WIP_DrawCall</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">참고</li><li class="chapter-item expanded "><a href="Link/Tool.html">Tool</a></li><li class="chapter-item expanded "><a href="Link/Presentation.html">Presentation</a></li><li class="chapter-item expanded "><a href="Link/Reference.html">Reference</a></li><li class="chapter-item expanded "><a href="Link/EtcLink.html">EtcLink</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -4769,6 +4748,1245 @@ https://www.cyanilux.com/recent/2/</li>
 </ul>
 <p>Bulit-in URP</p>
 <p>GammaToLinearSpace Gamma22ToLinear com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl</p>
+<div style="break-before: page; page-break-before: always;"></div><div class="table-wrapper"><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/CopyRenderFeature.html">CopyRenderFeature</a></td><td>renderGraph.AddCopyPass</td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\Blit\CopyRenderFeature.cs</td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/BlitAndSwapColorRendererFeature.html">BlitAndSwapColorRendererFeature</a></td><td>renderGraph.AddBlitPass / resourceData.cameraColor</td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\BlitWithMaterial\BlitAndSwapColorRendererFeature.cs</td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/BlitRendererFeature.html">BlitRendererFeature</a></td><td>ContextContainer frameData / ContextItem</td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\Blit w. FrameData\BlitRendererFeature.cs</td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/TextureRefRendererFeature.html">TextureRefRendererFeature</a></td><td>ContextContainer frameData / ContextItem</td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\TextureReference w. FrameData\TextureRefRendererFeature.cs</td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/OutputTextureRendererFeature.html">OutputTextureRendererFeature</a></td><td>ConfigureInput</td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\OutputTexture\OutputTextureRendererFeature.cs</td></tr>
+<tr><td>.</td><td></td><td></td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/UnsafePass.html">UnsafePass</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\UnsafePass\UnsafePass.cs</td></tr>
+<tr><td>.</td><td></td><td></td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/FrameBufferFetchRenderFeature.html">FrameBufferFetchRenderFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\FramebufferFetch\FrameBufferFetchRenderFeature.cs</td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/RendererListRenderFeature.html">RendererListRenderFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\RendererList\RendererListRenderFeature.cs</td></tr>
+<tr><td>.</td><td></td><td></td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/GbufferVisualizationRendererFeature.html">GbufferVisualizationRendererFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\GbufferVisualization\GbufferVisualizationRendererFeature.cs</td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/GlobalGbuffersRendererFeature.html">GlobalGbuffersRendererFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\GlobalGbuffers\GlobalGbuffersRendererFeature.cs</td></tr>
+<tr><td>.</td><td></td><td></td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/ComputeRendererFeature.html">ComputeRendererFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\Compute\ComputeRendererFeature.cs</td></tr>
+<tr><td><a href="SRP/URP_RenderGraph_Samples/MrtRendererFeature.html">MrtRendererFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\MRT\MrtRendererFeature.cs</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><p>활성 color 텍스쳐를 새로운 텍스쳐로 복사하는 예</p>
+<pre><code class="language-cs">public class CopyRenderFeature : ScriptableRendererFeature
+{
+    CopyRenderPass m_CopyRenderPass;
+
+    public override void Create()
+    {
+        m_CopyRenderPass = new CopyRenderPass();
+        m_CopyRenderPass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+    }
+
+    public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
+    {
+        renderer.EnqueuePass(m_CopyRenderPass);
+    }
+}
+</code></pre>
+<pre><code class="language-cs">class CopyRenderPass : ScriptableRenderPass
+{
+    public CopyRenderPass()
+    {
+        requiresIntermediateTexture = true;
+    }
+
+    public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+    {
+        const string passName = "Copy To or From Temp Texture";
+
+        UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+        TextureHandle srcHandle = resourceData.activeColorTexture;
+        TextureHandle dstHandle;
+        {
+            TextureDesc destinationDesc = renderGraph.GetTextureDesc(srcHandle);
+            destinationDesc.name = $"CameraColor-{passName}";
+            destinationDesc.clearBuffer = false;
+            dstHandle = renderGraph.CreateTexture(destinationDesc);
+        }
+
+        if (RenderGraphUtils.CanAddCopyPassMSAA())
+        {
+            renderGraph.AddCopyPass(srcHandle, dstHandle, passName: passName);
+            renderGraph.AddCopyPass(dstHandle, srcHandle, passName: passName);
+        }
+        else
+        {
+            Debug.Log("Can't add the copy pass due to MSAA");
+        }
+    }
+}
+</code></pre>
+<h3 id="requiresintermediatetexture"><a class="header" href="#requiresintermediatetexture">requiresIntermediateTexture</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>requiresIntermediateTexture</th><th></th></tr></thead><tbody>
+<tr><td>true</td><td>메라의 렌더링 결과를 최종 프레임 버퍼로 직접 렌더링하지 않고, 먼저 Intermediate Texture(임시 텍스처)에 렌더링한 후 최종 출력으로 전달.</td></tr>
+<tr><td>false</td><td>바로 최종 프레임 버퍼로 렌더링을 수행.</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>RenderFeature가 아니라 ScriptableRenderPass에서 셋팅하는게 good practice</li>
+<li></li>
+</ul>
+<h3 id="universalresourcedata"><a class="header" href="#universalresourcedata">UniversalResourceData</a></h3>
+<ul>
+<li>텍스쳐 핸들을 포함하고 있음.
+<ul>
+<li>active color / depth texture 등등.</li>
+</ul>
+</li>
+<li>isActiveTargetBackBuffer
+<ul>
+<li>pass의 requiresIntermediateTexture가 true면 resourceData의 isActiveTargetBackBuffer는 무조껀 false</li>
+</ul>
+</li>
+</ul>
+<h3 id="rendergraph"><a class="header" href="#rendergraph">renderGraph</a></h3>
+<p>renderGraph.AddCopyPass(srcHandle, dstHandle, passName: passName);</p>
+<h3 id="rendergraphutils"><a class="header" href="#rendergraphutils">RenderGraphUtils</a></h3>
+<p>RenderGraphUtils.CanAddCopyPassMSAA()</p>
+<div style="break-before: page; page-break-before: always;"></div><p>renderGraph.AddBlitPass를 이용 후 resourceData.cameraColor로 셋팅</p>
+<pre><code class="language-cs">public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+    if (resourceData.isActiveTargetBackBuffer)
+    {
+        Debug.LogError($"Skipping render pass. BlitAndSwapColorRendererFeature requires an intermediate ColorTexture, we can't use the BackBuffer as a texture input.");
+        return;
+    }
+
+    TextureHandle srcHandle = resourceData.activeColorTexture;
+    TextureHandle dstHandle;
+    {
+        TextureDesc destinationDesc = renderGraph.GetTextureDesc(srcHandle);
+        destinationDesc.name = $"CameraColor-{m_PassName}";
+        destinationDesc.clearBuffer = false;
+        dstHandle = renderGraph.CreateTexture(destinationDesc);
+    }
+
+
+    RenderGraphUtils.BlitMaterialParameters blitParam = new RenderGraphUtils.BlitMaterialParameters(srcHandle, dstHandle, m_BlitMaterial, shaderPass: 0);
+    renderGraph.AddBlitPass(blitParam, passName: m_PassName);
+
+
+    resourceData.cameraColor = dstHandle;
+}
+</code></pre>
+<h2 id="rendergraph-1"><a class="header" href="#rendergraph-1">renderGraph</a></h2>
+<p>RenderGraphUtils.BlitMaterialParameters blitParam = new RenderGraphUtils.BlitMaterialParameters(srcHandle, dstHandle, m_BlitMaterial, shaderPass: 0);
+renderGraph.AddBlitPass(blitParam, passName: m_PassName);</p>
+<div style="break-before: page; page-break-before: always;"></div><ul>
+<li>BlitAndSwapColorRendererFeature.cs 예제와의 차이는
+<ul>
+<li>requiresIntermediateTexture 를 키지 않았고</li>
+<li>BlitData를 이용.</li>
+<li>pass를 3단계
+<ol>
+<li>BlitStartRenderPass : 버퍼만들고 activeColorTexture를 m_Texture에 저장</li>
+<li>BlitRenderPass : 버퍼 사용해서 m_TextureHandleFront / m_TextureHandleBack 을 blit.</li>
+<li>BlitEndRenderPass : 버퍼 사용해서 m_Texture를 activeColorTexture에 저장</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-cs">class BlitStartRenderPass : ScriptableRenderPass
+{
+    public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+    {
+        BlitData blitTextureData = frameData.Create&lt;BlitData&gt;();
+        blitTextureData.RecordBlitColor(renderGraph, frameData);
+    }
+}
+
+class BlitEndRenderPass : ScriptableRenderPass
+{
+    public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+    {
+        BlitData blitTextureData = frameData.Get&lt;BlitData&gt;();
+        blitTextureData.RecordBlitBackToColor(renderGraph, frameData);
+    }
+}
+
+class BlitRenderPass : ScriptableRenderPass
+{
+    public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+    {
+        BlitData blitTextureData = frameData.Get&lt;BlitData&gt;();
+
+        foreach (Material material in m_Materials)
+        {
+            if (material == null)
+            {
+                continue;
+            }
+
+            blitTextureData.RecordFullScreenPass(renderGraph, $"Blit {material.name} Pass", material);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-cs">public class BlitData : ContextItem, IDisposable
+{
+    // ContextItem.Reset()
+    // 텍스쳐 핸들이 1프레임에만 살아있기에 invalid texture handles에 의한 릭을 피하기 위해 매 프레임 후에 texture handle을 리셋시켜야함.
+    public override void Reset()
+    {
+        m_TextureHandleFront = TextureHandle.nullHandle;
+        m_TextureHandleBack = TextureHandle.nullHandle;
+        m_Texture = TextureHandle.nullHandle;
+        m_IsFront = true;
+    }
+
+    // IDisposable.Dispose()
+    public void Dispose()
+    {
+        if (m_TextureFront != null)
+        {
+            m_TextureFront.Release();
+        }
+        
+        if (m_TextureFront != null)
+        {
+            m_TextureFront.Release();
+        }
+    }
+
+
+    // BlitStartRenderPass =&gt; RecordBlitColor
+    // BlitRenderPass      =&gt; RecordFullScreenPass
+    // BlitEndRenderPass   =&gt; RecordBlitBackToColor
+}
+</code></pre>
+<pre><code class="language-cs">// BlitStartRenderPass =&gt; RecordBlitColor
+public void RecordBlitColor(RenderGraph renderGraph, ContextContainer frameData)
+{
+    if (!m_Texture.IsValid())
+    {
+        UniversalCameraData cameraData = frameData.Get&lt;UniversalCameraData&gt;();
+
+        RenderTextureDescriptor descriptor = cameraData.cameraTargetDescriptor;
+        descriptor.msaaSamples = 1;
+        descriptor.depthStencilFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.None;
+
+        string texName = "_BlitTextureData";
+
+        RenderingUtils.ReAllocateHandleIfNeeded(ref m_TextureFront, descriptor, FilterMode.Bilinear, TextureWrapMode.Clamp, name: $"{texName}_Front");
+        RenderingUtils.ReAllocateHandleIfNeeded(ref m_TextureBack, descriptor, FilterMode.Bilinear, TextureWrapMode.Clamp, name: $"{texName}_Back");
+
+        m_TextureHandleFront = renderGraph.ImportTexture(m_TextureFront);
+        m_TextureHandleBack = renderGraph.ImportTexture(m_TextureBack);
+        m_Texture = m_TextureHandleFront;
+    }
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass("BlitColorPass", out PassData passData))
+    {
+        UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+        passData.source = resourceData.activeColorTexture;
+        passData.destination = m_Texture;
+        passData.material = null;
+
+        builder.UseTexture(passData.source);
+        builder.SetRenderAttachment(passData.destination, index: 0);
+        builder.SetRenderFunc((PassData passData, RasterGraphContext rgContext) =&gt; ExecutePass(passData, rgContext));
+    }
+}
+</code></pre>
+<pre><code class="language-cs">// BlitRenderPass =&gt; RecordFullScreenPass
+public void RecordFullScreenPass(RenderGraph renderGraph, string passName, Material material)
+{
+    if (!m_Texture.IsValid())
+    {
+        Debug.LogWarning("Invalid input texture handle, will skip fullscreen pass.");
+        return;
+    }
+
+    if (material == null)
+    {
+        return;
+    }
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass(passName, out PassData passData))
+    {
+        m_IsFront = !m_IsFront;
+
+        TextureHandle src = m_Texture;
+        TextureHandle dst;
+        if (m_IsFront)
+        {
+            dst = m_TextureHandleFront;
+        }
+        else
+        {
+            dst = m_TextureHandleBack;
+        }
+
+        m_Texture = dst;
+
+        passData.source = src;
+        passData.destination = dst;
+        passData.material = material;
+
+        builder.UseTexture(passData.source);
+        builder.SetRenderAttachment(passData.destination, index: 0);
+        builder.SetRenderFunc((PassData passData, RasterGraphContext rgContext) =&gt; ExecutePass(passData, rgContext));
+    }
+}
+</code></pre>
+<pre><code class="language-cs">// BlitEndRenderPass =&gt; RecordBlitBackToColor
+
+public void RecordBlitBackToColor(RenderGraph renderGraph, ContextContainer frameData)
+{
+    if (!m_Texture.IsValid())
+    {
+        return;
+    }
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass($"BlitBackToColorPass", out PassData passData))
+    {
+        UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+        passData.source = m_Texture;
+        passData.destination = resourceData.activeColorTexture;
+        passData.material = null;
+
+        builder.UseTexture(passData.source);
+        builder.SetRenderAttachment(passData.destination, index: 0);
+        builder.SetRenderFunc((PassData passData, RasterGraphContext rgContext) =&gt; ExecutePass(passData, rgContext));
+    }
+}
+
+</code></pre>
+<pre><code class="language-cs">static void ExecutePass(PassData data, RasterGraphContext rgContext)
+{
+    if (data.material == null)
+    {
+        Blitter.BlitTexture(rgContext.cmd, data.source, scaleBias, mipLevel: 0, bilinear: false);
+        return;
+    }
+
+    Blitter.BlitTexture(rgContext.cmd, data.source, scaleBias, data.material, pass: 0);
+}
+</code></pre>
+<h3 id="contextcontainer-framedata"><a class="header" href="#contextcontainer-framedata">ContextContainer frameData</a></h3>
+<pre><code class="language-cs">BlitData blitTextureData = frameData.Create&lt;BlitData&gt;();
+
+
+
+BlitData blitTextureData = frameData.Get&lt;BlitData&gt;();
+</code></pre>
+<h3 id="irasterrendergraphbuilder-builder"><a class="header" href="#irasterrendergraphbuilder-builder">IRasterRenderGraphBuilder builder</a></h3>
+<pre><code class="language-cs">builder.UseTexture(passData.source);                     // set input
+builder.SetRenderAttachment(passData.destination, 0);    // set output
+builder.SetRenderFunc((PassData passData, RasterGraphContext rgContext) =&gt; ExecutePass(passData, rgContext));
+
+
+
+using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass(passName, out PassData passData))
+using (IComputeRenderGraphBuilder builder = renderGraph.AddComputePass(passName, out PassData passData))
+using (IUnsafeRenderGraphBuilder builder = renderGraph.AddUnsafePass(passName, out PassData passData))
+</code></pre>
+<h3 id="etc-4"><a class="header" href="#etc-4">Etc</a></h3>
+<pre><code class="language-cs">// https://github.com/Unity-Technologies/Graphics/blob/master/Packages/com.unity.render-pipelines.core/Runtime/Textures/MSAASamples.cs
+public enum MSAASamples
+{
+    /// &lt;summary&gt;No MSAA.&lt;/summary&gt;
+    None = 1,
+    /// &lt;summary&gt;MSAA 2X.&lt;/summary&gt;
+    MSAA2x = 2,
+    /// &lt;summary&gt;MSAA 4X.&lt;/summary&gt;
+    MSAA4x = 4,
+    /// &lt;summary&gt;MSAA 8X.&lt;/summary&gt;
+    MSAA8x = 8
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p><a href="SRP/URP_RenderGraph_Samples/BlitRendererFeature.html">BlitRendererFeature</a></p>
+<p>ContextContainer frameData 동작방식</p>
+<ul>
+<li>2 ScriptableRenderPass
+<ul>
+<li>UpdateRefPass</li>
+<li>CopyBackRefPass</li>
+</ul>
+</li>
+<li>ContextItem를 상속받는 TexRefData를 이용
+<ul>
+<li>UpdateRefPass에서 resourceData.activeColorTexture =&gt; texRef.texture
+<ul>
+<li>UpdateRefPass에서 foreach (Material mat in m_DisplayMaterials) 하므로 매 프레임 첫 루프 단계에서는 frameData.Contains<TexRefData>()가 false, 그 후로는 true.</li>
+</ul>
+</li>
+<li>CopyBackRefPass에서 texRef.texture =&gt; resourceData.activeColorTexture</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-cs">public class TexRefData : ContextItem
+{
+    public TextureHandle texture = TextureHandle.nullHandle;
+
+    public override void Reset()
+    {
+        texture = TextureHandle.nullHandle;
+    }
+}
+</code></pre>
+<pre><code class="language-cs">//     class UpdateRefPass : ScriptableRenderPass
+
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    foreach (Material mat in m_DisplayMaterials)
+    {
+        if (mat == null)
+        {
+            Debug.LogWarning($"Skipping render pass for unassigned material.");
+            continue;
+        }
+
+        using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass($"UpdateRefPass_{mat.name}", out PassData passData))
+        {
+
+            TexRefData texRef;
+            if (frameData.Contains&lt;TexRefData&gt;())
+            {
+                texRef = frameData.Get&lt;TexRefData&gt;();
+            }
+            else
+            {
+                UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+                texRef = frameData.Create&lt;TexRefData&gt;();
+                texRef.texture = resourceData.activeColorTexture;
+            }
+
+            TextureDesc descriptor = texRef.texture.GetDescriptor(renderGraph);
+            descriptor.msaaSamples = MSAASamples.None;
+            descriptor.name = $"BlitMaterialRefTex_{mat.name}";
+            descriptor.clearBuffer = false;
+
+            TextureHandle srcHandle = texRef.texture;
+            TextureHandle dstHandle = renderGraph.CreateTexture(descriptor);
+            texRef.texture = dstHandle;
+
+            passData.source = srcHandle;
+            passData.destination = dstHandle;
+            passData.material = mat;
+
+
+            builder.UseTexture(input: passData.source);
+            builder.SetRenderAttachment(tex: passData.destination, index: 0);
+            builder.SetRenderFunc((PassData data, RasterGraphContext rgContext) =&gt; ExecutePass(data, rgContext));
+        }
+    }
+}
+
+static void ExecutePass(PassData data, RasterGraphContext rgContext)
+{
+    Blitter.BlitTexture(rgContext.cmd, data.source, scaleBias, data.material, pass: 0);
+}
+</code></pre>
+<pre><code class="language-cs">// class CopyBackRefPass : ScriptableRenderPass
+
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    if (!frameData.Contains&lt;TexRefData&gt;())
+    {
+        return;
+    }
+
+    TexRefData texRef = frameData.Get&lt;TexRefData&gt;();
+    TextureHandle srcHandle = texRef.texture;
+
+    UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+    TextureHandle dstHandle = resourceData.activeColorTexture;
+
+    renderGraph.AddBlitPass(srcHandle, dstHandle, scale: Vector2.one, offset: Vector2.zero, passName: "Blit Back Pass");
+}
+</code></pre>
+<h3 id="contextcontainer-framedata-1"><a class="header" href="#contextcontainer-framedata-1">ContextContainer frameData</a></h3>
+<pre><code class="language-cs">
+
+bool isExist_TexRefData = frameData.Contains&lt;TexRefData&gt;();
+texRef = frameData.GetOrCreate&lt;TexRefData&gt;();
+texRef = frameData.Create&lt;TexRefData&gt;();
+texRef = frameData.Get&lt;TexRefData&gt;();
+
+
+</code></pre>
+<h3 id="scalebias"><a class="header" href="#scalebias">scaleBias</a></h3>
+<p>Vector4 scaleBias(scaleX, scaleY, offsetX, offsetY);
+Blitter.BlitTexture(rgContext.cmd, data.source, scaleBias, data.material, pass: 0);</p>
+<div class="table-wrapper"><table><thead><tr><th>scaleX</th><th></th></tr></thead><tbody>
+<tr><td>1.0 &lt; x</td><td>텍스처가 가로 방향으로 늘어남.</td></tr>
+<tr><td>0.0 &lt; x &lt; 1.0</td><td>텍스처가 가로 방향으로 줄어듬.</td></tr>
+<tr><td>x &lt; 0.0</td><td>음수 값은 가로 방향을 반전(flip).</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>offsetX</th><th></th></tr></thead><tbody>
+<tr><td>x &gt; 0</td><td>텍스처가 오른쪽으로 이동.</td></tr>
+<tr><td>x &lt; 0</td><td>텍스처가 왼쪽으로 이동.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>offsetX</th><th></th></tr></thead><tbody>
+<tr><td>x &gt; 0</td><td>텍스처가 위로 이동.</td></tr>
+<tr><td>x &lt; 0</td><td>텍스처가 아래로 이동.</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><pre><code class="language-cs">[Flags]
+public enum ScriptableRenderPassInput
+{
+    None   = 0,
+    Depth  = 1 &lt;&lt; 0,
+    Normal = 1 &lt;&lt; 1,
+    Color  = 1 &lt;&lt; 2,
+    Motion = 1 &lt;&lt; 3,
+}
+</code></pre>
+<p>EnqueuePass로 pass를 넣기전 pass의 ConfigureInput(ScriptableRenderPassInput passInput)를 호출</p>
+<pre><code class="language-cs">// TextureHandle
+//     resourceData.cameraOpaqueTexture
+//     resourceData.cameraDepthTexture
+//     resourceData.cameraNormalsTexture
+//     resourceData.motionVectorColor
+//     TextureHandle.nullHandle
+
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+    TextureHandle source = GetTextureHandleFromType(resourceData, m_TextureType);
+    if (!source.IsValid())
+    {
+        Debug.Log("Input texture is not created. Likely the pass event is before the creation of the resource. Skipping OutputTexturePass.");
+        return;
+    }
+
+    RenderGraphUtils.BlitMaterialParameters para = new RenderGraphUtils.BlitMaterialParameters(source, resourceData.activeColorTexture, m_Material, shaderPass: 0);
+    param.sourceTexturePropertyID = Shader.PropertyToID(m_TextureName);
+    renderGraph.AddBlitPass(param, passName: "Blit Selected Resource");
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p>resourceData.activeColorTexture 를 1/4배까지 다운샘플링하고 다시 업샘플링하여 원복시킴.</p>
+<pre><code class="language-cs">private class PassData
+{
+    internal TextureHandle source;             // resourceData.activeColorTexture
+    internal TextureHandle destination;        // 1
+    internal TextureHandle destinationHalf;    // 1/2
+    internal TextureHandle destinationQuarter; // 1/4
+}
+
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    string passName = "Unsafe Pass";
+
+    using (IUnsafeRenderGraphBuilder builder = renderGraph.AddUnsafePass(passName, out PassData passData))
+    {
+        UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+        TextureDesc descriptor;
+        {
+            descriptor = passData.source.GetDescriptor(renderGraph);
+            descriptor.msaaSamples = MSAASamples.None;
+            descriptor.clearBuffer = false;
+        }
+
+        TextureHandle destination;
+        {
+            descriptor.name = "UnsafeTexture";
+            destination = renderGraph.CreateTexture(descriptor);
+        }
+
+
+        TextureHandle destinationHalf;
+        {
+            descriptor.width /= 2;
+            descriptor.height /= 2;
+            descriptor.name = "UnsafeTexture2";
+            destinationHalf = renderGraph.CreateTexture(descriptor);
+        }
+
+        TextureHandle destinationQuarter;
+        {
+            descriptor.width /= 2;
+            descriptor.height /= 2;
+            descriptor.name = "UnsafeTexture3";
+            destinationQuarter = renderGraph.CreateTexture(descriptor);
+        }
+
+        passData.source = resourceData.activeColorTexture;
+        passData.destination = destination;
+        passData.destinationHalf = destinationHalf;
+        passData.destinationQuarter = destinationQuarter;
+
+        builder.UseTexture(passData.source);
+        builder.UseTexture(passData.destination, AccessFlags.WriteAll);
+        builder.UseTexture(passData.destinationHalf, AccessFlags.WriteAll);
+        builder.UseTexture(passData.destinationQuarter, AccessFlags.WriteAll);
+
+        builder.AllowPassCulling(value: false);
+
+        builder.SetRenderFunc((PassData data, UnsafeGraphContext context) =&gt; ExecutePass(data, context));
+    }
+}
+
+static void ExecutePass(PassData data, UnsafeGraphContext context)
+{
+    CommandBuffer unsafeCmd = CommandBufferHelpers.GetNativeCommandBuffer(context.cmd);
+
+    // 1 =&gt; 1
+    context.cmd.SetRenderTarget(data.destination);
+    Blitter.BlitTexture(unsafeCmd, data.source, new Vector4(1, 1, 0, 0), 0, false);
+
+    // 1 =&gt; 1/2
+    context.cmd.SetRenderTarget(data.destinationHalf);
+    Blitter.BlitTexture(unsafeCmd, data.destination, new Vector4(1, 1, 0, 0), 0, false);
+
+    // 1/2 =&gt; 1/4
+    context.cmd.SetRenderTarget(data.destinationQuarter);
+    Blitter.BlitTexture(unsafeCmd, data.destinationHalf, new Vector4(1, 1, 0, 0), 0, false);
+
+    // 1/4 =&gt; 1/2
+    context.cmd.SetRenderTarget(data.destinationHalf);
+    Blitter.BlitTexture(unsafeCmd, data.destinationQuarter, new Vector4(1, 1, 0, 0), 0, false);
+
+    // 1/2 =&gt; 1
+    context.cmd.SetRenderTarget(data.destination);
+    Blitter.BlitTexture(unsafeCmd, data.destinationHalf, new Vector4(1, 1, 0, 0), 0, false);
+}
+</code></pre>
+<ul>
+<li>unsafe에서는 UseTexture를 써야하고 다음은 안됨
+<ul>
+<li>builder.UseTextureFragment</li>
+<li>builder.UseTextureFragmentDepth</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><ul>
+<li>프레임버퍼 페치는비디오 메모리 대신 GPU의 온칩 메모리에서 프레임버퍼에 액세스할 수 있는 렌더 패스를 허용하는 프로세스
+<ul>
+<li>모바일 기기에서 타일 기반 지연 렌더링(TBDR)을 사용하는 모바일 기기에서 렌더링 속도가 향상</li>
+</ul>
+</li>
+</ul>
+<p>https://docs.unity3d.com/6000.0/Documentation/Manual/urp/render-graph-framebuffer-fetch.html</p>
+<p>FBF( Frame Buffer Fetch)</p>
+<h1 id="setinputattachment"><a class="header" href="#setinputattachment"><code>SetInputAttachment</code></a></h1>
+<ul>
+<li>support API
+<ul>
+<li>Vulkan</li>
+<li>Metal</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-hlsl">Input
+    FRAMEBUFFER_INPUT_X_HALF
+    FRAMEBUFFER_INPUT_X_FLOAT
+    FRAMEBUFFER_INPUT_X_INT
+    FRAMEBUFFER_INPUT_X_UINT
+
+Load
+    LOAD_FRAMEBUFFER_INPUT(idx)
+    LOAD_FRAMEBUFFER_INPUT_MS(idx,sampleIdx)  // 멀티샘플링(MSAA)이 활성화된 텍스처를 처리하기 위해 사용됨.
+</code></pre>
+<pre><code class="language-cs">builder.SetInputAttachment(sourceTextureHandle, 0, AccessFlags.Read);
+</code></pre>
+<pre><code class="language-cs">public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+    TextureHandle source = resourceData.activeColorTexture;
+
+    TextureDesc destinationDesc = renderGraph.GetTextureDesc(source);
+    destinationDesc.name = "FBFetchDestTexture";
+    destinationDesc.clearBuffer = false;
+
+    if (destinationDesc.msaaSamples == MSAASamples.None || RenderGraphUtils.CanAddCopyPassMSAA())
+    {
+        bool isUseMSAA = destinationDesc.msaaSamples != MSAASamples.None;
+
+        TextureHandle fbFetchDestination = renderGraph.CreateTexture(destinationDesc);
+
+        FBFetchPass(renderGraph, frameData, srcHandle: source, dstHandle: fbFetchDestination, isUseMSAA);
+
+        renderGraph.AddCopyPass(fbFetchDestination, source, passName: "Copy Back FF Destination (also using FBF)");
+    }
+    else
+    {
+        Debug.Log("Can't add the FBF pass and the copy pass due to MSAA");
+    }
+}
+
+private void FBFetchPass(RenderGraph renderGraph, ContextContainer frameData, TextureHandle srcHandle, TextureHandle dstHandle, bool isUseMSAA)
+{
+    string passName = "FrameBufferFetchPass";
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass(passName, out PassData passData))
+    {
+        passData.material = m_FBFetchMaterial;
+        passData.isUseMSAA = isUseMSAA;
+
+        builder.SetInputAttachment(tex: srcHandle, index: 0, AccessFlags.Read);
+        builder.SetRenderAttachment(tex: dstHandle, index: 0); // Output
+        builder.AllowPassCulling(false);
+        builder.SetRenderFunc((PassData data, RasterGraphContext context) =&gt; ExecuteFBFetchPass(data, context));
+    }
+}
+
+static void ExecuteFBFetchPass(PassData data, RasterGraphContext context)
+{
+    context.cmd.DrawProcedural(Matrix4x4.identity, data.material, data.useMSAA ? 1 : 0, MeshTopology.Triangles, 3, 1, null);
+}
+</code></pre>
+<pre><code class="language-hlsl">Shader "FrameBufferFetch"
+{
+   SubShader
+   {
+       Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline"}
+       ZWrite Off Cull Off
+       Pass
+       {
+           Name "FrameBufferFetch"
+
+           HLSLPROGRAM
+           #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+           #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+
+           #pragma vertex Vert
+           #pragma fragment Frag
+
+           FRAMEBUFFER_INPUT_HALF(0);
+
+           // Out frag function takes as input a struct that contains the screen space coordinate we are going to use to sample our texture. It also writes to SV_Target0, this has to match the index set in the UseTextureFragment(sourceTexture, 0, …) we defined in our render pass script.   
+           float4 Frag(Varyings input) : SV_Target0
+           {
+               UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input); // for XR platform
+
+               float2 uv = input.texcoord.xy;
+               half4 color = LOAD_FRAMEBUFFER_INPUT(0, input.positionCS.xy);
+
+               return half4(0,0,1,1) * color;
+           }
+
+           ENDHLSL
+       }
+
+       Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline"}
+       ZWrite Off Cull Off
+       Pass
+       {
+           Name "FrameBufferFetchMS"
+
+           HLSLPROGRAM
+           #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+           #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+
+           #pragma vertex Vert
+           #pragma fragment Frag
+           #pragma target 4.5
+           #pragma require msaatex
+
+           FRAMEBUFFER_INPUT_HALF_MS(0);
+
+           // Out frag function takes as input a struct that contains the screen space coordinate we are going to use to sample our texture. It also writes to SV_Target0, this has to match the index set in the UseTextureFragment(sourceTexture, 0, …) we defined in our render pass script.   
+           float4 Frag(Varyings input, uint sampleID : SV_SampleIndex) : SV_Target0
+           {
+               UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input); // for XR platform
+
+               float2 uv = input.texcoord.xy;
+               half4 color = LOAD_FRAMEBUFFER_INPUT_MS(0, sampleID, input.positionCS.xy);
+               
+               // Modify the sampled color
+               return half4(0,0,1,1) * color;
+           }
+
+           ENDHLSL
+       }
+   }
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p>지정된 LayerMask에 있는 오브젝트만 그리도록 RenderList 사용.</p>
+<p>renderGraph.CreateRendererList()로 RendererListHandle을 만듬.</p>
+<p>람다대신 그냥 넣는게 나을듯?</p>
+<p>builder.SetRenderFunc((PassData data, RasterGraphContext context) =&gt; ExecutePass(data, context));
+builder.SetRenderFunc<PassData>(ExecutePass);</p>
+<pre><code class="language-cs">
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    string passName = "RenderList Render Pass";
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass(passName, out PassData passData))
+    {
+        UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+        InitRendererLists(renderGraph, frameData, ref passData);
+
+        if (!passData.rendererListHandle.IsValid())
+        {
+            return;
+        }
+
+        builder.UseRendererList(passData.rendererListHandle);
+        builder.SetRenderAttachment(resourceData.activeColorTexture, index: 0);
+        builder.SetRenderAttachmentDepth(resourceData.activeDepthTexture, AccessFlags.Write);
+        builder.SetRenderFunc((PassData data, RasterGraphContext context) =&gt; ExecutePass(data, context));
+    }
+}
+
+
+static void ExecutePass(PassData passData, RasterGraphContext context)
+{
+    context.cmd.ClearRenderTarget(clearFlags: RTClearFlags.Color, backgroundColor: Color.green, depth: 1, stencil: 0);
+    context.cmd.DrawRendererList(passData.rendererListHandle);
+}
+</code></pre>
+<pre><code class="language-cs">private class PassData
+{
+    public RendererListHandle rendererListHandle;
+}
+
+private void InitRendererLists(RenderGraph renderGraph, ContextContainer frameData, ref PassData passData)
+{
+    UniversalRenderingData universalRenderingData = frameData.Get&lt;UniversalRenderingData&gt;();
+
+    RendererListParams param;
+    {
+        DrawingSettings drawSettings;
+        {
+            m_ShaderTagIdList.Clear();
+            ShaderTagId[] forwardOnlyShaderTagIds = new ShaderTagId[]
+                {
+                new ShaderTagId("UniversalForwardOnly"),
+                new ShaderTagId("UniversalForward"),
+                new ShaderTagId("SRPDefaultUnlit"), // Legacy shaders (do not have a gbuffer pass) are considered forward-only for backward compatibility
+                new ShaderTagId("LightweightForward") // Legacy shaders (do not have a gbuffer pass) are considered forward-only for backward compatibility
+                };
+            m_ShaderTagIdList.AddRange(forwardOnlyShaderTagIds);
+            UniversalCameraData cameraData = frameData.Get&lt;UniversalCameraData&gt;();
+            UniversalLightData lightData = frameData.Get&lt;UniversalLightData&gt;();
+            SortingCriteria sortFlags = cameraData.defaultOpaqueSortFlags;
+
+            drawSettings = RenderingUtils.CreateDrawingSettings(m_ShaderTagIdList, universalRenderingData, cameraData, lightData, sortFlags);
+        }
+        RenderQueueRange renderQueueRange = RenderQueueRange.opaque;
+        FilteringSettings filterSettings = new FilteringSettings(renderQueueRange, m_LayerMask);
+
+        param = new RendererListParams(universalRenderingData.cullResults, drawSettings, filterSettings);
+    }
+    passData.rendererListHandle = renderGraph.CreateRendererList(param);
+}
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><ul>
+<li>RendererAsset에서 Rendering &gt; Deferred로 변경</li>
+<li>RenderPassEvent.AfterRenderingDeferredLights</li>
+<li>activeColorTexture == _GBuffer3 (Lighting)</li>
+</ul>
+<pre><code class="language-cs">public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    if (m_Material == null)
+    {
+        return;
+    }
+
+    UniversalRenderingData universalRenderingData = frameData.Get&lt;UniversalRenderingData&gt;();
+    if (universalRenderingData.renderingMode != RenderingMode.Deferred)
+    {
+        return;
+    }
+
+    UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+    TextureHandle[] gBuffer = resourceData.gBuffer;
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass(m_PassName, out PassData passData))
+    {
+        passData.material = m_Material;
+        passData.gBuffer = gBuffer;
+
+        builder.SetRenderAttachment(resourceData.activeColorTexture, index: 0, flags: AccessFlags.Write); // resourceData.activeColorTexture == _GBuffer3 (Lighting)
+        for (int i = 0; i &lt; resourceData.gBuffer.Length; i++)
+        {
+            if (i == GbufferLightingIndex)
+            {
+                continue;
+            }
+
+            builder.UseTexture(resourceData.gBuffer[i]);
+        }
+
+        builder.SetRenderFunc((PassData data, RasterGraphContext context) =&gt; ExecutePass(data, context));
+    }
+}
+
+static void ExecutePass(PassData data, RasterGraphContext context)
+{
+    for (int i = 0; i &lt; data.gBuffer.Length; i++)
+    {
+        data.material.SetTexture(s_GBufferShaderPropertyIDs[i], data.gBuffer[i]);
+    }
+    context.cmd.DrawProcedural(Matrix4x4.identity, data.material, shaderPass: 0, MeshTopology.Triangles, vertexCount: 3, instanceCount: 1);
+}
+</code></pre>
+<h3 id="universalrenderingdata"><a class="header" href="#universalrenderingdata">UniversalRenderingData</a></h3>
+<pre><code class="language-cs">UniversalRenderingData universalRenderingData = frameData.Get&lt;UniversalRenderingData&gt;();
+universalRenderingData.renderingMode
+
+public enum RenderingMode
+{
+    Forward = 0,
+    /// &lt;summary&gt;Render all objects and lighting in one pass using a clustered data structure to access lighting data.&lt;/summary&gt;
+    [InspectorName("Forward+")]
+    ForwardPlus = 2,
+    Deferred = 1
+};
+</code></pre>
+<h3 id="shader-1"><a class="header" href="#shader-1">shader</a></h3>
+<pre><code class="language-hlsl">#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GlobalSamplers.hlsl"
+
+TEXTURE2D_X(_GBuffer2);
+
+struct Attributes
+{
+    uint vertexID : SV_VertexID;
+    UNITY_VERTEX_INPUT_INSTANCE_ID
+};
+
+struct Varyings
+{
+    float4 positionCS : SV_POSITION;
+    float2 texcoord   : TEXCOORD0;
+
+    UNITY_VERTEX_INPUT_INSTANCE_ID
+    UNITY_VERTEX_OUTPUT_STEREO
+};
+
+Varyings GBufferVisPassVertex(Attributes input)
+{
+    Varyings output;
+    UNITY_SETUP_INSTANCE_ID(input);
+    UNITY_TRANSFER_INSTANCE_ID(input, output);
+    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+    float4 pos = GetFullScreenTriangleVertexPosition(input.vertexID);
+    float2 uv  = GetFullScreenTriangleTexCoord(input.vertexID);
+
+    output.positionCS = pos;
+    output.texcoord   = uv;
+
+    return output;
+}
+
+void GBufferVisPassFragment(Varyings input, out half4 outColor : SV_Target0)
+{
+    UNITY_SETUP_INSTANCE_ID(input);
+    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+
+    float2 uv = input.texcoord;
+    #ifndef UNITY_UV_STARTS_AT_TOP
+        uv.y = 1.0 - uv.y;
+    #endif
+
+    outColor = SAMPLE_TEXTURE2D_X_LOD(_GBuffer2, sampler_PointClamp, uv, 0);
+}
+</code></pre>
+<h3 id="_gbuffer"><a class="header" href="#_gbuffer">_GBuffer</a></h3>
+<pre><code class="language-cs">//  Make sure this is consistent with DeferredLights.cs
+private static readonly int s_GbufferLightingIndex = 3; // _GBuffer3 is the activeColorTexture
+
+private static readonly int[] s_GBufferShaderPropertyIDs = new int[]
+{
+    Shader.PropertyToID("_GBuffer0"), // Albedo
+    Shader.PropertyToID("_GBuffer1"), // Specular Metallic
+    Shader.PropertyToID("_GBuffer2"), // Normals and Smoothness      ( _CameraNormalsTexture )
+    Shader.PropertyToID("_GBuffer3"), // Lighting
+    Shader.PropertyToID("_GBuffer4"), // (optional) Depth            ( _CameraDepthTexture )
+    Shader.PropertyToID("_GBuffer5"), // (optional) Rendering Layers ( _CameraRenderingLayersTexture )
+    Shader.PropertyToID("_GBuffer6"), // (optional) ShadowMask (Rendering Layers가 없으면 이게 _GBuffer5가 된다)
+};
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p>셰이더에서 텍스쳐 사용시 builder.UseTexture를 사용해야 하는데, builder.SetGlobalTextureAfterPass로 미리 등록시키면 <code>builder.UseAllGlobalTextures(enable: true)</code>로 등록된 텍스쳐들을 사용할 수 있다.</p>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>_GBuffer2</td><td>_CameraNormalsTexture</td></tr>
+<tr><td>_GBuffer4</td><td>_CameraDepthTexture</td></tr>
+<tr><td>_GBuffer5</td><td>_CameraRenderingLayersTexture</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-cs">public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    UniversalRenderingData universalRenderingData = frameData.Get&lt;UniversalRenderingData&gt;();
+    if (universalRenderingData.renderingMode != RenderingMode.Deferred)
+    {
+        return;
+    }
+
+    UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+    TextureHandle[] gBuffer = resourceData.gBuffer;
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass(m_PassName, out PassData passData))
+    {
+        builder.AllowPassCulling(value: false);
+        SetGlobalGBufferTextures(builder, gBuffer);
+        builder.SetRenderFunc((PassData data, RasterGraphContext context) =&gt; { /* nothing to be rendered */ });
+    }
+}
+
+private void SetGlobalGBufferTextures(IRasterRenderGraphBuilder builder, TextureHandle[] gBuffer)
+{
+    for (int i = 0; i &lt; gBuffer.Length; i++)
+    {
+        if (i != GbufferLightingIndex &amp;&amp; gBuffer[i].IsValid())
+        {
+            builder.SetGlobalTextureAfterPass(gBuffer[i], s_GBufferShaderPropertyIDs[i]);
+        }
+    }
+
+    builder.UseAllGlobalTextures(enable: true);
+
+    if (gBuffer[GBufferNormalSmoothnessIndex].IsValid())
+    {
+        builder.SetGlobalTextureAfterPass(gBuffer[GBufferNormalSmoothnessIndex], Shader.PropertyToID("_CameraNormalsTexture"));
+    }
+
+    if (gBuffer[GbufferDepthIndex].IsValid())
+    {
+        builder.SetGlobalTextureAfterPass(gBuffer[GbufferDepthIndex], Shader.PropertyToID("_CameraDepthTexture"));
+    }
+
+    if (GBufferRenderingLayersIndex &lt; gBuffer.Length &amp;&amp; gBuffer[GBufferRenderingLayersIndex].IsValid())
+    {
+        builder.SetGlobalTextureAfterPass(gBuffer[GBufferRenderingLayersIndex], Shader.PropertyToID("_CameraRenderingLayersTexture"));
+    }
+}
+</code></pre>
+<h3 id="irasterrendergraphbuilder-builder-1"><a class="header" href="#irasterrendergraphbuilder-builder-1">IRasterRenderGraphBuilder builder</a></h3>
+<pre><code class="language-cs">builder.AllowPassCulling(value: false);
+
+builder.SetGlobalTextureAfterPass(in TextureHandle input, int propertyId);
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p>[SerializeField]
+ComputeShader computeShader;</p>
+<pre><code class="language-hlsl">#pragma kernel CSMain
+
+StructuredBuffer&lt;int&gt;   inputData;  // readonly
+RWStructuredBuffer&lt;int&gt; outputData; // read/write
+
+[numthreads(20,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    outputData[id.x] = 2 * inputData[id.x];
+}
+</code></pre>
+<pre><code class="language-cs">GraphicsBuffer _inputBuffer;
+GraphicsBuffer _outputBuffer;
+
+public ComputePass()
+{
+    List&lt;int&gt; list = Enumerable.Range(start: 0, count: 20).ToList();
+
+    _inputBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 20, sizeof(int));
+    _inputBuffer.SetData(list);
+    _outputBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 20, sizeof(int));
+    _outputBuffer.SetData(list);
+}
+
+
+
+class PassData
+{
+    public ComputeShader cs;
+    public BufferHandle input;
+    public BufferHandle output;
+}
+
+
+
+ComputeShader _cs;
+int[] _outputData = new int[20];
+
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    _outputBuffer.GetData(_outputData);
+    Debug.Log($"Output from compute shader: {string.Join(", ", _outputData)}");
+
+    BufferHandle inputHandle = renderGraph.ImportBuffer(_inputBuffer);
+    BufferHandle outputHandle = renderGraph.ImportBuffer(_outputBuffer);
+
+    using (IComputeRenderGraphBuilder builder = renderGraph.AddComputePass("ComputePass", out PassData passData))
+    {
+        passData.cs = _cs;
+        passData.input = inputHandle;
+        passData.output = outputHandle;
+
+        builder.UseBuffer(passData.input);
+        builder.UseBuffer(passData.output, flags: AccessFlags.Write);
+        builder.SetRenderFunc((PassData data, ComputeGraphContext cgContext) =&gt; ExecutePass(data, cgContext));
+    }
+}
+
+static void ExecutePass(PassData data, ComputeGraphContext cgContext)
+{
+    cgContext.cmd.SetComputeBufferParam(data.cs, data.cs.FindKernel("CSMain"), "inputData", data.input);
+    cgContext.cmd.SetComputeBufferParam(data.cs, data.cs.FindKernel("CSMain"), "outputData", data.output);
+    cgContext.cmd.DispatchCompute(data.cs, data.cs.FindKernel("CSMain"), threadGroupsX: 1, threadGroupsY: 1, threadGroupsZ: 1);
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p>MRT: <code>M</code>ultiple <code>R</code>ender <code>T</code>argets</p>
+<pre><code class="language-cs">public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    TextureHandle[] handles = new TextureHandle[3];
+    for (int i = 0; i &lt; 3; i++)
+    {
+        handles[i] = renderGraph.ImportTexture(m_RTs[i], m_RTInfos[i]);
+    }
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass("MRT Pass", out PassData passData))
+    {
+        UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+
+        passData.colorTextureHandle = resourceData.activeColorTexture;
+        passData.texName = m_texName;
+        passData.material = m_Material;
+
+
+        builder.UseTexture(passData.colorTextureHandle);
+        for (int i = 0; i &lt; 3; i++)
+        {
+            builder.SetRenderAttachment(handles[i], i);
+        }
+        builder.SetRenderFunc((PassData data, RasterGraphContext rgContext) =&gt; ExecutePass(data, rgContext));
+    }
+}
+
+static void ExecutePass(PassData data, RasterGraphContext rgContext)
+{
+    data.material.SetTexture(name: data.texName, value: data.colorTextureHandle);
+    rgContext.cmd.DrawProcedural(Matrix4x4.identity, data.material, shaderPass: 0, MeshTopology.Triangles, vertexCount: 3);
+}
+</code></pre>
+<pre><code class="language-cs">RTHandle[] m_RTs = new RTHandle[3];
+RenderTargetInfo[] m_RTInfos = new RenderTargetInfo[3];
+
+public void Setup(string texName, Material material, RenderTexture[] renderTextures)
+{
+    m_Material = material;
+    m_texName = string.IsNullOrEmpty(texName) ? "_ColorTexture" : texName;
+
+    for (int i = 0; i &lt; 3; i++)
+    {
+        RenderTexture rednerTexture = renderTextures[i];
+        if (m_RTs[i] == null || m_RTs[i].rt != rednerTexture)
+        {
+            if (m_RTs[i] != null)
+            {
+                m_RTs[i].Release();
+            }
+
+            m_RTs[i] = RTHandles.Alloc(rednerTexture, name: $"ChannelTexture[{i}]");
+            m_RTInfos[i] = new RenderTargetInfo
+            {
+                format = rednerTexture.graphicsFormat,
+                height = rednerTexture.height,
+                width = rednerTexture.width,
+                bindMS = rednerTexture.bindTextureMS,
+                volumeDepth = rednerTexture.volumeDepth,
+                msaaSamples = 1,
+            };
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-hlsl">Shader "Hidden/MrtColor"
+{
+    Properties
+    {
+        _ColorTexture("ColorTexture", 2D) = "white" {}
+    }
+    SubShader
+    {
+        Cull Off
+        ZWrite Off
+
+        Pass
+        {
+            HLSLPROGRAM
+            #pragma vertex Vert
+            #pragma fragment frag
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GlobalSamplers.hlsl"
+
+            TEXTURE2D_X(_ColorTexture);
+
+            struct Attributes
+            {
+                uint vertexID : SV_VertexID;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float2 texcoord   : TEXCOORD0;
+                UNITY_VERTEX_OUTPUT_STEREO
+            };
+
+            Varyings Vert(Attributes input)
+            {
+                Varyings output;
+
+                output.positionCS = GetFullScreenTriangleVertexPosition(input.vertexID);
+                output.texcoord = GetFullScreenTriangleTexCoord(input.vertexID);
+
+                return output;
+            }
+    
+
+            // MRT shader
+            struct FragmentOutput
+            {
+                half4 dest0 : SV_Target0;
+                half4 dest1 : SV_Target1;
+                half4 dest2 : SV_Target2;
+            };
+
+            FragmentOutput frag(Varyings input) : SV_Target
+            {
+                half4 color = SAMPLE_TEXTURE2D_X(_ColorTexture, sampler_LinearRepeat, input.texcoord); 
+                FragmentOutput output;
+                output.dest0 = half4(color.r, 0.0, 0.0, 1.0);
+                output.dest1 = half4(0.0, color.g, 0.0, 1.0);
+                output.dest2 = half4(0.0, 0.0, color.b, 1.0);
+                return output;
+            }
+            ENDHLSL
+        }
+    }
+}
+</code></pre>
+<h3 id="full-screen-quad-vs-full-screen-triangle"><a class="header" href="#full-screen-quad-vs-full-screen-triangle">Full screen quad vs full screen triangle</a></h3>
+<ul>
+<li>사각형의 전체화면 그리기 위해
+<ul>
+<li>(full screen quad) 삼각형 2개로 사각형을 만드는것이 아닌</li>
+<li>(full screen triangle) 삼각형을 크게 그려서 삐저나온 부분을 잘라 사각형 그림.</li>
+</ul>
+</li>
+</ul>
+<p>rgContext.cmd.DrawProcedural(Matrix4x4.identity, data.material, shaderPass: 0, MeshTopology.Triangles, vertexCount: 3);</p>
+<ul>
+<li>
+<p>GPU는 한 번에 하나씩 픽셀을 렌더링하지 않고 2x2에서 8x8 픽셀 사이의 그룹으로 렌더링합니다.</p>
+</li>
+<li>
+<p>full screen quad로 그리면 삼각형이 맞닿은 대각선이 겹침</p>
+</li>
+<li>
+<p>겹치는 부분만큼 오버드로우가 생김.</p>
+</li>
+<li>
+<p><a href="https://knarkowicz.wordpress.com/2010/10/26/shader-optimizations/">https://knarkowicz.wordpress.com/2010/10/26/shader-optimizations/</a></p>
+</li>
+<li>
+<p><a href="https://www.saschawillems.de/blog/2016/08/13/vulkan-tutorial-on-rendering-a-fullscreen-quad-without-buffers/">https://www.saschawillems.de/blog/2016/08/13/vulkan-tutorial-on-rendering-a-fullscreen-quad-without-buffers/</a></p>
+</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="postprocess"><a class="header" href="#postprocess">PostProcess</a></h1>
 <ul>
 <li>Compute 셰이더가 좀 더 빠르지만, 여기선 일단 픽셀 셰이더로 구현하는 걸로.</li>
@@ -5051,6 +6269,7 @@ float3 CalcLUT3D( sampler InLUT, float3 InColor )
 <li><a href="https://developer.nvidia.com/gpugems/gpugems2/part-iii-high-quality-rendering/chapter-24-using-lookup-tables-accelerate-color">[GPU Gems 2] Chapter 24. Using Lookup Tables to Accelerate Color Transformations</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="color-space"><a class="header" href="#color-space">Color Space</a></h1>
+<h2 id="color-wheel"><a class="header" href="#color-wheel">Color Wheel</a></h2>
 <ul>
 <li>RGB</li>
 <li>HSL (for hue, saturation, lightness) and HSV (for hue, saturation, value; also known as HSB, for hue, saturation, brightness)</li>
@@ -5231,10 +6450,31 @@ const static half3x3 MAT_YUV_TO_RGB = {
   +1.0, +2.029, +0.000
 };
 </code></pre>
+<h2 id="srgb"><a class="header" href="#srgb">sRGB</a></h2>
+<ul>
+<li><code>s</code>tandard <code>RGB</code></li>
+<li>Rec. 709(다른 이름: Rec.709, BT.709, ITU 709)
+<ul>
+<li>Rec: <code>Rec</code>ommendation</li>
+<li>BT : <code>B</code>roadcast <code>T</code>elevision</li>
+<li>ITU : <code>I</code>nternational <code>T</code>elecommunication <code>U</code>nion</li>
+</ul>
+</li>
+</ul>
+<p>sRGB
+Adobe RGB
+DCI-P3
+Rec.2020</p>
+<p>하늘과 관련된 모든 조명 파란색을 사용했습니다 . R: 0.4 / G: 0.7 / B: 1.
+태양  R: 1 / G: 0.8 / B: 0.6</p>
+<h2 id="-1"><a class="header" href="#-1"></a></h2>
+<p>색온도는 일반적으로 절대 온도의 측정 단위인 K 기호를 사용하여 켈빈으로 표현합니다
+주황색(낮음) =&gt; 파랑색(높음)</p>
 <h2 id="ref-25"><a class="header" href="#ref-25">Ref</a></h2>
 <ul>
 <li><a href="https://raphlinus.github.io/color/2021/01/18/oklab-critique.html">https://raphlinus.github.io/color/2021/01/18/oklab-critique.html</a></li>
 <li><a href="https://bottosson.github.io/posts/oklab/">https://bottosson.github.io/posts/oklab/</a></li>
+<li><a href="https://chrisbrejon.com/cg-cinematography/chapter-2-color-theory/">https://chrisbrejon.com/cg-cinematography/chapter-2-color-theory/</a></li>
 <li>The Dimensions of Colour
 <ul>
 <li><a href="http://www.huevaluechroma.com/index.php">http://www.huevaluechroma.com/index.php</a></li>
@@ -9179,7 +10419,7 @@ float3 PositivePow(float3 base, float3 power)
 </ul>
 </li>
 </ul>
-<h2 id="etc-4"><a class="header" href="#etc-4">Etc</a></h2>
+<h2 id="etc-5"><a class="header" href="#etc-5">Etc</a></h2>
 <ul>
 <li><a href="https://www.slideshare.net/LeeJungpyo/unite17-shanghailee-jungpyoneteasepangufull-chinese">https://www.slideshare.net/LeeJungpyo/unite17-shanghailee-jungpyoneteasepangufull-chinese</a></li>
 </ul>
@@ -9522,7 +10762,7 @@ Graphics.DrawMeshInstanced(_mesh, 0, _material, _matrices, _matrices.Length, blo
 <li><a href="https://www.models-resource.com/">https://www.models-resource.com/</a></li>
 <li><a href="https://en.wikipedia.org/wiki/List_of_common_3D_test_models">https://en.wikipedia.org/wiki/List_of_common_3D_test_models</a></li>
 </ul>
-<h2 id="etc-5"><a class="header" href="#etc-5">Etc</a></h2>
+<h2 id="etc-6"><a class="header" href="#etc-6">Etc</a></h2>
 <ul>
 <li><a href="https://www.afterworks.com/FumeFX.asp">FumeFX</a></li>
 </ul>

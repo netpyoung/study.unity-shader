@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>GbufferVisualizationRendererFeature - 넷평의 Unity Shader 노트</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/juxtapose.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/SRP/URP_RenderGraph_Samples/GbufferVisualizationRendererFeature.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <ul>
+<li>RendererAsset에서 Rendering &gt; Deferred로 변경</li>
+<li>RenderPassEvent.AfterRenderingDeferredLights</li>
+<li>activeColorTexture == _GBuffer3 (Lighting)</li>
+</ul>
+<pre><code class="language-cs">public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    if (m_Material == null)
+    {
+        return;
+    }
+
+    UniversalRenderingData universalRenderingData = frameData.Get&lt;UniversalRenderingData&gt;();
+    if (universalRenderingData.renderingMode != RenderingMode.Deferred)
+    {
+        return;
+    }
+
+    UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+    TextureHandle[] gBuffer = resourceData.gBuffer;
+
+    using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass(m_PassName, out PassData passData))
+    {
+        passData.material = m_Material;
+        passData.gBuffer = gBuffer;
+
+        builder.SetRenderAttachment(resourceData.activeColorTexture, index: 0, flags: AccessFlags.Write); // resourceData.activeColorTexture == _GBuffer3 (Lighting)
+        for (int i = 0; i &lt; resourceData.gBuffer.Length; i++)
+        {
+            if (i == GbufferLightingIndex)
+            {
+                continue;
+            }
+
+            builder.UseTexture(resourceData.gBuffer[i]);
+        }
+
+        builder.SetRenderFunc((PassData data, RasterGraphContext context) =&gt; ExecutePass(data, context));
+    }
+}
+
+static void ExecutePass(PassData data, RasterGraphContext context)
+{
+    for (int i = 0; i &lt; data.gBuffer.Length; i++)
+    {
+        data.material.SetTexture(s_GBufferShaderPropertyIDs[i], data.gBuffer[i]);
+    }
+    context.cmd.DrawProcedural(Matrix4x4.identity, data.material, shaderPass: 0, MeshTopology.Triangles, vertexCount: 3, instanceCount: 1);
+}
+</code></pre>
+<h3 id="universalrenderingdata"><a class="header" href="#universalrenderingdata">UniversalRenderingData</a></h3>
+<pre><code class="language-cs">UniversalRenderingData universalRenderingData = frameData.Get&lt;UniversalRenderingData&gt;();
+universalRenderingData.renderingMode
+
+public enum RenderingMode
+{
+    Forward = 0,
+    /// &lt;summary&gt;Render all objects and lighting in one pass using a clustered data structure to access lighting data.&lt;/summary&gt;
+    [InspectorName("Forward+")]
+    ForwardPlus = 2,
+    Deferred = 1
+};
+</code></pre>
+<h3 id="shader"><a class="header" href="#shader">shader</a></h3>
+<pre><code class="language-hlsl">#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GlobalSamplers.hlsl"
+
+TEXTURE2D_X(_GBuffer2);
+
+struct Attributes
+{
+    uint vertexID : SV_VertexID;
+    UNITY_VERTEX_INPUT_INSTANCE_ID
+};
+
+struct Varyings
+{
+    float4 positionCS : SV_POSITION;
+    float2 texcoord   : TEXCOORD0;
+
+    UNITY_VERTEX_INPUT_INSTANCE_ID
+    UNITY_VERTEX_OUTPUT_STEREO
+};
+
+Varyings GBufferVisPassVertex(Attributes input)
+{
+    Varyings output;
+    UNITY_SETUP_INSTANCE_ID(input);
+    UNITY_TRANSFER_INSTANCE_ID(input, output);
+    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+    float4 pos = GetFullScreenTriangleVertexPosition(input.vertexID);
+    float2 uv  = GetFullScreenTriangleTexCoord(input.vertexID);
+
+    output.positionCS = pos;
+    output.texcoord   = uv;
+
+    return output;
+}
+
+void GBufferVisPassFragment(Varyings input, out half4 outColor : SV_Target0)
+{
+    UNITY_SETUP_INSTANCE_ID(input);
+    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+
+    float2 uv = input.texcoord;
+    #ifndef UNITY_UV_STARTS_AT_TOP
+        uv.y = 1.0 - uv.y;
+    #endif
+
+    outColor = SAMPLE_TEXTURE2D_X_LOD(_GBuffer2, sampler_PointClamp, uv, 0);
+}
+</code></pre>
+<h3 id="_gbuffer"><a class="header" href="#_gbuffer">_GBuffer</a></h3>
+<pre><code class="language-cs">//  Make sure this is consistent with DeferredLights.cs
+private static readonly int s_GbufferLightingIndex = 3; // _GBuffer3 is the activeColorTexture
+
+private static readonly int[] s_GBufferShaderPropertyIDs = new int[]
+{
+    Shader.PropertyToID("_GBuffer0"), // Albedo
+    Shader.PropertyToID("_GBuffer1"), // Specular Metallic
+    Shader.PropertyToID("_GBuffer2"), // Normals and Smoothness      ( _CameraNormalsTexture )
+    Shader.PropertyToID("_GBuffer3"), // Lighting
+    Shader.PropertyToID("_GBuffer4"), // (optional) Depth            ( _CameraDepthTexture )
+    Shader.PropertyToID("_GBuffer5"), // (optional) Rendering Layers ( _CameraRenderingLayersTexture )
+    Shader.PropertyToID("_GBuffer6"), // (optional) ShadowMask (Rendering Layers가 없으면 이게 _GBuffer5가 된다)
+};
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../SRP/URP_RenderGraph_Samples/RendererListRenderFeature.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../SRP/URP_RenderGraph_Samples/GlobalGbuffersRendererFeature.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../SRP/URP_RenderGraph_Samples/RendererListRenderFeature.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../SRP/URP_RenderGraph_Samples/GlobalGbuffersRendererFeature.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../theme/hlsl.min.js"></script>
+        <script src="../../theme/juxtapose.min.js"></script>
+
+
+    </div>
+    </body>
+</html>

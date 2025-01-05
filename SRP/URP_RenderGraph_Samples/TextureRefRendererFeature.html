@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html lang="kr" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TextureRefRendererFeature - 넷평의 Unity Shader 노트</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="study.unity-shader">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/juxtapose.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">넷평의 Unity Shader 노트</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/SRP/URP_RenderGraph_Samples/TextureRefRendererFeature.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="BlitRendererFeature.html">BlitRendererFeature</a></p>
+<p>ContextContainer frameData 동작방식</p>
+<ul>
+<li>2 ScriptableRenderPass
+<ul>
+<li>UpdateRefPass</li>
+<li>CopyBackRefPass</li>
+</ul>
+</li>
+<li>ContextItem를 상속받는 TexRefData를 이용
+<ul>
+<li>UpdateRefPass에서 resourceData.activeColorTexture =&gt; texRef.texture
+<ul>
+<li>UpdateRefPass에서 foreach (Material mat in m_DisplayMaterials) 하므로 매 프레임 첫 루프 단계에서는 frameData.Contains<TexRefData>()가 false, 그 후로는 true.</li>
+</ul>
+</li>
+<li>CopyBackRefPass에서 texRef.texture =&gt; resourceData.activeColorTexture</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-cs">public class TexRefData : ContextItem
+{
+    public TextureHandle texture = TextureHandle.nullHandle;
+
+    public override void Reset()
+    {
+        texture = TextureHandle.nullHandle;
+    }
+}
+</code></pre>
+<pre><code class="language-cs">//     class UpdateRefPass : ScriptableRenderPass
+
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    foreach (Material mat in m_DisplayMaterials)
+    {
+        if (mat == null)
+        {
+            Debug.LogWarning($"Skipping render pass for unassigned material.");
+            continue;
+        }
+
+        using (IRasterRenderGraphBuilder builder = renderGraph.AddRasterRenderPass($"UpdateRefPass_{mat.name}", out PassData passData))
+        {
+
+            TexRefData texRef;
+            if (frameData.Contains&lt;TexRefData&gt;())
+            {
+                texRef = frameData.Get&lt;TexRefData&gt;();
+            }
+            else
+            {
+                UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+                texRef = frameData.Create&lt;TexRefData&gt;();
+                texRef.texture = resourceData.activeColorTexture;
+            }
+
+            TextureDesc descriptor = texRef.texture.GetDescriptor(renderGraph);
+            descriptor.msaaSamples = MSAASamples.None;
+            descriptor.name = $"BlitMaterialRefTex_{mat.name}";
+            descriptor.clearBuffer = false;
+
+            TextureHandle srcHandle = texRef.texture;
+            TextureHandle dstHandle = renderGraph.CreateTexture(descriptor);
+            texRef.texture = dstHandle;
+
+            passData.source = srcHandle;
+            passData.destination = dstHandle;
+            passData.material = mat;
+
+
+            builder.UseTexture(input: passData.source);
+            builder.SetRenderAttachment(tex: passData.destination, index: 0);
+            builder.SetRenderFunc((PassData data, RasterGraphContext rgContext) =&gt; ExecutePass(data, rgContext));
+        }
+    }
+}
+
+static void ExecutePass(PassData data, RasterGraphContext rgContext)
+{
+    Blitter.BlitTexture(rgContext.cmd, data.source, scaleBias, data.material, pass: 0);
+}
+</code></pre>
+<pre><code class="language-cs">// class CopyBackRefPass : ScriptableRenderPass
+
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+    if (!frameData.Contains&lt;TexRefData&gt;())
+    {
+        return;
+    }
+
+    TexRefData texRef = frameData.Get&lt;TexRefData&gt;();
+    TextureHandle srcHandle = texRef.texture;
+
+    UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();
+    TextureHandle dstHandle = resourceData.activeColorTexture;
+
+    renderGraph.AddBlitPass(srcHandle, dstHandle, scale: Vector2.one, offset: Vector2.zero, passName: "Blit Back Pass");
+}
+</code></pre>
+<h3 id="contextcontainer-framedata"><a class="header" href="#contextcontainer-framedata">ContextContainer frameData</a></h3>
+<pre><code class="language-cs">
+
+bool isExist_TexRefData = frameData.Contains&lt;TexRefData&gt;();
+texRef = frameData.GetOrCreate&lt;TexRefData&gt;();
+texRef = frameData.Create&lt;TexRefData&gt;();
+texRef = frameData.Get&lt;TexRefData&gt;();
+
+
+</code></pre>
+<h3 id="scalebias"><a class="header" href="#scalebias">scaleBias</a></h3>
+<p>Vector4 scaleBias(scaleX, scaleY, offsetX, offsetY);
+Blitter.BlitTexture(rgContext.cmd, data.source, scaleBias, data.material, pass: 0);</p>
+<div class="table-wrapper"><table><thead><tr><th>scaleX</th><th></th></tr></thead><tbody>
+<tr><td>1.0 &lt; x</td><td>텍스처가 가로 방향으로 늘어남.</td></tr>
+<tr><td>0.0 &lt; x &lt; 1.0</td><td>텍스처가 가로 방향으로 줄어듬.</td></tr>
+<tr><td>x &lt; 0.0</td><td>음수 값은 가로 방향을 반전(flip).</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>offsetX</th><th></th></tr></thead><tbody>
+<tr><td>x &gt; 0</td><td>텍스처가 오른쪽으로 이동.</td></tr>
+<tr><td>x &lt; 0</td><td>텍스처가 왼쪽으로 이동.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th>offsetX</th><th></th></tr></thead><tbody>
+<tr><td>x &gt; 0</td><td>텍스처가 위로 이동.</td></tr>
+<tr><td>x &lt; 0</td><td>텍스처가 아래로 이동.</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../SRP/URP_RenderGraph_Samples/BlitRendererFeature.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../SRP/URP_RenderGraph_Samples/OutputTextureRendererFeature.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../SRP/URP_RenderGraph_Samples/BlitRendererFeature.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../SRP/URP_RenderGraph_Samples/OutputTextureRendererFeature.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../theme/hlsl.min.js"></script>
+        <script src="../../theme/juxtapose.min.js"></script>
+
+
+    </div>
+    </body>
+</html>
