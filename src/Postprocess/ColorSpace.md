@@ -1,5 +1,7 @@
 # Color Space
 
+## Color Wheel
+
 - RGB
 - HSL (for hue, saturation, lightness) and HSV (for hue, saturation, value; also known as HSB, for hue, saturation, brightness) 
 - HCL (Hue-Chroma-Luminance)
@@ -201,10 +203,31 @@ const static half3x3 MAT_YUV_TO_RGB = {
 };
 ```
 
+## sRGB
+
+- `s`tandard `RGB`
+- Rec. 709(다른 이름: Rec.709, BT.709, ITU 709)
+  - Rec: `Rec`ommendation 
+  - BT : `B`roadcast `T`elevision
+  - ITU : `I`nternational `T`elecommunication `U`nion
+
+sRGB
+Adobe RGB
+DCI-P3
+Rec.2020
+
+하늘과 관련된 모든 조명 파란색을 사용했습니다 . R: 0.4 / G: 0.7 / B: 1. 
+태양  R: 1 / G: 0.8 / B: 0.6
+
+## 
+색온도는 일반적으로 절대 온도의 측정 단위인 K 기호를 사용하여 켈빈으로 표현합니다
+주황색(낮음) => 파랑색(높음)
+
 ## Ref
 
 - <https://raphlinus.github.io/color/2021/01/18/oklab-critique.html>
 - <https://bottosson.github.io/posts/oklab/>
+- <https://chrisbrejon.com/cg-cinematography/chapter-2-color-theory/>
 - The Dimensions of Colour
   - <http://www.huevaluechroma.com/index.php>
   - <https://sites.google.com/site/djcbriggs/1-basic-colour-attributes#h.p_QpXoaFjHTppK>

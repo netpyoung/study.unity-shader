@@ -2,15 +2,6 @@
 
 - `A`cademy `C`olor `E`ncoding `S`ystem 
 
-https://en.wikipedia.org/wiki/Academy_Color_Encoding_System
-https://github.com/ampas/aces-dev
-https://www.slideshare.net/hpduiker/acescg-a-common-color-encoding-for-visual-effects-applications
-
-
-ACES 1.0.X의 모든 출력 변환에 해당하며 여전히 그렇습니다. ACES 1.1 릴리스에서는 단일 단계로 일부 새로운 HDR 출력 변환을 도입했으며 이를 SSTS(Single Stage Tone Scale)라고 합니다.
-
-
-
 ``` txt
 https://github.com/Unity-Technologies/Graphics/blob/e42df452b62857a60944aed34f02efa1bda50018/Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LutBuilderHdr.shader
 
@@ -44,9 +35,13 @@ return odt;
   - El 1000: Exposure Level - 노출이 1000 ISO(International Standards Organization)
 - AP0 ACES 색 공간의 기반
   - ACES2065-1
+    - 색공간이 너무 커서(음수값도 제공) PBR에서 문제가 생길 수 있음
+    - https://community.acescentral.com/t/difference-between-virtual-and-real-color-primaries/1380/7
 - AP1 실제 사용에 적합하게 최적화된 색 영역
-  - ACEScg
-  - ACEScc
+  - ACEScc - logarithmic
+  - ACEScg - linear
+  - ACEScct 무시해도 될듯
+  - Acesproxy 무시해도 될듯
   - https://community.acescentral.com/t/acescc-vs-acescct/485/18
 
 ![](../res/CIE_1931_chromaticity_ACES_sRGB_gamut_comparison_CreativeCommons_v06.svg)
@@ -58,32 +53,71 @@ LMS color space
 
 
 
-
-
-|> 입력 (srgb/linear/ACEScg 텍스쳐)
-|> IDT
-  변환 예) sRGB/Rec.709의 0,1,0 => ACEScg 0.3, 0.9, 0.1
-|> ACEScg
-  렌더링 작업공간
-|> RRT
-    - ACEScc : 최종작업 후 리니어한 ACES를 로그화 하는 공정
-    - ACES RRT는 시청 조건이 어두운 극장 전시를 위해 설계되었습니다. 영화 콘텐츠는 어두운 주변을 보상하기 위해 더 많은 대비로 작성되는 경향이 있습니다.
-    - Output Color Encoding Specification (OCES)
-|> ODT | projector
-
- 
+- ACES RRT는 시청 조건이 어두운 극장 전시를 위해 설계되었습니다. 영화 콘텐츠는 어두운 주변을 보상하기 위해 더 많은 대비로 작성되는 경향이 있습니다.
 
 
 - IDT : `I`nput `D`evice `T`ransform
+  - IDT는 텍스처/이미지를 작업/렌더링 공간으로 가져오는 프로세스이며, 이는 대개 ACEScg입니다.
 - RRT : `R`eference `R`endering `T`ransform
   - Transform scene linear color to film look color.
+  - 이상화되고 가정된 참조 디스플레이에 대한 중간 렌더링. 가상 필름 스톡과 같은 "ACES 룩" 입니다 .
 - ODT : `O`utput `D`evice `T`ransform
   - Transform scene linear color to device signal.
+  - 특정 실제 디스플레이 장치(기본색, eotf 및 화이트 포인트)에 대한 최종 렌더링입니다
+  - 시청 환경(어둡거나 희미하거나 일반 서라운드)과 nits도 고려합니다.
 
 - 단점
   - Fixed variations. ODT only support 1000/2000/4000nits display.
   - Filmic look baked in RRT.
 
+
+
+
+- ACES 1.0.X
+  - RRT + ODT
+- ACES 1.1에서는 HDR 출력 변환을 위해 RRT와 ODT가 병합되었습니다.
+  - ACES 1.1 릴리스에서는 단일 단계로 일부 새로운 HDR 출력 변환을 도입했으며 이를 SSTS(Single Stage Tone Scale)라고 합니다.
+    - 톤 스케일은 일반적으로 사람들이 톤 매핑이라고 부르는 것을 지칭하는 ACES 용어입니다.
+
+
+``` hlsl
+// Neutral Tone Mapping Shader
+float3 NeutralTonemap(float3 color, float contrast, float brightness, float gamma) {
+    // Contrast adjustment
+    color = (color - 0.5) * contrast + 0.5;
+
+    // Brightness adjustment
+    color += brightness;
+
+    // Clamp color to avoid overflow
+    color = saturate(color);
+
+    // Gamma correction
+    color = pow(color, 1.0 / gamma);
+
+    return color;
+}
+
+
+// ACES Approximation Tone Mapping Shader
+// ref: https://knarkowicz.wordpress.com/2016/01/06/aces-filmic-tone-mapping-curve/
+float3 ACESFilm(float3 color) {
+    const float A = 2.51;
+    const float B = 0.03;
+    const float C = 2.43;
+    const float D = 0.59;
+    const float E = 0.14;
+
+    // Apply the ACES approximation formula
+    color = (color * (A * color + B)) / (color * (C * color + D) + E);
+
+    // Clamp color to avoid artifacts
+    return saturate(color);
+}
+
+```
+
+![../res/Neutral_Aces.png](../res/Neutral_Aces.png)
 
 
 1. 상수 조정 시의 결과 비교
@@ -125,53 +159,21 @@ E: 하이라이트 감쇠 계수
 E가 작을수록 톤 매핑된 결과가 더 부드럽고 자연스럽게 나타나지만, 너무 작으면 이미지가 평평해 보일 수 있습니다.
 
 
-![../res/Neutral_Aces.png](../res/Neutral_Aces.png)
+## 기타 GT
 
+Gran Turismo Tonemapping.
 
-``` hlsl
-// Neutral Tone Mapping Shader
-float3 NeutralTonemap(float3 color, float contrast, float brightness, float gamma) {
-    // Contrast adjustment
-    color = (color - 0.5) * contrast + 0.5;
-
-    // Brightness adjustment
-    color += brightness;
-
-    // Clamp color to avoid overflow
-    color = saturate(color);
-
-    // Gamma correction
-    color = pow(color, 1.0 / gamma);
-
-    return color;
-}
-
-
-// ACES Approximation Tone Mapping Shader
-float3 ACESFilm(float3 color) {
-    const float A = 2.51;
-    const float B = 0.03;
-    const float C = 2.43;
-    const float D = 0.59;
-    const float E = 0.14;
-
-    // Apply the ACES approximation formula
-    color = (color * (A * color + B)) / (color * (C * color + D) + E);
-
-    // Clamp color to avoid artifacts
-    return saturate(color);
-}
-
-```
-
-
-GT
- Gran Turismo Tonemapping.
- https://github.com/yaoling1997/GT-ToneMapping
-https://github.com/yaoling1997/GT-ToneMapping
-
-Practical HDR and Wide Color Techniques in Gran Turismo SPORT - SIGGRAPH ASIA 2018
+- <https://github.com/yaoling1997/GT-ToneMapping>
+- Practical HDR and Wide Color Techniques in Gran Turismo SPORT - SIGGRAPH ASIA 2018
 
 
 
-https://draftdocs.acescentral.com/system-components/whats-new/
+
+
+## Ref
+
+- <https://en.wikipedia.org/wiki/Academy_Color_Encoding_System>
+- <https://draftdocs.acescentral.com/system-components/whats-new/>
+- <https://github.com/ampas/aces-dev>
+- <https://www.slideshare.net/hpduiker/acescg-a-common-color-encoding-for-visual-effects-applications>
+- <https://chrisbrejon.com/cg-cinematography/chapter-1-5-academy-color-encoding-system-aces/>
