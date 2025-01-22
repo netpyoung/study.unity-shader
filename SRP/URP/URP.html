@@ -160,10 +160,29 @@
                     <main>
                         <h1 id="urp-universal-render-pipeline"><a class="header" href="#urp-universal-render-pipeline">URP (Universal Render Pipeline)</a></h1>
 <ul>
-<li>기존 Built-in(Legacy) 쉐이더의 include 경로 및 함수명등 바뀜</li>
-<li>SBR Batcher 사용가능하게 바뀜.</li>
-<li>1패스 1라이트방식 =&gt; 1패스 16개 라이트 지원</li>
+<li>
+<p>기존 Built-in(Legacy) 쉐이더의 include 경로 및 함수명등 바뀜</p>
+</li>
+<li>
+<p>SBR Batcher 사용가능하게 바뀜.</p>
+</li>
+<li>
+<p>1패스 1라이트방식 =&gt; 1패스 16개 라이트 지원</p>
+</li>
+<li>
+<p>Upscale</p>
+<ul>
+<li>UniversalRenderPipelineAsset &gt; Quality &gt; Render Scale</li>
 </ul>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Render Scale</th><th>부하율</th><th>픽셀감소율</th></tr></thead><tbody>
+<tr><td>0.8</td><td>64%</td><td>36%</td></tr>
+<tr><td>0.7</td><td>49%</td><td>51%</td></tr>
+<tr><td>0.6</td><td>36%</td><td>64%</td></tr>
+<tr><td>0.5</td><td>25%</td><td>75%</td></tr>
+</tbody></table>
+</div>
 <p>https://unity.com/kr/resources/introduction-universal-render-pipeline-for-advanced-unity-creators-2022lts</p>
 <h2 id="sample"><a class="header" href="#sample">sample</a></h2>
 <pre><code class="language-hlsl">Varyings OUT;

@@ -161,7 +161,13 @@
                         <h1 id="drawcall"><a class="header" href="#drawcall">DrawCall</a></h1>
 <ul>
 <li>
+<p><a href="https://youtu.be/wNFjsi6MjAQ">유니티 초보자도 이해하는 URP와 성능, 그리고 모바일까지🔥🔥</a></p>
+</li>
+<li>
 <p>DrawCall : CPU가 GPU에게 그려라(Draw)라고 명령하는 것</p>
+<ul>
+<li>CPU성능에 영향</li>
+</ul>
 </li>
 <li>
 <p><a href="https://youtu.be/UsyvT36vqpU?t=1460">Dev Weeks: 성능을 고려한 파이프라인, Universal Render Pipeline</a></p>
@@ -195,6 +201,15 @@
 <tr><td>...</td><td></td><td></td></tr>
 </tbody></table>
 </div>
+<ul>
+<li>Batching
+<ul>
+<li>하나로 묶음</li>
+<li>장점: 드로우 콜 감소</li>
+<li>단점: 메모리를 더 필요함.</li>
+</ul>
+</li>
+</ul>
 <h2 id="srp-batcher"><a class="header" href="#srp-batcher">SRP Batcher</a></h2>
 <ul>
 <li><a href="https://docs.unity3d.com/Manual/SRPBatcher.html">https://docs.unity3d.com/Manual/SRPBatcher.html</a></li>
@@ -202,7 +217,7 @@
 </ul>
 <div class="table-wrapper"><table><thead><tr><th></th><th>배치 기준</th></tr></thead><tbody>
 <tr><td>Built-in(legacy)</td><td>머테리얼</td></tr>
-<tr><td>SRP Batcher</td><td>셰이더</td></tr>
+<tr><td>SRP Batcher</td><td>셰이더 (Shader Variant)</td></tr>
 </tbody></table>
 </div>
 <pre><code class="language-hlsl">// 메터리얼별로 상수버퍼(Constant buffer)를 만들어 주어
@@ -212,6 +227,17 @@
 CBUFFER_START(UnityPerMaterial)
 float _Blabla;
 CBUFFER_END
+
+CBUFFER_START(UnityPerDraw)
+    float4x4 unity_ObjectToWorld;
+    float4x4 unity_WorldToObject;
+    real4 unity_WorldTransformParams;
+CBUFFER_END
+
+public CustomRenderPipeline ()
+{
+    GraphicsSettings.useScriptableRenderPipelineBatching = true;
+}
 </code></pre>
 <h2 id="gpu-instancing"><a class="header" href="#gpu-instancing">GPU Instancing</a></h2>
 <ul>
@@ -278,6 +304,20 @@ _block.SetVectorArray(baseColorId, baseColors);
 // ref: https://docs.unity3d.com/ScriptReference/Graphics.DrawMeshInstanced.html
 Graphics.DrawMeshInstanced(_mesh, 0, _material, _matrices, _matrices.Length, block);
 </code></pre>
+<h2 id="dynamic-batching"><a class="header" href="#dynamic-batching">Dynamic Batching</a></h2>
+<ul>
+<li>동일한 머티리얼을 공유하는 여러 개의 작은 메시를 하나의 더 큰 메시로 결합하여 그림
+<ul>
+<li>공유하지 않은 개별 머티리얼에는 동작 안함</li>
+<li>작은 메시에만 적합</li>
+</ul>
+</li>
+<li>우선순위
+<ul>
+<li>SRP Batcher가 Dynamic Batching보다 우선됨.</li>
+</ul>
+</li>
+</ul>
 
                     </main>
 

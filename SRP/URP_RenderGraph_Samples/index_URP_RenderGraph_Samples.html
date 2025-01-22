@@ -165,7 +165,7 @@
 <tr><td><a href="TextureRefRendererFeature.html">TextureRefRendererFeature</a></td><td>ContextContainer frameData / ContextItem</td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\TextureReference w. FrameData\TextureRefRendererFeature.cs</td></tr>
 <tr><td><a href="OutputTextureRendererFeature.html">OutputTextureRendererFeature</a></td><td>ConfigureInput</td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\OutputTexture\OutputTextureRendererFeature.cs</td></tr>
 <tr><td>.</td><td></td><td></td></tr>
-<tr><td><a href="UnsafePass.html">UnsafePass</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\UnsafePass\UnsafePass.cs</td></tr>
+<tr><td><a href="UnsafePassRenderFeature.html">UnsafePassRenderFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\UnsafePass\UnsafePassRenderFeature.cs</td></tr>
 <tr><td>.</td><td></td><td></td></tr>
 <tr><td><a href="FrameBufferFetchRenderFeature.html">FrameBufferFetchRenderFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\FramebufferFetch\FrameBufferFetchRenderFeature.cs</td></tr>
 <tr><td><a href="RendererListRenderFeature.html">RendererListRenderFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\RendererList\RendererListRenderFeature.cs</td></tr>
@@ -177,6 +177,53 @@
 <tr><td><a href="MrtRendererFeature.html">MrtRendererFeature</a></td><td></td><td>Samples\Universal RP\17.0.3\URP RenderGraph Samples\MRT\MrtRendererFeature.cs</td></tr>
 </tbody></table>
 </div>
+<h2 id="quick-sheet"><a class="header" href="#quick-sheet">quick sheet</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>IBaseRenderGraphBuilder</th><th></th></tr></thead><tbody>
+<tr><td>buidler.UseTexture(input: passData.source, flag: AccessFlags.Read)</td><td>입력</td></tr>
+<tr><td>buidler.SetRenderAttachment(tex: passData.destination, index: 0)</td><td></td></tr>
+<tr><td>buidler.SetRenderFunc<PassData>(ExecutePass)</td><td>렌더함수 지정</td></tr>
+<tr><td>buidler.UseRendererList(input: rendererListHandle)</td><td>RendererListHandle는 항상 readonly</td></tr>
+<tr><td>buidler.AllowPassCulling(value: false)</td><td></td></tr>
+<tr><td>buidler.SetGlobalTextureAfterPass(input: textureHandle, propertyId: Shader.PropertyToID("_HelloTex"))</td><td></td></tr>
+</tbody></table>
+</div>
+<p>context.cmd.SetRenderTarget(data.TmpCopyTexHandle);                       // Output이라 보면 됨
+Blitter.BlitTexture(nativeCmd, textureHandle, scaleBias, mipLevel: 0, bilinear: false);
+Blitter.BlitTexture(nativeCmd, textureHandle, scaleBias, material, pass); // =&gt; Blitter.BlitTexture함수를 쓰면 inputTextureHandle이 shader에서 _BlitTexture로 바인딩됨.</p>
+<p>RenderTextureDescriptor rtdesc2 = new RenderTextureDescriptor(w, h, GraphicsFormat.R16G16_SFloat, 0)
+{
+autoGenerateMips = true,
+useMipMap = true
+};
+RenderingUtils.ReAllocateHandleIfNeeded(ref _tmpCurrMipmapRT, rtdesc2, FilterMode.Bilinear, TextureWrapMode.Clamp, name: "_tmpCurrMipmapRT");</p>
+<p>CommandBuffer nativeCmd = CommandBufferHelpers.GetNativeCommandBuffer(context.cmd);</p>
+<h3 id="migration-rendergraph-api"><a class="header" href="#migration-rendergraph-api">migration RenderGraph API</a></h3>
+<ul>
+<li>
+<p>RenderingUtils.ReAllocateIfNeeded =&gt; RenderingUtils.ReAllocateHandleIfNeeded</p>
+</li>
+<li>
+<p>RTHandle 보다는 TextureHandle</p>
+</li>
+</ul>
+<pre><code class="language-cs">textureHandle = renderGraph.ImportTexture(rtHandle);
+</code></pre>
+<ul>
+<li>ScriptableRendererFeature를 상속받아쓰는 SetupRenderPasses 더 이상 안쓰임.</li>
+</ul>
+<pre><code class="language-cs">// before
+public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
+{
+    ConfigureInput(ScriptableRenderPassInput.Normal);
+}
+
+// after
+using (IUnsafeRenderGraphBuilder builder = renderGraph.AddUnsafePass(passName, out PassData passData))
+{
+    ConfigureInput(ScriptableRenderPassInput.Normal);
+}
+</code></pre>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

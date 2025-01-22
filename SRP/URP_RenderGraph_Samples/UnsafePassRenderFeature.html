@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>UnsafePass - 넷평의 Unity Shader 노트</title>
+        <title>UnsafePassRenderFeature - 넷평의 Unity Shader 노트</title>
 
 
         <!-- Custom HTML head -->
@@ -129,7 +129,7 @@
                         <a href="https://github.com/netpyoung/study.unity-shader" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/SRP/URP_RenderGraph_Samples/UnsafePass.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/netpyoung/study.unity-shader/edit/main/src/SRP/URP_RenderGraph_Samples/UnsafePassRenderFeature.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -177,7 +177,7 @@ public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer
 
         TextureDesc descriptor;
         {
-            descriptor = passData.source.GetDescriptor(renderGraph);
+            descriptor = resourceData.activeColorTexture.GetDescriptor(renderGraph);
             descriptor.msaaSamples = MSAASamples.None;
             descriptor.clearBuffer = false;
         }
@@ -187,7 +187,6 @@ public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer
             descriptor.name = "UnsafeTexture";
             destination = renderGraph.CreateTexture(descriptor);
         }
-
 
         TextureHandle destinationHalf;
         {
