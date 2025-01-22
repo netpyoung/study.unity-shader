@@ -4,33 +4,117 @@
 
 ![res/coordinate.png](../res/coordinate.png)
 
+![res/newtranspipe.png](../res/newtranspipe.png)
+
 ## 유니티 정의 positions
 
-| position    | Space                                    | AKA           | 타입   | 설명                                              |
-| ----------- | ---------------------------------------- | ------------- | ------ | ------------------------------------------------- |
-| positionOS  | Object                                   | Local / Model | float3 |                                                   |
-| positionWS  | World                                    | Global        | float3 |                                                   |
-| positionVS  | View                                     | Camera / Eye  | float3 | 카메라에서 바라볼때                               |
-| positionCS  | Homogeneous Clip                         |               | float4 | 카메라 시야에서 안보인 것은 제외, Orthogonal 적용 |
-| positionNDC | Homogeneous Normalized Device Coordinate |               | float4 | [ 0, w] : (x, y, z, w)                            |
+| VertexPositionInputs | Space                                      | AKA           | 타입   | 설명                                                      |
+| -------------------- | ------------------------------------------ | ------------- | ------ | --------------------------------------------------------- |
+| positionOS           | Object                                     | Local / Model | float3 |                                                           |
+| positionWS           | World                                      | Global        | float3 |                                                           |
+| positionVS           | View                                       | Camera / Eye  | float3 | 카메라에서 바라볼때                                       |
+| positionCS           | Clip (Homogeneous)                         |               | float4 | [-w, w] 카메라 시야에서 안보인 것은 제외, Orthogonal 적용 |
+| positionNDC          | Normalized Device Coordinate (Homogeneous) |               | float4 | [0, w] : (x, y, z, w)                                     |
 
-## 내가 임의로 정한것
 
-| 이름 붙여봄 position | Space                                       | 타입   | 설명                                  |
-| -------------------- | ------------------------------------------- | ------ | ------------------------------------- |
-| ndc                  | Nonhomogeneous Normalized Device Coordinate | float3 | [-1, 1] : PerspectiveDivision * 2 - 1 |
-| uv_Screen            | Screen                                      | float2 | [ 0, 1] : PerspectiveDivision         |
-| positionScreen       | ViewPort                                    | float2 | [화면 넓이, 화면 높이]                |
+- 동차좌표 homogeneous coordinate
+  - 동차좌표는 n차원의 직교좌표를 n+1차원으로 확장한 것이다
+  - float3 => float4로 되면서 Homogeneous를 붙임
+- Perspective-Correct Interpolation을 위해 Normalized Device Coordinate (Homogeneous)를 사용함.
 
-## 공간 변환 그림 예
+``` hlsl
+    uint2  positionSS;  // Screen space pixel coordinates                       : [0, NumPixels)
+    uint2  tileCoord;   // Screen tile coordinates                              : [0, NumTiles)
+    float  deviceDepth; // Depth from the depth buffer                          : [0, 1] (typically reversed)
+    float  linearDepth; // View space Z coordinate                              : [Near, Far]
+```
 
-예1)
 
-![res/opengl_renderpipeline.png](../res/opengl_renderpipeline.png)
+``` txt
+OS  ----------------------- Object Space
+ | UNITY_MATRIX_M * OS
+WS  ----------------------- World Space
+ | UNITY_MATRIX_V * WS
+VS  ----------------------- View Space
+ | UNITY_MATRIX_P * VS
+CS  ----------------------- Clip Space (Homogeneous)
+ | NDC    = CS * 0.5
+ | NDC.x  =  NDC.x + NDC.w
+ | NDC.y  =  NDC.y + NDC.w // DirectX
+ | NDC.y  = -NDC.y + NDC.w // OpenGL
+ | NDC.zw = CS.zw
+NDC ---------------------- Normalized Device Coordinate (Homogeneous) [0..w]
+ | pd = (NDC.xyz / NDC.w); // [0, 1] : perspective divide
+ | ndc = pd * 2.0 - 1.0;   // [-1, 1]
+ |
+ |
+ndc ---------------------- Normalized Device Coordinate (Nonhomogeneous) [-1..1]
+ | float2 uv_Screen = positionNDC.xy / positionNDC.w;
+ | float2 uv_Screen = GetNormalizedScreenSpaceUV(positionCS);
+uv_Screen ---------------- [0, 1]
+ | float2 positionScreen = uv_Screen * _ScreenParams.xy;
+positionScreen ----------- [0, screenWidth] / [0, screenHeight]
+```
 
-예2)
+## Transform
 
-![res/newtranspipe.png](../res/newtranspipe.png)
+- com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl
+
+``` mermaid
+---
+title: Positions
+---
+
+flowchart LR
+    ObjectPos --TransformObjectToWorld--> WorldPos
+    ObjectPos --TransformObjectToHClip--> HClipPos
+
+    WorldPos --TransformWorldToObject--> ObjectPos
+    WorldPos --TransformWorldToView--> ViewPos
+    WorldPos --TransformWorldToHClip--> HClipPos
+
+    ViewPos --TransformViewToWorld--> WorldPos
+    ViewPos --TransformWViewToHClip--> HClipPos
+```
+
+``` mermaid
+---
+title: Directions
+---
+
+flowchart LR
+    ObjectDir --TransformObjectToTangent--> TangentDir
+    ObjectDir --TransformObjectToWorldDir--> WorldDir
+
+    TangentDir --TransformTangentToObject--> ObjectDir
+    TangentDir --TransformTangentToWorldDir --> WorldDir
+
+    WorldDir --TransformWorldToTangentDir--> TangentDir
+    WorldDir --TransformWorldToObjectDir--> ObjectDir
+    WorldDir --TransformWorldToViewDir--> ViewDir
+    WorldDir --TransformWorldToHClipDir--> HClipDir
+
+
+    ViewDir --TransformViewToWorldDir--> WorldDir
+
+```
+
+``` mermaid
+---
+title: Surface Normals
+---
+
+flowchart LR
+    ObjectNormal --TransformObjectToWorldNormal--> WorldNormal
+    
+    WorldNormal --TransformWorldToViewNormal--> ViewNormal
+    WorldNormal --TransformWorldToTangent--> TangentNormal
+    WorldNormal --TransformWorldToObjectNormal--> ObjectNormal
+    
+    ViewNormal --TransformViewToWorldNormal--> WorldNormal
+    
+    TangentNormal --TransformTangentToWorld --> WorldNormal
+```
 
 ## UNITY_MATRIX
 
@@ -47,137 +131,24 @@
 | 카메라 관련               | 렌더링(UNITY_MATRIX_)의 뷰 전방은 `-z`. 카메라 행렬은 에디터와 동일하게 `+z`를 앞으로 사용 |
 | ------------------------- | ------------------------------------------------------------------------------------------ |
 | UNITY_MATRIX_V            | cam.worldToCameraMatrix                                                                    |
-| unity_WorldToCamera       | Matrix4x4(cam.transform.position, cam.transform.rotation, Vector3.one)                     |
+| UNITY_MATRIX_P            | GL.GetGPUProjectionMatrix(camera.projectionMatrix, false)                                  |
 | UNITY_MATRIX_I_V          | cam.cameraToWorldMatrix                                                                    |
-| unity_CameraToWorld       | Matrix4x4(cam.transform.position, cam.transform.rotation, Vector3.one).inverse             |
-| UNITY_MATRIX_P            | GL.GetGPUProjectionMatrix(camera.projectionMatrix, false)                                 |
-| unity_CameraProjection    | cam.projectionMatrix                                                                       |
 | UNITY_MATRIX_I_P          | GL.GetGPUProjectionMatrix(camera.projectionMatrix, false).inverse                          |
+| unity_WorldToCamera       | Matrix4x4(cam.transform.position, cam.transform.rotation, Vector3.one)                     |
+| unity_CameraToWorld       | Matrix4x4(cam.transform.position, cam.transform.rotation, Vector3.one).inverse             |
+| unity_CameraProjection    | cam.projectionMatrix                                                                       |
 | unity_CameraInvProjection | cam.projectionMatrix.inverse                                                               |
-
-``` txt
-OS  ----------------------- Object Space
- | UNITY_MATRIX_M * OS
-WS  ----------------------- World Space
- | UNITY_MATRIX_V * WS
-VS  ----------------------- View Space
- | UNITY_MATRIX_P * VS
-CS  ----------------------- Homogeneous Clip Space
- | NDC    = CS * 0.5
- | NDC.x  =  NDC.x + NDC.w
- | NDC.y  =  NDC.y + NDC.w // DirectX
- | NDC.y  = -NDC.y + NDC.w // OpenGL
- | NDC.zw = CS.zw
-NDC ---------------------- Homogeneous Normalized Device Coordinate [0..w]
- | pd = (NDC.xyz / NDC.w); // [0, 1] : perspective divide
- | ndc = pd * 2.0 - 1.0;   // [-1, 1]
-ndc ---------------------- Nonhomogeneous Normalized Device Coordinate [-1..1]
-```
-
-``` hlsl
-// com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl
-struct VertexPositionInputs
-{
-    float3 positionWS; // World space position
-    float3 positionVS; // View space position
-    float4 positionCS; // Homogeneous clip space position
-    float4 positionNDC;// Homogeneous normalized device coordinates
-};
-
-// com.unity.render-pipelines.universal/ShaderLibrary/ShaderVariablesFunctions.hlsl
-VertexPositionInputs GetVertexPositionInputs(float3 positionOS)
-{
-    VertexPositionInputs input;
-    input.positionWS = TransformObjectToWorld(positionOS);      // UNITY_MATRIX_M
-    input.positionVS = TransformWorldToView(input.positionWS);  // UNITY_MATRIX_V
-    input.positionCS = TransformWorldToHClip(input.positionWS); // UNITY_MATRIX_VP
-
-    float4 ndc = input.positionCS * 0.5f;
-    input.positionNDC.xy = float2(ndc.x, ndc.y * _ProjectionParams.x) + ndc.w;
-    input.positionNDC.zw = input.positionCS.zw;
-
-    return input;
-}
-
-// com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl
-TransformObjectToWorld - UNITY_MATRIX_M
-TransformWorldToView   - UNITY_MATRIX_V
-TransformWViewToHClip  - UNITY_MATRIX_P
-TransformWorldToHClip  - UNITY_MATRIX_VP
-```
 
 | [_ProjectionParams](https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html) | x   | y          | z         | w            |
 | --------------------------------------------------------------------------------- | --- | ---------- | --------- | ------------ |
 | DirectX                                                                           | 1   | near plane | far plane | 1 / farplane |
 | OpenGL                                                                            | -1  | near plane | far plane | 1 / farplane |
 
-
 |         | UNITY_REVERSED_Z | UNITY_NEAR_CLIP_VALUE | UNITY_RAW_FAR_CLIP_VALUE |
 | ------- | ---------------- | --------------------- | ------------------------ |
 | DirectX | 1                | 1                     | 0                        |
 | Vulkan  | 1                | 1                     | 0                        |
 | OpenGL  | 0                | -1                    | 1                        |
-
-## NDC
-
-``` hlsl
-// [0, w] // Homogeneous Normalized Device Coordinate
-float4 positionNDC = GetVertexPositionInputs(positionOS).positionNDC;
-
-// [0, 1] // Perspective Division
-float3 pd = positionNDC.xyz / positionNDC.w;
-
-// [-1, 1] // Nonhomogeneous Normalized Device Coordinate
-float3 ndc = pd * 2.0 - 1.0;
-
-// [0, 1]
-float2 uv_Screen = positionNDC.xy / positionNDC.w;
-
-// [0, screenWidth] / [0, screenHeight]
-float2 positionScreen = uv_Screen * _ScreenParams.xy;
-```
-
-``` hlsl
-// float4 ndc = input.positionCS * 0.5f;
-// input.positionNDC.xy = float2(ndc.x, ndc.y * _ProjectionParams.x) + ndc.w;
-// input.positionNDC.zw = input.positionCS.zw;
-NDC = float4(
-    (0.5 * CS.x                       ) + 0.5 * CS.w,
-    (0.5 * CS.y *  _ProjectionParams.x) + 0.5 * CS.w,
-    CS.z,
-    CS.w
-);
-
-// pd = NDC.xyz / NDC.w
-pd = float3(
-    (0.5 * CS.x                        / CS.w) + 0.5,
-    (0.5 * CS.y *  _ProjectionParams.x / CS.w) + 0.5,
-    CS.z / CS.w
-);
-
-// ndc = pd * 2 - 1
-ndc = float3(
-    (CS.x                       / CS.w),
-    (CS.y * _ProjectionParams.x / CS.w),
-    (CS.z                       / CS.w) * 2  - 1,
-);
-
-// uv_Screen = NDC.xy / NDC.w
-uv_Screen = float2(
-    (CS.x                       / CS.w),
-    (CS.y * _ProjectionParams.x / CS.w)
-);
-
-// positionScreen = uv_Screen * _ScreenParams.xy
-positionScreen = float2(
-    (CS.x                       / CS.w) * _ScreenParams.x,
-    (CS.y * _ProjectionParams.x / CS.w) * _ScreenParams.y
-);
-```
-
-## Normal
-
-- [./NormalMap.md](./NormalMap.md)
 
 ## Pserspective Camera
 
@@ -265,7 +236,7 @@ The one-based row-column position:
 
 ## UV
 
-texel(TExture + piXEL) coordinate
+- texel(`TE`xture + pi`XEL`) coordinate
 
 ``` txt
 Direct X

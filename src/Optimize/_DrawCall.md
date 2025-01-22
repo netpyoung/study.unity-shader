@@ -1,6 +1,9 @@
 # DrawCall
 
+- [유니티 초보자도 이해하는 URP와 성능, 그리고 모바일까지🔥🔥](https://youtu.be/wNFjsi6MjAQ)
+
 - DrawCall : CPU가 GPU에게 그려라(Draw)라고 명령하는 것
+  - CPU성능에 영향
 
 - [Dev Weeks: 성능을 고려한 파이프라인, Universal Render Pipeline](https://youtu.be/UsyvT36vqpU?t=1460)
 - [[유니티 TIPS] 유니티 최적화를 위한 필수 기본기! Batching 방법 소개](https://youtu.be/w14yjBlfNeQ?si=m_G8ru6j69EBit3i)
@@ -33,15 +36,21 @@
 | Blending State   | o             |                                     |
 | ...              |               |                                     |
 
+
+- Batching
+  - 하나로 묶음
+  - 장점: 드로우 콜 감소
+  - 단점: 메모리를 더 필요함.
+
 ## SRP Batcher
 
 - <https://docs.unity3d.com/Manual/SRPBatcher.html>
 - Material의 정보와 Object의 정보를 GPU 메모리에 상주
 
-|                  | 배치 기준 |
-| ---------------- | --------- |
-| Built-in(legacy) | 머테리얼  |
-| SRP Batcher      | 셰이더    |
+|                  | 배치 기준               |
+| ---------------- | ----------------------- |
+| Built-in(legacy) | 머테리얼                |
+| SRP Batcher      | 셰이더 (Shader Variant) |
 
 ``` hlsl
 // 메터리얼별로 상수버퍼(Constant buffer)를 만들어 주어
@@ -51,6 +60,17 @@
 CBUFFER_START(UnityPerMaterial)
 float _Blabla;
 CBUFFER_END
+
+CBUFFER_START(UnityPerDraw)
+    float4x4 unity_ObjectToWorld;
+    float4x4 unity_WorldToObject;
+    real4 unity_WorldTransformParams;
+CBUFFER_END
+
+public CustomRenderPipeline ()
+{
+    GraphicsSettings.useScriptableRenderPipelineBatching = true;
+}
 ```
 
 ## GPU Instancing
@@ -118,3 +138,12 @@ _block.SetVectorArray(baseColorId, baseColors);
 // ref: https://docs.unity3d.com/ScriptReference/Graphics.DrawMeshInstanced.html
 Graphics.DrawMeshInstanced(_mesh, 0, _material, _matrices, _matrices.Length, block);
 ```
+
+## Dynamic Batching
+
+- 동일한 머티리얼을 공유하는 여러 개의 작은 메시를 하나의 더 큰 메시로 결합하여 그림
+  - 공유하지 않은 개별 머티리얼에는 동작 안함
+  - 작은 메시에만 적합
+- 우선순위
+  - SRP Batcher가 Dynamic Batching보다 우선됨.
+

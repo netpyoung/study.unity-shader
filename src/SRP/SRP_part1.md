@@ -1,4 +1,8 @@
 Class Blitter
+
+https://github.com/Unity-Technologies/Graphics/blob/master/Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blitter.cs
+
+
 Various blit (texture copy) utilities for the Scriptable Render Pipelines.
 
 
@@ -13,3 +17,5 @@ Various blit (texture copy) utilities for the Scriptable Render Pipelines.
 | BlitColorAndDepth          | 색상과 깊이 텍스처를 동시에 복사하는                 | 렌더링 결과에서 색상과 깊이를 동시에 복사할 필요가 있을 때            |
 | BlitCubeToOctahedral2DQuad | 큐브 맵 텍스처를 오타헤드럴 2D 쿼드로 변환하는       | 환경 맵을 사용하여 조명 효과를 적용할 때 큐브 맵을 평면으로 변환할 때 |
 | BlitOctahedralWithPadding  | 오타헤드럴 텍스처를 패딩과 함께 복사하는             | 텍스처의 가장자리가 부드럽게 보이도록 패딩을 추가할 때                |
+
+

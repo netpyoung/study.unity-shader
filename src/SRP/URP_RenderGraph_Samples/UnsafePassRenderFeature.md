@@ -21,7 +21,7 @@ public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer
 
         TextureDesc descriptor;
         {
-            descriptor = passData.source.GetDescriptor(renderGraph);
+            descriptor = resourceData.activeColorTexture.GetDescriptor(renderGraph);
             descriptor.msaaSamples = MSAASamples.None;
             descriptor.clearBuffer = false;
         }
@@ -31,7 +31,6 @@ public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer
             descriptor.name = "UnsafeTexture";
             destination = renderGraph.CreateTexture(descriptor);
         }
-
 
         TextureHandle destinationHalf;
         {

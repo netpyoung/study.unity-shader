@@ -63,7 +63,7 @@
     - [BlitRendererFeature](./SRP/URP_RenderGraph_Samples/BlitRendererFeature.md)
     - [TextureRefRendererFeature](./SRP/URP_RenderGraph_Samples/TextureRefRendererFeature.md)
     - [OutputTextureRendererFeature](./SRP/URP_RenderGraph_Samples/OutputTextureRendererFeature.md)
-    - [UnsafePass](./SRP/URP_RenderGraph_Samples/UnsafePass.md)
+    - [UnsafePassRenderFeature](./SRP/URP_RenderGraph_Samples/UnsafePassRenderFeature.md)
     - [FrameBufferFetchRenderFeature](./SRP/URP_RenderGraph_Samples/FrameBufferFetchRenderFeature.md)
     - [RendererListRenderFeature](./SRP/URP_RenderGraph_Samples/RendererListRenderFeature.md)
     - [GbufferVisualizationRendererFeature](./SRP/URP_RenderGraph_Samples/GbufferVisualizationRendererFeature.md)

@@ -4,6 +4,15 @@
 - SBR Batcher 사용가능하게 바뀜.
 - 1패스 1라이트방식 => 1패스 16개 라이트 지원
 
+- Upscale
+  - UniversalRenderPipelineAsset > Quality > Render Scale
+
+| Render Scale | 부하율 | 픽셀감소율 |
+| ------------ | ------ | ---------- |
+| 0.8          | 64%    | 36%        |
+| 0.7          | 49%    | 51%        |
+| 0.6          | 36%    | 64%        |
+| 0.5          | 25%    | 75%        |
 
 https://unity.com/kr/resources/introduction-universal-render-pipeline-for-advanced-unity-creators-2022lts
 
@@ -96,14 +105,14 @@ half4 frag(Varyings IN) : SV_Target
 ```
 
 | SBR Batcher                  | GPU Instancing                                               |
-|------------------------------|--------------------------------------------------------------|
+| ---------------------------- | ------------------------------------------------------------ |
 | 동일한 메쉬 아니여도 가능    | 동일한 메쉬 상태                                             |
 | CBUFFER_START // CBUFFER_END | UNITY_INSTANCING_BUFFER_START // UNITY_INSTANCING_BUFFER_END |
 
 ## hlsl
 
 |                         |                                                              |
-|-------------------------|--------------------------------------------------------------|
+| ----------------------- | ------------------------------------------------------------ |
 | Core.hlsl               | VertexPositionInputs, 스크린 UV, 포그                        |
 | Common.hlsl             | 각종 수학관련 구현, Texture유틸, 뎁스계산 등                 |
 | Lighting.hlsl           | 라이트구조체, Diffuse, Specular, GI(SH, lightmap)            |
@@ -145,14 +154,14 @@ half4 frag(Varyings IN) : SV_Target
 ```
 
 | name##_ST | texture space 정보 |
-|-----------|--------------------|
+| --------- | ------------------ |
 | x         | Tiling X           |
 | y         | Tiling Y           |
 | z         | Offset X           |
 | w         | Offset Y           |
 
 | name##_TexelSize | 텍스처의 크기 정보 |
-|------------------|--------------------|
+| ---------------- | ------------------ |
 | x                | 1.0/width          |
 | y                | 1.0/height         |
 | z                | width              |
@@ -174,7 +183,7 @@ V
 ## API/(renderer).hlsl
 
 |            |                      |
-|------------|----------------------|
+| ---------- | -------------------- |
 | tex2D      | SAMPLE_TEXTURE2D     |
 | tex2Dlod   | SAMPLE_TEXTURE2D_LOD |
 | texCUBE    | SAMPLE_TEXCUBE       |
@@ -293,42 +302,42 @@ float3 TransformObjectToWorldDir(float3 dirOS, bool doNormalize = true) // norma
 ## Varaiable
 
 | [_ProjectionParams](https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html) |                                         |
-|-----------------------------------------------------------------------------------|-----------------------------------------|
+| --------------------------------------------------------------------------------- | --------------------------------------- |
 | x                                                                                 | 1.0 (or –1.0 flipped projection matrix) |
 | y                                                                                 | near plane                              |
 | z                                                                                 | far plane                               |
 | w                                                                                 | 1/FarPlane                              |
 
 | [_ZBufferParams](https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html) |              |
-|--------------------------------------------------------------------------------|--------------|
+| ------------------------------------------------------------------------------ | ------------ |
 | x                                                                              | 1 - far/near |
 | y                                                                              | far / near   |
 | z                                                                              | x / far      |
 | w                                                                              | y / far      |
 
 | _Time | Time since level load |
-|-------|-----------------------|
+| ----- | --------------------- |
 | x     | t / 20                |
 | y     | t                     |
 | z     | t * 2                 |
 | w     | t * 3                 |
 
 | _SinTime | Sine of time |
-|----------|--------------|
+| -------- | ------------ |
 | x        | t / 8        |
 | y        | t / 4        |
 | z        | t / 2        |
 | w        | t            |
 
 | _CosTime | Cosine of time |
-|----------|----------------|
+| -------- | -------------- |
 | x        | t / 8          |
 | y        | t / 4          |
 | z        | t / 2          |
 | w        | t              |
 
 | unity_DeltaTime | Delta time   |
-|-----------------|--------------|
+| --------------- | ------------ |
 | x               | dt           |
 | y               | 1 / dt       |
 | z               | smoothDt     |
