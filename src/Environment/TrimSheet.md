@@ -7,6 +7,65 @@
     - 환상정원 https://blog.naver.com/blue9954/221636740320
 ```
 
+- [Sci Fi Stair Generator | Part 3 | Unwrap UVs for Trim Sheet](https://www.youtube.com/watch?v=cZYVdJLaDek)
+- [The Different Types Of Trim Sheets & How They Are Used In Games (Part 1)](https://www.youtube.com/watch?v=Y4cZbi8Mvxg)
+
+- 트림시트 나눌 계획세우기
+  - 어느부분을 얼마만큼 할당할지. 큼직큼직한곳, 디테일한곳
+  - 아무것도 할당하지 않은 예비영역도 넣어두기
+
+## Torch3DAcademy
+
+- [유투브 채널 @Torch3DAcademy](https://www.youtube.com/@Torch3DAcademy/)
+  - [TrimSheet Workflow - Simple SF box](https://www.youtube.com/playlist?list=PLSFzUDFhjXd4HwJU5n9PQQfnIsWYpSf_J)
+  - [TrimSheet Workflow - MedievalHouse](https://www.youtube.com/playlist?list=PLSFzUDFhjXd7AfreG9nhhY3in29F_VklR)
+
+- AO는 버텍스 칼라의 Alpha채널 활용 가능
+
+
+### TrimSheet Workflow - Simple SF box
+
+- 트림시트 나누고
+  - [트림시트 워크플로우 6강[트림시트 실전편 - 트림시트 제작]](https://www.youtube.com/watch?v=PwLgevQw6FM)
+- 모서리 벗겨진 효과(엣지웨어)
+  - [트림시트 워크플로우 10강[트림시트 실전편 - 엣지웨어 효과 제작]](https://www.youtube.com/watch?v=2qxof_B8Mdo)
+- 데칼 시트 자체에서 
+  - [트림시트 워크플로우 11강[트림시트 실전편 - 데칼시트로 꾸미기 + 버텍스 컬러링]](https://www.youtube.com/watch?v=viRjuVgl31k)
+- 디테일
+  - [트림시트 워크플로우 12강[트림시트 실전편 완결! - 엔진 임포트, 셰이더 제작, 그리고 완성]](https://www.youtube.com/watch?v=aa34tPAh_XQ)
+  - 버텍스 alpha채널에 AO배이크
+  - ORM에 Alpha에 culvature
+  ``` hlsl
+  EdgeWear = 
+    saturate(
+        saturate(
+            (culvature - 0.5 * _EdgeWearWidth)
+            - (_EdgeWearWidth * 0.5 - 1)
+        )
+        - (noise(_NoiseTiling) * _EdgeWearIntensity)
+        * _EdgeWearHardness
+      );
+  ```
+  - 셰이더에서
+    - 기본컬러: 베이스텍스쳐 + EdgeWear
+    - metalic : 메탈릭텍스쳐 + EdgeWear
+    - roughness: roughness - EdgeWear
+
+  ### TrimSheet Workflow - MedievalHouse
+
+
+
+
+- 나무질감 , 엣지 데미지
+  - Roughness : Culvature에서 GradientMap으로 반전시키고 기본 색을 GrayScale / Level시킨것을 빼주기
+  - [트림시트 중급편 - 중세 집 제작 3강[나무트림시트]](https://www.youtube.com/watch?v=sIsOk2-ie8Q)
+- 흠집내기 - 찍힌자국, 실선, 얼룩
+  - Cell이랑 타일 이용해서 찍힌자국
+  - Cell 이용해서 얼룩
+  - Scratches Generator로 스크레치
+  - [[3강 선수강 필수]트림시트 중급편 - 중세 집 제작 4강[나무트림시트 재활용한 메탈트림시트 제작]](https://www.youtube.com/watch?v=DuMt_jMMG2M)
+  - [[3강 선수강 필수]트림시트 중급편 - 중세 집 제작 5강[돌 트림시트 제작]](https://www.youtube.com/watch?v=DpOIaHyloww)
+
 
 ## Ref
 
