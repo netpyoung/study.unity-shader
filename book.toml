@@ -2,8 +2,7 @@
 title = "넷평의 Unity Shader 노트"
 description = "study.unity-shader"
 authors = ["netpyoung"]
-language = "kr"
-multilingual = false
+language = "ko"
 src = "src"
 
 [output.html]
