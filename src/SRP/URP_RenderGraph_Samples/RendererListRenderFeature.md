@@ -5,9 +5,10 @@ renderGraph.CreateRendererList()로 RendererListHandle을 만듬.
 
 람다대신 그냥 넣는게 나을듯?
 
+``` cs
 builder.SetRenderFunc((PassData data, RasterGraphContext context) => ExecutePass(data, context));
 builder.SetRenderFunc<PassData>(ExecutePass);
-
+```
 
 ``` cs
 

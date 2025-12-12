@@ -8,7 +8,7 @@ ContextContainer frameData 동작방식
   - CopyBackRefPass
 - ContextItem를 상속받는 TexRefData를 이용
   - UpdateRefPass에서 resourceData.activeColorTexture => texRef.texture
-    - UpdateRefPass에서 foreach (Material mat in m_DisplayMaterials) 하므로 매 프레임 첫 루프 단계에서는 frameData.Contains<TexRefData>()가 false, 그 후로는 true.
+    - UpdateRefPass에서 foreach (Material mat in m_DisplayMaterials) 하므로 매 프레임 첫 루프 단계에서는 `frameData.Contains<TexRefData>()`가 false, 그 후로는 true.
   - CopyBackRefPass에서 texRef.texture => resourceData.activeColorTexture
 
 

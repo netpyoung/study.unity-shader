@@ -25,7 +25,7 @@
 | ----------------------------------------------------------------------------------------------------- | ---------------------------------- |
 | buidler.UseTexture(input: passData.source, flag: AccessFlags.Read)                                    | 입력                               |
 | buidler.SetRenderAttachment(tex: passData.destination, index: 0)                                      |                                    |
-| buidler.SetRenderFunc<PassData>(ExecutePass)                                                          | 렌더함수 지정                      |
+| `buidler.SetRenderFunc<PassData>(ExecutePass)`                                                        | 렌더함수 지정                      |
 | buidler.UseRendererList(input: rendererListHandle)                                                    | RendererListHandle는 항상 readonly |
 | buidler.AllowPassCulling(value: false)                                                                |                                    |
 | buidler.SetGlobalTextureAfterPass(input: textureHandle, propertyId: Shader.PropertyToID("_HelloTex")) |                                    |
